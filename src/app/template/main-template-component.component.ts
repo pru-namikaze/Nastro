@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { InfrastructureApiService } from '../services/infrastructure-api.service';
+import UrlDict from './../services/domainUrlDict.json';
 
 @Component({
   selector: 'app-main-template-component',
@@ -7,9 +9,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MainTemplateComponentComponent implements OnInit {
 
-  constructor() { }
+  baseServiceNameList: Array<string>;
+
+  constructor(public infrastructureApi: InfrastructureApiService) {
+    this.baseServiceNameList = Object.keys(UrlDict);
+  }
 
   ngOnInit() {
   }
-
 }

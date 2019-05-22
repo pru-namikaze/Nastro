@@ -1,0 +1,475 @@
+{
+  "APoD": {
+    "0": {
+      "Name": "Astronomy Picture of the Day",
+      "Properties": {
+        "RequestURLDomian": "https://api.nasa.gov/planetary/apod?",
+        "QueryString": {
+          "0": {
+            "VariableName": "date",
+            "DefaultValue": "2019-05-20"
+          },
+          "1": {
+            "VariableName": "hd",
+            "DefaultValue": "true"
+          },
+          "2": {
+            "VariableName": "api_key",
+            "DefaultValue": "ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"
+          }
+        }
+      }
+    }
+  },
+  "NeoWs ": {
+    "0": {
+      "Name": "Neo - Feed",
+      "Properties": {
+        "RequestURLDomian": "https://api.nasa.gov/neo/rest/v1/feed?",
+        "QueryString": {
+          "0": {
+            "VariableName": "start_date",
+            "DefaultValue": "2019-05-20"
+          },
+          "1": {
+            "VariableName": "end_date",
+            "DefaultValue": "2019-05-20"
+          },
+          "2": {
+            "VariableName": "detailed",
+            "DefaultValue": "true"
+          },
+          "3": {
+            "VariableName": "api_key",
+            "DefaultValue": "ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"
+          }
+        }
+      }
+    },
+    "1": {
+      "Name": "Neo - Lookup",
+      "Properties": {
+        "RequestURLDomian": "https://api.nasa.gov/neo/rest/v1/neo/",
+        "URLAddder": {
+          "0": {
+            "VariableName": "Asteroid_Id",
+            "DefaultValue": "3542519",
+            "IncludeVariableName": "false"
+          }
+        },
+        "QueryString": {
+          "0": {
+            "VariableName": "api_key",
+            "DefaultValue": "ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"
+          }
+        }
+      }
+    },
+    "2": {
+      "Name": "Neo - Browse",
+      "Properties": {
+        "RequestURLDomian": "https://api.nasa.gov/neo/rest/v1/neo/browse?",
+        "QueryString": {
+          "0": {
+            "VariableName": "page",
+            "DefaultValue": "0"
+          },
+          "1": {
+            "VariableName": "size",
+            "DefaultValue": "20"
+          },
+          "2": {
+            "VariableName": "api_key",
+            "DefaultValue": "ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"
+          }
+        }
+      }
+    },
+    "3": {
+      "Name": "Neo - Feed Today",
+      "Properties": {
+        "RequestURLDomian": "https://api.nasa.gov/neo/rest/v1/feed/today?",
+        "QueryString": {
+          "0": {
+            "VariableName": "detailed",
+            "DefaultValue": "true"
+          },
+          "1": {
+            "VariableName": "api_key",
+            "DefaultValue": "ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"
+          }
+        }
+      }
+    },
+    "4": {
+      "Name": "Neo - Sentry",
+      "Properties": {
+        "RequestURLDomian": "https://api.nasa.gov/neo/rest/v1/neo/sentry?",
+        "QueryString": {
+          "0": {
+            "VariableName": "is_active",
+            "DefaultValue": "true"
+          },
+          "1": {
+            "VariableName": "page",
+            "DefaultValue": "0"
+          },
+          "2": {
+            "VariableName": "size",
+            "DefaultValue": "50"
+          },
+          "3": {
+            "VariableName": "api_key",
+            "DefaultValue": "ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"
+          }
+        }
+      }
+    },
+    "5": {
+      "Name": "Neo - Sentry Asteroid_Id",
+      "Properties": {
+        "RequestURLDomian": "https://api.nasa.gov/neo/rest/v1/neo/sentry/",
+        "URLAddder": {
+          "0": {
+            "VariableName": "Asteroid_Id",
+            "DefaultValue": "3542519",
+            "IncludeVariableName": "false"
+
+          }
+        },
+        "QueryString": {
+          "0": {
+            "VariableName": "api_key",
+            "DefaultValue": "ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"
+          }
+        }
+      }
+    },
+    "6": {
+      "Name": "Neo - Stats",
+      "Properties": {
+        "RequestURLDomian": "https://api.nasa.gov/neo/rest/v1/stats?",
+        "QueryString": {
+          "0": {
+            "VariableName": "api_key",
+            "DefaultValue": "ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"
+          }
+        }
+      }
+    }
+  },
+  "DONKI": {
+    "0": {
+      "Name": "Coronal Mass Ejection (CME)",
+      "Properties": {
+        "RequestURLDomian": "https://api.nasa.gov/DONKI/CME?",
+        "QueryString": {
+          "0": {
+            "VariableName": "startDate",
+            "DefaultValue": "2017-01-03"
+          },
+          "1": {
+            "VariableName": "endDate",
+            "DefaultValue": "2017-01-03"
+          },
+          "2": {
+            "VariableName": "api_key",
+            "DefaultValue": "ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"
+          }
+        }
+      }
+    },
+    "1": {
+      "Name": "Coronal Mass Ejection (CME) Analysis",
+      "Properties": {
+        "RequestURLDomian": "https://api.nasa.gov/DONKI/CMEAnalysis?",
+        "QueryString": {
+          "0": {
+            "VariableName": "startDate",
+            "DefaultValue": "2019-04-20"
+          },
+          "1": {
+            "VariableName": "endDate",
+            "DefaultValue": "2019-05-20"
+          },
+          "2": {
+            "VariableName": "mostAccurateOnly",
+            "DefaultValue": "true"
+          },
+          "3": {
+            "VariableName": "completeEntryOnly",
+            "DefaultValue": "true"
+          },
+          "4": {
+            "VariableName": "speed",
+            "DefaultValue": "0"
+          },
+          "5": {
+            "VariableName": "halfAngle",
+            "DefaultValue": "0"
+          },
+          "6": {
+            "VariableName": "catalog",
+            "DefaultValue": "ALL"
+          },
+          "7": {
+            "VariableName": "keyword",
+            "DefaultValue": "NONE"
+          },
+          "8": {
+            "VariableName": "api_key",
+            "DefaultValue": "ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"
+          }
+        }
+      }
+    },
+    "2": {
+      "Name": "Geomagnetic Storm (GST)",
+      "Properties": {
+        "RequestURLDomian": "https://api.nasa.gov/DONKI/GST?",
+        "QueryString": {
+          "0": {
+            "VariableName": "startDate",
+            "DefaultValue": "2017-01-03"
+          },
+          "1": {
+            "VariableName": "endDate",
+            "DefaultValue": "2018-01-03"
+          },
+          "2": {
+            "VariableName": "api_key",
+            "DefaultValue": "ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"
+          }
+        }
+      }
+    },
+    "3": {
+      "Name": "Interplanetary Shock (IPS)",
+      "Properties": {
+        "RequestURLDomian": "https://api.nasa.gov/DONKI/IPS?",
+        "QueryString": {
+          "0": {
+            "VariableName": "startDate",
+            "DefaultValue": "2017-01-03"
+          },
+          "1": {
+            "VariableName": "endDate",
+            "DefaultValue": "2018-01-03"
+          },
+          "2": {
+            "VariableName": "location",
+            "DefaultValue": "ALL"
+          },
+          "3": {
+            "VariableName": "catalog",
+            "DefaultValue": "ALL"
+          },
+          "4": {
+            "VariableName": "api_key",
+            "DefaultValue": "ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"
+          }
+        }
+      }
+    },
+    "4": {
+      "Name": "Solar Flare (FLR)",
+      "Properties": {
+        "RequestURLDomian": "https://api.nasa.gov/DONKI/FLR?",
+        "QueryString": {
+          "0": {
+            "VariableName": "startDate",
+            "DefaultValue": "2017-01-03"
+          },
+          "1": {
+            "VariableName": "endDate",
+            "DefaultValue": "2018-01-03"
+          },
+          "2": {
+            "VariableName": "api_key",
+            "DefaultValue": "ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"
+          }
+        }
+      }
+    },
+    "5": {
+      "Name": "Solar Energetic Particle (SEP)",
+      "Properties": {
+        "RequestURLDomian": "https://api.nasa.gov/DONKI/SEP?",
+        "QueryString": {
+          "0": {
+            "VariableName": "startDate",
+            "DefaultValue": "2017-01-03"
+          },
+          "1": {
+            "VariableName": "endDate",
+            "DefaultValue": "2018-01-03"
+          },
+          "2": {
+            "VariableName": "api_key",
+            "DefaultValue": "ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"
+          }
+        }
+      }
+    },
+    "6": {
+      "Name": "Magnetopause Crossing (MPC)",
+      "Properties": {
+        "RequestURLDomian": "https://api.nasa.gov/DONKI/MPC?",
+        "QueryString": {
+          "0": {
+            "VariableName": "startDate",
+            "DefaultValue": "2017-01-03"
+          },
+          "1": {
+            "VariableName": "endDate",
+            "DefaultValue": "2018-01-03"
+          },
+          "2": {
+            "VariableName": "api_key",
+            "DefaultValue": "ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"
+          }
+        }
+      }
+    },
+    "7": {
+      "Name": "Radiation Belt Enhancement (RBE)",
+      "Properties": {
+        "RequestURLDomian": "https://api.nasa.gov/DONKI/RBE?",
+        "QueryString": {
+          "0": {
+            "VariableName": "startDate",
+            "DefaultValue": "2017-01-03"
+          },
+          "1": {
+            "VariableName": "endDate",
+            "DefaultValue": "2018-01-03"
+          },
+          "2": {
+            "VariableName": "api_key",
+            "DefaultValue": "ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"
+          }
+        }
+      }
+    },
+    "8": {
+      "Name": "Hight Speed Stream (HSS)",
+      "Properties": {
+        "RequestURLDomian": "https://api.nasa.gov/DONKI/HSS?",
+        "QueryString": {
+          "0": {
+            "VariableName": "startDate",
+            "DefaultValue": "2017-01-03"
+          },
+          "1": {
+            "VariableName": "endDate",
+            "DefaultValue": "2017-01-03"
+          },
+          "2": {
+            "VariableName": "api_key",
+            "DefaultValue": "ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"
+          }
+        }
+      }
+    },
+    "9": {
+      "Name": "WSA+EnlilSimulation",
+      "Properties": {
+        "RequestURLDomian": "https://api.nasa.gov/DONKI/WSAEnlilSimulations?",
+        "QueryString": {
+          "0": {
+            "VariableName": "startDate",
+            "DefaultValue": "2017-01-03"
+          },
+          "1": {
+            "VariableName": "endDate",
+            "DefaultValue": "2017-01-03"
+          },
+          "2": {
+            "VariableName": "api_key",
+            "DefaultValue": "ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"
+          }
+        }
+      }
+    },
+    "10": {
+      "Name": "Notifications",
+      "Properties": {
+        "RequestURLDomian": "https://api.nasa.gov/DONKI/notifications?",
+        "QueryString": {
+          "0": {
+            "VariableName": "startDate",
+            "DefaultValue": "2017-01-03"
+          },
+          "1": {
+            "VariableName": "endDate",
+            "DefaultValue": "2017-01-03"
+          },
+          "2": {
+            "VariableName": "type",
+            "DefaultValue": "all"
+          },
+          "3": {
+            "VariableName": "api_key",
+            "DefaultValue": "ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"
+          }
+        }
+      }
+    }
+  },
+  "EPIC" : {
+    "0": {
+      "Name": "Daily imagery collected by DSCOVR's Earth Polychromatic Imaging Camera (EPIC) instrument",
+      "Properties": {
+        "RequestURLDomian": "https://api.nasa.gov/EPIC/api/",
+        "URLAddder": {
+          "0": {
+            "VariableName": "natural",
+            "DefaultValue": "",
+            "IncludeVariableName": "true"
+          },
+          "1": {
+            "VariableName": "natural/date",
+            "DefaultValue": "2016-12-31",
+            "IncludeVariableName": "true"
+          },
+          "2": {
+            "VariableName": "natural/all",
+            "DefaultValue": "",
+            "IncludeVariableName": "true"
+          },
+          "3": {
+            "VariableName": "natural/available",
+            "DefaultValue": "",
+            "IncludeVariableName": "true"
+          },
+          "4": {
+            "VariableName": "enhanced",
+            "DefaultValue": "",
+            "IncludeVariableName": "true"
+          },
+          "5": {
+            "VariableName": "enhanced/date",
+            "DefaultValue": "2016-12-31",
+            "IncludeVariableName": "true"
+          },
+          "6": {
+            "VariableName": "enhanced/all",
+            "DefaultValue": "",
+            "IncludeVariableName": "true"
+          },
+          "7": {
+            "VariableName": "enhanced/available",
+            "DefaultValue": "",
+            "IncludeVariableName": "true"
+          }
+        },
+        "QueryString": {
+          "0": {
+            "VariableName": "api_key",
+            "DefaultValue": "ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"
+          }
+        }
+      }
+    }
+  }
+}
