@@ -125,26 +125,6 @@
         }
       }
     },
-    "5": {
-      "Name": "Neo - Sentry Asteroid_Id",
-      "Properties": {
-        "RequestURLDomian": "https://api.nasa.gov/neo/rest/v1/neo/sentry/",
-        "URLAddder": {
-          "0": {
-            "VariableName": "Asteroid_Id",
-            "DefaultValue": "3542519",
-            "IncludeVariableName": "false"
-
-          }
-        },
-        "QueryString": {
-          "0": {
-            "VariableName": "api_key",
-            "DefaultValue": "ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"
-          }
-        }
-      }
-    },
     "6": {
       "Name": "Neo - Stats",
       "Properties": {

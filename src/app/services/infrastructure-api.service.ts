@@ -11,13 +11,18 @@ import { isNullOrUndefined } from 'util';
 export class InfrastructureApiService {
 
   DataDict: object;
+  ResponceDict: object;
 
   constructor(private http: HttpClient) {
     this.DataDict = UrlDict;
+    this.ResponceDict = {};
   }
 
+  getResponseJsonData(): void {
+    console.log(this.ResponceDict);
+  }
 
-  getResponseURL(baseServiceName: string): object {
+  getResponseURL(baseServiceName: string): void {
     const responseURLList: object = {};
     const baseService: object = this.DataDict[baseServiceName];
     for (const serviceNumName of Object.keys(baseService)) {
@@ -41,7 +46,10 @@ export class InfrastructureApiService {
               responseURL = responseURL.concat(`${property.VariableName}=${(true) ? property.DefaultValue : 'UserInput'}&`);
             }
           }
-          responseURLwithAdderList[i.toString()] = responseURL;
+          // tslint:disable-next-line: max-line-length
+          this.http.get(responseURL).subscribe((body) => {
+            responseURLwithAdderList[i.toString()] = body;
+          });
           i = i + 1;
         }
         responseURLList[serviceName] = (Object.keys(URLAddder).length === 1) ? responseURLwithAdderList[0] : responseURLwithAdderList;
@@ -52,12 +60,17 @@ export class InfrastructureApiService {
             responseURL = responseURL.concat(`${property.VariableName}=${(true) ? property.DefaultValue : 'UserInput'}&`);
           }
         }
-        responseURLList[serviceName] = responseURL;
+        this.http.get(responseURL).subscribe((body) => {
+          responseURLList[serviceName] = body;
+          // document.getElementById(baseServiceName).innerHTML = JSON.stringify(body);
+        });
       }
     }
-    console.log(responseURLList);
-    return responseURLList ;
+    this.ResponceDict[baseServiceName] = responseURLList;
   }
+
+
+
 
   // "Category" : {
   //   "0": {
@@ -87,6 +100,30 @@ export class InfrastructureApiService {
   //     }
   //   }
   // },
+
+
+
+  // "5": {
+  //   "Name": "Neo - Sentry Asteroid_Id",
+  //   "Properties": {
+  //     "RequestURLDomian": "https://api.nasa.gov/neo/rest/v1/neo/sentry/",
+  //     "URLAddder": {
+  //       "0": {
+  //         "VariableName": "Asteroid_Id",
+  //         "DefaultValue": "3542519",
+  //         "IncludeVariableName": "false"
+
+  //       }
+  //     },
+  //     "QueryString": {
+  //       "0": {
+  //         "VariableName": "api_key",
+  //         "DefaultValue": "ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"
+  //       }
+  //     }
+  //   }
+  // },
+
 
 
   // Take Care of : catalog: default is set to ALL (choices: ALL, SWRC_CATALOG, JANG_ET_AL_CATALOG)

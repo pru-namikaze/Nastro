@@ -1,32 +1,6 @@
-<!-- <button (click)="infrastructureApi.getAPoD()">APoD</button><br />
-<br />
-Start Date: <input type="text" [(ngModel)]="infrastructureApi.startDate" /><br />
-End Date: <input type="text" [(ngModel)]="infrastructureApi.endDate" /><br />
-Detailed: <input type="text" [(ngModel)]="infrastructureApi.detailedFlag" /><br />
-TimeSpan is 7 days maximum.<br />
-<button (click)="infrastructureApi.getNeoWSFeed()">NeoWS-Feed</button><br />
-<br />
-Detailed: <input type="text" [(ngModel)]="infrastructureApi.detailedFlag" /><br />
-<button (click)="infrastructureApi.getNeoWSFeedToday()">NeoWS-Feed-Today</button><br />
-<br />
-<button (click)="infrastructureApi.getNeoWSLookup()">NeoWS-Lookup</button><br />
-<br />
-<button (click)="infrastructureApi.getNeoWSBrowse()">NeoWS-Browse</button><br />
-<br />
-Page: <input type="text" [(ngModel)]="infrastructureApi.noOfPage" /><br />
-Size: <input type="text" [(ngModel)]="infrastructureApi.size" /><br />
-<button (click)="infrastructureApi.getNeoWSLiveDocumentsBrowse()">NeoWS-Feed</button><br />
-<br />
-Asteroid Id: <input type="text" [(ngModel)]="infrastructureApi.asteroidId" /><br />
-<button (click)="infrastructureApi.getNeoWSLiveDocumentsAsteroidId()">NeoWS-AsteroidId</button><br />
-<br />
-<button (click)="infrastructureApi.getNeoWSLiveDocumentsStats()">NeoWS-Stats</button><br />
-<br />
-Is_Active: <input type="text" [(ngModel)]="infrastructureApi.isActiveFlag" /><br />
-Page: <input type="text" [(ngModel)]="infrastructureApi.noOfPage" /><br />
-Size: <input type="text" [(ngModel)]="infrastructureApi.size" /><br />
-<button (click)="infrastructureApi.getNeoWSLiveDocumentsSentry()">NeoWS-LiveDocuments-Sentry</button><br />
-<br /> -->
 <div *ngFor="let baseServiceName of baseServiceNameList">
   <button (click)="infrastructureApi.getResponseURL(baseServiceName)">{{baseServiceName}}</button><br />
+  <!-- <div id={{baseServiceName}}></div> -->
 </div>
+<br />
+<button (click)="infrastructureApi.getResponseJsonData()">data</button><br />
