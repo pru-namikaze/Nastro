@@ -247,7 +247,7 @@ var InfrastructureApiService = /** @class */ (function () {
                             if (Object(util__WEBPACK_IMPORTED_MODULE_4__["isNullOrUndefined"])(this.QueryPrameters[property.VariableName])) {
                                 if (property.VariableName === 'date') {
                                     // tslint:disable-next-line: max-line-length
-                                    this.QueryPrameters[property.VariableName] = date.getFullYear().toString().padStart(4, '0') + "-" + date.getMonth().toString().padStart(2, '0') + "-" + date.getDate().toString().padStart(2, '0');
+                                    this.QueryPrameters[property.VariableName] = date.getFullYear().toString().padStart(4, '0') + "-" + (date.getMonth() + 1).toString().padStart(2, '0') + "-" + date.getDate().toString().padStart(2, '0');
                                 }
                                 else {
                                     this.QueryPrameters[property.VariableName] = property.DefaultValue;
@@ -275,7 +275,7 @@ var InfrastructureApiService = /** @class */ (function () {
                         if (Object(util__WEBPACK_IMPORTED_MODULE_4__["isNullOrUndefined"])(this.QueryPrameters[property.VariableName])) {
                             if (property.VariableName === 'date') {
                                 // tslint:disable-next-line: max-line-length
-                                this.QueryPrameters[property.VariableName] = date.getFullYear().toString().padStart(4, '0') + "-" + date.getMonth().toString().padStart(2, '0') + "-" + date.getDate().toString().padStart(2, '0');
+                                this.QueryPrameters[property.VariableName] = date.getFullYear().toString().padStart(4, '0') + "-" + (date.getMonth() + 1).toString().padStart(2, '0') + "-" + date.getDate().toString().padStart(2, '0');
                             }
                             else {
                                 this.QueryPrameters[property.VariableName] = property.DefaultValue;
@@ -355,7 +355,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class='container-fluid jumbotron-fluid mx-auto d-block m-5 p-5'>\n  <h1><b>{{baseServiceName}}</b></h1>\n  <div *ngFor=\"let baseService of baseServiceList\">\n    <h1>{{baseService}}</h1><br />\n    <input type=\"date\" id='date' [(ngModel)]=\"infrastructureApi.QueryPrameters.date\"><br /><br />\n    <button type=\"button\" class=\"btn btn-info\" (click)=\"reloadAPoD()\">Reload Response</button><br /><br />\n    {{serviceResponseBodyList[baseService].title}}<br />\n    {{serviceResponseBodyList[baseService].explanation}}<br />\n    <input type=\"checkbox\" [(ngModel)]=\"showHdImage\">Show HD Image<br /><br />\n    <img [src]=\"serviceResponseBodyList[baseService].url\" class=\"img-fluid border rounded-lg p-3 mx-auto d-block\" *ngIf=\"serviceResponseBodyList[baseService].media_type==='image' && !showHdImage\">\n    <img [src]=\"serviceResponseBodyList[baseService].hdurl\" class=\"img-fluid border rounded-lg p-3 mx-auto d-block\" *ngIf=\"serviceResponseBodyList[baseService].media_type === 'image' && showHdImage\">\n    <iframe id=\"youtubeplayer\" type=\"text/html\" width=\"640\" height=\"360\" [src]=\"serviceResponseBodyList[baseService].url\" frameborder=\"0\" *ngIf=\"serviceResponseBodyList[baseService].media_type === 'video'\"></iframe>\n  </div>\n</div>\n"
+module.exports = "<div class=\"container-fluid jumbotron-fluid mx-auto d-block p-5 ml-4\">\n  <div class=\"row\" *ngFor=\"let baseService of baseServiceList\">\n    <h1 class=\"display-1 w-100\"><b>{{baseServiceName}}</b></h1>\n    <h1 class=\"display-4 w-100 mb-4\">{{baseService}}</h1>\n    <input type=\"date\" class=\"mr-4\" id='date' [(ngModel)]=\"infrastructureApi.QueryPrameters.date\">\n    <button type=\"button\" class=\"btn btn-info\" (click)=\"reloadAPoD()\">Show</button>\n    <span class=\"w-100\"></span>\n    <div class=\"mt-2 ml-2\" *ngIf=\"serviceResponseBodyList[baseService].media_type==='image'\">\n      <input type=\"checkbox\" [(ngModel)]=\"showHdImage\">&nbsp;Show HD Image\n    </div>\n    <h2 class=\"w-100 mt-3\">{{serviceResponseBodyList[baseService].title}}</h2>\n    <div class=\"row\" *ngIf=\"serviceResponseBodyList[baseService].media_type === 'image' && !showHdImage\">\n      <div class=\"col-sm-6\">\n        <p class=\"text-justify\">{{serviceResponseBodyList[baseService].explanation}}</p>\n        <span *ngIf=\"serviceResponseBodyList[baseService].copyright\">\n          <b>Copyright:</b>&nbsp;{{serviceResponseBodyList[baseService].copyright}}\n        </span>\n      </div>\n      <img [src]=\"serviceResponseBodyList[baseService].url\" class=\"img-fluid border rounded-lg col-sm-6 p-3 mx-auto d-block\">\n    </div>\n    <div *ngIf=\"serviceResponseBodyList[baseService].media_type === 'image' && showHdImage\">\n      <p class=\"text-justify\">{{serviceResponseBodyList[baseService].explanation}}</p>\n      <span class=\"w-100\" *ngIf=\"serviceResponseBodyList[baseService].copyright\"><b>Copyright:</b>&nbsp;{{serviceResponseBodyList[baseService].copyright}}</span>\n      <img [src]=\"serviceResponseBodyList[baseService].hdurl\" class=\"img-fluid border rounded-lg p-3 mx-auto d-block\">\n    </div>\n    <div class=\"row\" *ngIf=\"serviceResponseBodyList[baseService].media_type === 'video'\">\n      <div class=\"col-sm-6\">\n        <p class=\"text-justify\">{{serviceResponseBodyList[baseService].explanation}}</p>\n        <span *ngIf=\"serviceResponseBodyList[baseService].copyright\">\n          <b>Copyright:</b>&nbsp;{{serviceResponseBodyList[baseService].copyright}}\n        </span>\n      </div>\n      <iframe type=\"text/html\" class=\"col-sm-6\" height=\"500\" [src]=\"serviceResponseBodyList[baseService].url\" frameborder=\"0\"></iframe>\n    </div>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -388,7 +388,7 @@ var ApodTemplateComponent = /** @class */ (function () {
         this.http = http;
         this.sanitizer = sanitizer;
         this.tableObject = {};
-        this.showHdImage = true;
+        this.showHdImage = false;
         this.baseServiceName = 'APoD';
         this.serviceResponseBodyList = {};
         this.baseServiceNameList = Object.keys(_services_domainUrlDict_json__WEBPACK_IMPORTED_MODULE_4__);

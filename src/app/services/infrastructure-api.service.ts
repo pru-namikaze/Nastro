@@ -62,7 +62,7 @@ export class InfrastructureApiService {
               if (isNullOrUndefined(this.QueryPrameters[property.VariableName])) {
                 if (property.VariableName === 'date') {
                   // tslint:disable-next-line: max-line-length
-                  this.QueryPrameters[property.VariableName] = `${date.getFullYear().toString().padStart(4, '0')}-${date.getMonth().toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+                  this.QueryPrameters[property.VariableName] = `${date.getFullYear().toString().padStart(4, '0')}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
                 } else {
                   this.QueryPrameters[property.VariableName] = property.DefaultValue;
                 }
@@ -86,7 +86,7 @@ export class InfrastructureApiService {
             if (isNullOrUndefined(this.QueryPrameters[property.VariableName])) {
               if (property.VariableName === 'date') {
                 // tslint:disable-next-line: max-line-length
-                this.QueryPrameters[property.VariableName] = `${date.getFullYear().toString().padStart(4, '0')}-${date.getMonth().toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+                this.QueryPrameters[property.VariableName] = `${date.getFullYear().toString().padStart(4, '0')}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
               } else {
                 this.QueryPrameters[property.VariableName] = property.DefaultValue;
               }
