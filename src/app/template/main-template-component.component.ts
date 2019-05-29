@@ -16,9 +16,22 @@ export class MainTemplateComponentComponent implements OnInit {
   rowData: object;
   table: string;
 
+  showAPoD: boolean;
+  showNeoWs: boolean;
+
   constructor(public infrastructureApi: InfrastructureApiService, private http: HttpClient) {
     this.table = '';
     this.baseServiceNameList = Object.keys(UrlDict);
+
+    this.showAPoD = false;
+    this.showNeoWs = false;
+  }
+
+  toggleShowAPoD(): void {
+    this.showAPoD = !this.showAPoD;
+  }
+  toggleShowNeoWs(): void {
+    this.showNeoWs = !this.showNeoWs;
   }
 
   demoTable(columnDefs: Array<string>, rowData: object): string {

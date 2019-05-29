@@ -4,4 +4,8 @@
   <span id='table'></span>
 </div>
 <br /> -->
-<app-apod-template></app-apod-template>
+<div  class="container-fluid jumbotron-fluid no-gutters row w-100">
+  <button (click)="toggleShowAPoD()">ToggleAPoD</button>
+  <button (click)="toggleShowNeoWs()">ToggleNeoWs</button>
+</div>
+<app-apod-template *ngIf="showAPoD"></app-apod-template>

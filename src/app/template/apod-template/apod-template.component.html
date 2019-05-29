@@ -1,4 +1,4 @@
-<div class="container-fluid jumbotron-fluid mx-auto d-block p-5 ml-4">
+<div class="container-fluid jumbotron-fluid mx-auto d-block px-5 ml-4">
   <div class="row" *ngFor="let baseService of baseServiceList">
     <h1 class="display-1 w-100"><b>{{baseServiceName}}</b></h1>
     <h1 class="display-4 w-100 mb-4">{{baseService}}</h1>
@@ -8,29 +8,23 @@
     <div class="mt-2 ml-2" *ngIf="serviceResponseBodyList[baseService].media_type==='image'">
       <input type="checkbox" [(ngModel)]="showHdImage">&nbsp;Show HD Image
     </div>
-    <h2 class="w-100 mt-3">{{serviceResponseBodyList[baseService].title}}</h2>
-    <div class="row" *ngIf="serviceResponseBodyList[baseService].media_type === 'image' && !showHdImage">
-      <div class="col-sm-6">
-        <p class="text-justify">{{serviceResponseBodyList[baseService].explanation}}</p>
-        <span *ngIf="serviceResponseBodyList[baseService].copyright">
-          <b>Copyright:</b>&nbsp;{{serviceResponseBodyList[baseService].copyright}}
-        </span>
-      </div>
-      <img [src]="serviceResponseBodyList[baseService].url" class="img-fluid border rounded-lg col-sm-6 p-3 mx-auto d-block">
-    </div>
-    <div *ngIf="serviceResponseBodyList[baseService].media_type === 'image' && showHdImage">
+    <h2 class="w-100 mt-3 mb-5">{{serviceResponseBodyList[baseService].title}}</h2>
+    <div *ngIf="showHdImage">
       <p class="text-justify">{{serviceResponseBodyList[baseService].explanation}}</p>
-      <span class="w-100" *ngIf="serviceResponseBodyList[baseService].copyright"><b>Copyright:</b>&nbsp;{{serviceResponseBodyList[baseService].copyright}}</span>
-      <img [src]="serviceResponseBodyList[baseService].hdurl" class="img-fluid border rounded-lg p-3 mx-auto d-block">
+      <span class="w-100" *ngIf="serviceResponseBodyList[baseService].copyright">
+        <b>Copyright:</b>&nbsp;{{serviceResponseBodyList[baseService].copyright}}
+      </span>
+      <img [src]="serviceResponseBodyList[baseService].hdurl" class="img-fluid border rounded-lg p-3 mx-auto d-block" *ngIf="serviceResponseBodyList[baseService].media_type === 'image' && showHdImage">
     </div>
-    <div class="row" *ngIf="serviceResponseBodyList[baseService].media_type === 'video'">
-      <div class="col-sm-6">
+    <div class="container-fluid row" *ngIf="!showHdImage">
+      <span class="col-sm-5 my-auto d-block">
         <p class="text-justify">{{serviceResponseBodyList[baseService].explanation}}</p>
-        <span *ngIf="serviceResponseBodyList[baseService].copyright">
+        <span class="w-100" *ngIf="serviceResponseBodyList[baseService].copyright">
           <b>Copyright:</b>&nbsp;{{serviceResponseBodyList[baseService].copyright}}
         </span>
-      </div>
-      <iframe type="text/html" class="col-sm-6" height="500" [src]="serviceResponseBodyList[baseService].url" frameborder="0"></iframe>
+      </span>
+      <img [src]="serviceResponseBodyList[baseService].url" class="img-fluid border rounded-lg col-sm-7 p-3 mx-auto d-block" *ngIf="serviceResponseBodyList[baseService].media_type === 'image' && !showHdImage">
+      <iframe type="text/html" class="col-sm-6" height="500" [src]="serviceResponseBodyList[baseService].url" frameborder="0" *ngIf="serviceResponseBodyList[baseService].media_type === 'video'"></iframe>
     </div>
   </div>
 </div>
