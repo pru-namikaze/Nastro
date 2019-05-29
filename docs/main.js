@@ -355,7 +355,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container-fluid jumbotron-fluid mx-auto d-block p-5 ml-4\">\n  <div class=\"row\" *ngFor=\"let baseService of baseServiceList\">\n    <h1 class=\"display-1 w-100\"><b>{{baseServiceName}}</b></h1>\n    <h1 class=\"display-4 w-100 mb-4\">{{baseService}}</h1>\n    <input type=\"date\" class=\"mr-4\" id='date' [(ngModel)]=\"infrastructureApi.QueryPrameters.date\">\n    <button type=\"button\" class=\"btn btn-info\" (click)=\"reloadAPoD()\">Show</button>\n    <span class=\"w-100\"></span>\n    <div class=\"mt-2 ml-2\" *ngIf=\"serviceResponseBodyList[baseService].media_type==='image'\">\n      <input type=\"checkbox\" [(ngModel)]=\"showHdImage\">&nbsp;Show HD Image\n    </div>\n    <h2 class=\"w-100 mt-3\">{{serviceResponseBodyList[baseService].title}}</h2>\n    <div class=\"row\" *ngIf=\"serviceResponseBodyList[baseService].media_type === 'image' && !showHdImage\">\n      <div class=\"col-sm-6\">\n        <p class=\"text-justify\">{{serviceResponseBodyList[baseService].explanation}}</p>\n        <span *ngIf=\"serviceResponseBodyList[baseService].copyright\">\n          <b>Copyright:</b>&nbsp;{{serviceResponseBodyList[baseService].copyright}}\n        </span>\n      </div>\n      <img [src]=\"serviceResponseBodyList[baseService].url\" class=\"img-fluid border rounded-lg col-sm-6 p-3 mx-auto d-block\">\n    </div>\n    <div *ngIf=\"serviceResponseBodyList[baseService].media_type === 'image' && showHdImage\">\n      <p class=\"text-justify\">{{serviceResponseBodyList[baseService].explanation}}</p>\n      <span class=\"w-100\" *ngIf=\"serviceResponseBodyList[baseService].copyright\"><b>Copyright:</b>&nbsp;{{serviceResponseBodyList[baseService].copyright}}</span>\n      <img [src]=\"serviceResponseBodyList[baseService].hdurl\" class=\"img-fluid border rounded-lg p-3 mx-auto d-block\">\n    </div>\n    <div class=\"row\" *ngIf=\"serviceResponseBodyList[baseService].media_type === 'video'\">\n      <div class=\"col-sm-6\">\n        <p class=\"text-justify\">{{serviceResponseBodyList[baseService].explanation}}</p>\n        <span *ngIf=\"serviceResponseBodyList[baseService].copyright\">\n          <b>Copyright:</b>&nbsp;{{serviceResponseBodyList[baseService].copyright}}\n        </span>\n      </div>\n      <iframe type=\"text/html\" class=\"col-sm-6\" height=\"500\" [src]=\"serviceResponseBodyList[baseService].url\" frameborder=\"0\"></iframe>\n    </div>\n  </div>\n</div>\n"
+module.exports = "<div class=\"container-fluid jumbotron-fluid mx-auto d-block px-5 ml-4\">\n  <div class=\"row\" *ngFor=\"let baseService of baseServiceList\">\n    <h1 class=\"display-1 w-100\"><b>{{baseServiceName}}</b></h1>\n    <h1 class=\"display-4 w-100 mb-4\">{{baseService}}</h1>\n    <input type=\"date\" class=\"mr-4\" id='date' [(ngModel)]=\"infrastructureApi.QueryPrameters.date\">\n    <button type=\"button\" class=\"btn btn-info\" (click)=\"reloadAPoD()\">Show</button>\n    <span class=\"w-100\"></span>\n    <div class=\"mt-2 ml-2\" *ngIf=\"serviceResponseBodyList[baseService].media_type==='image'\">\n      <input type=\"checkbox\" [(ngModel)]=\"showHdImage\">&nbsp;Show HD Image\n    </div>\n    <h2 class=\"w-100 mt-3 mb-5\">{{serviceResponseBodyList[baseService].title}}</h2>\n    <div *ngIf=\"showHdImage\">\n      <p class=\"text-justify\">{{serviceResponseBodyList[baseService].explanation}}</p>\n      <span class=\"w-100\" *ngIf=\"serviceResponseBodyList[baseService].copyright\">\n        <b>Copyright:</b>&nbsp;{{serviceResponseBodyList[baseService].copyright}}\n      </span>\n      <img [src]=\"serviceResponseBodyList[baseService].hdurl\" class=\"img-fluid border rounded-lg p-3 mx-auto d-block\" *ngIf=\"serviceResponseBodyList[baseService].media_type === 'image' && showHdImage\">\n    </div>\n    <div class=\"container-fluid row\" *ngIf=\"!showHdImage\">\n      <span class=\"col-sm-5 my-auto d-block\">\n        <p class=\"text-justify\">{{serviceResponseBodyList[baseService].explanation}}</p>\n        <span class=\"w-100\" *ngIf=\"serviceResponseBodyList[baseService].copyright\">\n          <b>Copyright:</b>&nbsp;{{serviceResponseBodyList[baseService].copyright}}\n        </span>\n      </span>\n      <img [src]=\"serviceResponseBodyList[baseService].url\" class=\"img-fluid border rounded-lg col-sm-7 p-3 mx-auto d-block\" *ngIf=\"serviceResponseBodyList[baseService].media_type === 'image' && !showHdImage\">\n      <iframe type=\"text/html\" class=\"col-sm-6\" height=\"500\" [src]=\"serviceResponseBodyList[baseService].url\" frameborder=\"0\" *ngIf=\"serviceResponseBodyList[baseService].media_type === 'video'\"></iframe>\n    </div>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -456,7 +456,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!-- <br />\r\n<br />\r\n<div class=\"table-responsive\">\r\n  <span id='table'></span>\r\n</div>\r\n<br /> -->\r\n<app-apod-template></app-apod-template>\r\n"
+module.exports = "<!-- <br />\r\n<br />\r\n<div class=\"table-responsive\">\r\n  <span id='table'></span>\r\n</div>\r\n<br /> -->\r\n<div  class=\"container-fluid jumbotron-fluid no-gutters row w-100\">\r\n  <button (click)=\"toggleShowAPoD()\">ToggleAPoD</button>\r\n  <button (click)=\"toggleShowNeoWs()\">ToggleNeoWs</button>\r\n</div>\r\n<app-apod-template *ngIf=\"showAPoD\"></app-apod-template>\r\n"
 
 /***/ }),
 
@@ -487,7 +487,15 @@ var MainTemplateComponentComponent = /** @class */ (function () {
         this.http = http;
         this.table = '';
         this.baseServiceNameList = Object.keys(_services_domainUrlDict_json__WEBPACK_IMPORTED_MODULE_4__);
+        this.showAPoD = false;
+        this.showNeoWs = false;
     }
+    MainTemplateComponentComponent.prototype.toggleShowAPoD = function () {
+        this.showAPoD = !this.showAPoD;
+    };
+    MainTemplateComponentComponent.prototype.toggleShowNeoWs = function () {
+        this.showNeoWs = !this.showNeoWs;
+    };
     MainTemplateComponentComponent.prototype.demoTable = function (columnDefs, rowData) {
         var table = '';
         table = table.concat('<table class="table table-striped table-bordered table-hover">');
@@ -525,6 +533,62 @@ var MainTemplateComponentComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/template/neows-template/neows-template.component.css":
+/*!**********************************************************************!*\
+  !*** ./src/app/template/neows-template/neows-template.component.css ***!
+  \**********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL3RlbXBsYXRlL25lb3dzLXRlbXBsYXRlL25lb3dzLXRlbXBsYXRlLmNvbXBvbmVudC5jc3MifQ== */"
+
+/***/ }),
+
+/***/ "./src/app/template/neows-template/neows-template.component.html":
+/*!***********************************************************************!*\
+  !*** ./src/app/template/neows-template/neows-template.component.html ***!
+  \***********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<p>\n  neows-template works!\n</p>\n"
+
+/***/ }),
+
+/***/ "./src/app/template/neows-template/neows-template.component.ts":
+/*!*********************************************************************!*\
+  !*** ./src/app/template/neows-template/neows-template.component.ts ***!
+  \*********************************************************************/
+/*! exports provided: NeowsTemplateComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NeowsTemplateComponent", function() { return NeowsTemplateComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+
+
+var NeowsTemplateComponent = /** @class */ (function () {
+    function NeowsTemplateComponent() {
+    }
+    NeowsTemplateComponent.prototype.ngOnInit = function () {
+    };
+    NeowsTemplateComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-neows-template',
+            template: __webpack_require__(/*! ./neows-template.component.html */ "./src/app/template/neows-template/neows-template.component.html"),
+            styles: [__webpack_require__(/*! ./neows-template.component.css */ "./src/app/template/neows-template/neows-template.component.css")]
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [])
+    ], NeowsTemplateComponent);
+    return NeowsTemplateComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/template/template.module.ts":
 /*!*********************************************!*\
   !*** ./src/app/template/template.module.ts ***!
@@ -541,6 +605,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
 /* harmony import */ var _main_template_component_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./main-template-component.component */ "./src/app/template/main-template-component.component.ts");
 /* harmony import */ var _apod_template_apod_template_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./apod-template/apod-template.component */ "./src/app/template/apod-template/apod-template.component.ts");
+/* harmony import */ var _neows_template_neows_template_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./neows-template/neows-template.component */ "./src/app/template/neows-template/neows-template.component.ts");
+
 
 
 
@@ -554,7 +620,8 @@ var TemplateModule = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["NgModule"])({
             declarations: [
                 _main_template_component_component__WEBPACK_IMPORTED_MODULE_4__["MainTemplateComponentComponent"],
-                _apod_template_apod_template_component__WEBPACK_IMPORTED_MODULE_5__["ApodTemplateComponent"]
+                _apod_template_apod_template_component__WEBPACK_IMPORTED_MODULE_5__["ApodTemplateComponent"],
+                _neows_template_neows_template_component__WEBPACK_IMPORTED_MODULE_6__["NeowsTemplateComponent"]
             ],
             imports: [
                 _angular_common__WEBPACK_IMPORTED_MODULE_2__["CommonModule"],
