@@ -8,12 +8,16 @@ import { MatTableModule } from '@angular/material';
 import { MainTemplateComponentComponent } from './main-template-component.component';
 import { ApodTemplateComponent } from './apod-template/apod-template.component';
 import { NeowsTemplateComponent } from './neows-template/neows-template.component';
+import { NeowsFeedTemplateComponent } from './neows-feed-template/neows-feed-template.component';
+import { NeowsBrowseTemplateComponent } from './neows-browse-template/neows-browse-template.component';
 
 @NgModule({
   declarations: [
     MainTemplateComponentComponent,
     ApodTemplateComponent,
-    NeowsTemplateComponent
+    NeowsTemplateComponent,
+    NeowsFeedTemplateComponent,
+    NeowsBrowseTemplateComponent
   ],
   imports: [
     BrowserAnimationsModule,

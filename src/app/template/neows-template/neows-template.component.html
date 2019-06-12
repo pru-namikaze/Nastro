@@ -5,58 +5,10 @@
 <input type="text" [(ngModel)]="NeoWsShowEnum" />
 <hr />
 <div class="container-fluid jumbotron-fluid mx-auto d-block px-5 ml-4">
-  <div class="row" *ngFor="let baseService of baseServiceList">
-    <div *ngIf="NeoWsShowEnum === baseService">
-      <h1 class="display-1 w-100"><b>{{baseServiceName}}</b></h1>
-      <h1 class="display-4 w-100 mb-4">{{baseService}}</h1>
-    </div>
-  </div>
   <div [ngSwitch]="NeoWsShowEnum">
-    <div *ngSwitchCase="'Neo - Feed'">
-      <input type="date" class="mr-4" [(ngModel)]="infrastructureApi.QueryPrameters.start_date">
-      to
-      <input type="date" class="mx-4" [(ngModel)]="infrastructureApi.QueryPrameters.end_date">
-      <input type="checkbox" [(ngModel)]="GetDetailedBody">&nbsp;Detailed<br /><br />
-      <button type="button" class="btn btn-info mr-4" (click)="reloadNeoWs()">Show</button>
-      <button type="button" class="btn btn-info ml-4" (click)="reloadNeoWsForToday()">Show Today's Feed</button><br />
-      <span class="w-100 font-size-2rem">
-        <span class="font-size-h2">Element Count:</span>&nbsp;{{serviceResponseBodyList[NeoWsShowEnum].element_count}}
-      </span>
-      <br />
-      <br />
-        <div id="accordion" *ngFor="let date of NearEarthObjectsDatesList">
-          <div class="card">
-            <div class="card-header" attr.id="{{'card' + date}}">
-              <h3 class="mb-0">
-                <button class="btn btn-link" data-toggle="collapse" attr.data-target="{{'#collapse' + date}}" aria-expanded="true" attr.aria-controls="{{'#collapse' + date}}">
-                  <span class="fas fa-calendar-alt"></span>&nbsp;{{date}}
-                </button>
-              </h3>
-            </div>
-            <div attr.id="{{'collapse' + date}}" class="collapse show" data-parent="#accordion">
-              <div class="card-body">
-                <div class="table-responsive">
-                  <table class="table table-bordered">
-                    <thead class="table-info">
-                      <tr>
-                        <th scope="col" *ngFor="let column of columnDef">{{column}}</th>
-                      </tr>
-                    </thead>
-                    <tbody *ngFor="let row of serviceResponseBodyList[NeoWsShowEnum].near_earth_objects[date]">
-                      <tr>
-                        <td *ngFor="let column of columnDef">{{row[column]}}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-          <br />
-        </div>
-    </div>
+    <app-neows-feed-template *ngSwitchCase="'Neo - Feed'"></app-neows-feed-template>
     <div *ngSwitchCase="'Neo - Lookup'">Neo - Lookup</div>
-    <div *ngSwitchCase="'Neo - Browse'">Neo - Browse</div>
+    <app-neows-browse-template *ngSwitchCase="'Neo - Browse'"></app-neows-browse-template>
     <div *ngSwitchCase="'Neo - Sentry'">Neo - Sentry</div>
     <div *ngSwitchCase="'Neo - Stats'">Neo - Stats</div>
   </div>
