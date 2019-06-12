@@ -1,4 +1,26 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
 img{
   background-color: lightgray
+}
+.display-5 {
+  font-size: 2.5rem;
+  font-weight: 300;
+  line-height: 1.2;
+}
+.font-size-h2 {
+  font-size: 2rem;
+  font-weight: 500;
+}
+.font-size-2rem {
+  font-size: 2rem;
+}
+.display-6 {
+  font-size: 1.5rem;
+  font-weight: 300;
+  line-height: 1.2;
+}
+.max-width-100vw {
+  max-width: 100vw
 }

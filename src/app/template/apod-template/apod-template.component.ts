@@ -5,7 +5,6 @@ import { HttpClient } from '@angular/common/http';
 
 import UrlDict from './../../services/domainUrlDict.json';
 import { InfrastructureApiService } from 'src/app/services/infrastructure-api.service';
-import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'app-apod-template',
@@ -29,7 +28,6 @@ export class ApodTemplateComponent implements OnInit {
     this.serviceResponseBodyList = {};
     this.baseServiceNameList = Object.keys(UrlDict);
     this.baseServiceList = Object.keys(this.infrastructureApi.ResponceURLDict[this.baseServiceName]);
-    this.reloadAPoD();
   }
 
   reloadAPoD(): void {
@@ -42,20 +40,15 @@ export class ApodTemplateComponent implements OnInit {
           this.serviceResponseBodyList[baseService] = body;
           // tslint:disable-next-line: max-line-length
           this.serviceResponseBodyList[baseService].url = this.sanitizer.bypassSecurityTrustResourceUrl(this.serviceResponseBodyList[baseService].url);
+          // tslint:disable-next-line: object-literal-key-quotes
           console.table({'responseObjectDictionary': this.serviceResponseBodyList[baseService]});
-          // this.tableObject[baseservice] = this.infrastructureApi.demoTable(Object.keys(body), body);
-          // (document.getElementById(`${baseservice}-table`) as HTMLSpanElement).innerHTML = this.tableObject[baseservice];
         },
         (error: any) => {
           console.log(error);
         },
         () => {}
-      );
-    }
-  }
-
-  UrlSanitizer(url: any): any {
-    return this.sanitizer.bypassSecurityTrustUrl(url);
+        );
+      }
   }
 
   ngOnInit() {

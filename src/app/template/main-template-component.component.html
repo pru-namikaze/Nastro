@@ -8,4 +8,6 @@
   <button (click)="toggleShowAPoD()">ToggleAPoD</button>
   <button (click)="toggleShowNeoWs()">ToggleNeoWs</button>
 </div>
+
 <app-apod-template *ngIf="showAPoD"></app-apod-template>
+<app-neows-template *ngIf="showNeoWs"></app-neows-template>

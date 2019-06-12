@@ -86,22 +86,6 @@
       }
     },
     "3": {
-      "Name": "Neo - Feed Today",
-      "Properties": {
-        "RequestURLDomian": "https://api.nasa.gov/neo/rest/v1/feed/today?",
-        "QueryString": {
-          "0": {
-            "VariableName": "detailed",
-            "DefaultValue": "true"
-          },
-          "1": {
-            "VariableName": "api_key",
-            "DefaultValue": "ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"
-          }
-        }
-      }
-    },
-    "4": {
       "Name": "Neo - Sentry",
       "Properties": {
         "RequestURLDomian": "https://api.nasa.gov/neo/rest/v1/neo/sentry?",
@@ -125,7 +109,7 @@
         }
       }
     },
-    "6": {
+    "4": {
       "Name": "Neo - Stats",
       "Properties": {
         "RequestURLDomian": "https://api.nasa.gov/neo/rest/v1/stats?",

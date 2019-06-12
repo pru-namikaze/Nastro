@@ -45,9 +45,14 @@ export class InfrastructureApiService {
       let responseURL: string = serviceProperties.RequestURLDomian;
       const URLAddder: any = serviceProperties.URLAddder;
       const QueryPram: any = serviceProperties.QueryString;
+
+      const date = new Date(new Date().getTime() - 45000000);
+      const startDate = new Date(new Date().getTime() - 131400000);
+      const endDate = new Date(new Date().getTime() - 45000000);
+
       if (!isNullOrUndefined(URLAddder)) {
         const responseURLwithAdderList: any = {};
-        let i: number = 0;
+        const i = 0;
         for (const URLAddNumName of Object.keys(URLAddder)) {
           responseURL = serviceProperties.RequestURLDomian;
           const adder: any = URLAddder[URLAddNumName];
@@ -58,16 +63,30 @@ export class InfrastructureApiService {
               const property: any = QueryPram[propertyName];
               // tslint:disable-next-line: max-line-length
               this.QueryPrameters[property.VariableName] = (isNullOrUndefined(this.QueryPrameters[property.VariableName])) ? property.DefaultValue : this.QueryPrameters[property.VariableName];
-              const date = new Date();
               if (isNullOrUndefined(this.QueryPrameters[property.VariableName])) {
-                if (property.VariableName === 'date') {
-                  // tslint:disable-next-line: max-line-length
-                  this.QueryPrameters[property.VariableName] = `${date.getFullYear().toString().padStart(4, '0')}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
-                } else {
-                  this.QueryPrameters[property.VariableName] = property.DefaultValue;
+                console.log(property.VariableName);
+                switch (property.VariableName) {
+                  case 'date': {
+                    // tslint:disable-next-line: max-line-length
+                    this.QueryPrameters[property.VariableName] = `${date.getFullYear().toString().padStart(4, '0')}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+                    break;
+                  }
+                  case 'startDate' : {
+                    // tslint:disable-next-line: max-line-length
+                    this.QueryPrameters[property.VariableName] = `${startDate.getFullYear().toString().padStart(4, '0')}-${(startDate.getMonth() + 1).toString().padStart(2, '0')}-${startDate.getDate().toString().padStart(2, '0')}`;
+                    break;
+                  }
+                  case 'endDate' : {
+                    // tslint:disable-next-line: max-line-length
+                    this.QueryPrameters[property.VariableName] = `${endDate.getFullYear().toString().padStart(4, '0')}-${(endDate.getMonth() + 1).toString().padStart(2, '0')}-${endDate.getDate().toString().padStart(2, '0')}`;
+                    break;
+                  }
+                  default: {
+                    this.QueryPrameters[property.VariableName] = property.DefaultValue;
+                    break;
+                  }
                 }
-              } else {
-                this.QueryPrameters[property.VariableName] = this.QueryPrameters[property.VariableName]
+                console.log(this.QueryPrameters[property.VariableName]);
               }
               responseURL = responseURL.concat(`${property.VariableName}=${this.QueryPrameters[property.VariableName]}&`);
             }
@@ -82,16 +101,30 @@ export class InfrastructureApiService {
         if (!isNullOrUndefined(QueryPram)) {
           for (const propertyName of Object.keys(QueryPram)) {
             const property: any = QueryPram[propertyName];
-            const date = new Date();
             if (isNullOrUndefined(this.QueryPrameters[property.VariableName])) {
-              if (property.VariableName === 'date') {
-                // tslint:disable-next-line: max-line-length
-                this.QueryPrameters[property.VariableName] = `${date.getFullYear().toString().padStart(4, '0')}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
-              } else {
-                this.QueryPrameters[property.VariableName] = property.DefaultValue;
+              console.log(property.VariableName);
+              switch (property.VariableName) {
+                case 'date': {
+                  // tslint:disable-next-line: max-line-length
+                  this.QueryPrameters[property.VariableName] = `${date.getFullYear().toString().padStart(4, '0')}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+                  break;
+                }
+                case 'start_date' : {
+                  // tslint:disable-next-line: max-line-length
+                  this.QueryPrameters[property.VariableName] = `${startDate.getFullYear().toString().padStart(4, '0')}-${(startDate.getMonth() + 1).toString().padStart(2, '0')}-${startDate.getDate().toString().padStart(2, '0')}`;
+                  break;
+                }
+                case 'end_date' : {
+                  // tslint:disable-next-line: max-line-length
+                  this.QueryPrameters[property.VariableName] = `${endDate.getFullYear().toString().padStart(4, '0')}-${(endDate.getMonth() + 1).toString().padStart(2, '0')}-${endDate.getDate().toString().padStart(2, '0')}`;
+                  break;
+                }
+                default: {
+                  this.QueryPrameters[property.VariableName] = property.DefaultValue;
+                  break;
+                }
               }
-            } else {
-              this.QueryPrameters[property.VariableName] = this.QueryPrameters[property.VariableName]
+              console.log(this.QueryPrameters[property.VariableName]);
             }
             responseURL = responseURL.concat(`${property.VariableName}=${this.QueryPrameters[property.VariableName]}&`);
           }
@@ -115,8 +148,8 @@ export class InfrastructureApiService {
     return null;
   }
 
-  demoTable(columnDefs: Array<string>, rowData: any): string {
-    let table: string = '';
+  jsonToHtmlCode(columnDefs: Array<string>, rowData: any): string {
+    let table = '';
     table = table.concat('<table class="table table-striped table-bordered table-hover">');
     table = table.concat('<thead class="thead-dark"><tr>');
     for (const header of columnDefs) {
@@ -126,7 +159,7 @@ export class InfrastructureApiService {
     for (const header of columnDefs) {
       console.log(typeof (rowData[header]) === 'object');
       if (typeof (rowData[header]) === 'object') {
-        table = table.concat(`<td>${this.demoTable(Object.keys(rowData[header]), rowData[header])}</td>`);
+        table = table.concat(`<td>${this.jsonToHtmlCode(Object.keys(rowData[header]), rowData[header])}</td>`);
       }
       table = table.concat(`<td>${rowData[header]}</td>`);
     }

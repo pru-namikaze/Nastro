@@ -9,22 +9,16 @@
       <input type="checkbox" [(ngModel)]="showHdImage">&nbsp;Show HD Image
     </div>
     <h2 class="w-100 mt-3 mb-5">{{serviceResponseBodyList[baseService].title}}</h2>
-    <div *ngIf="showHdImage">
-      <p class="text-justify">{{serviceResponseBodyList[baseService].explanation}}</p>
-      <span class="w-100" *ngIf="serviceResponseBodyList[baseService].copyright">
-        <b>Copyright:</b>&nbsp;{{serviceResponseBodyList[baseService].copyright}}
-      </span>
-      <img [src]="serviceResponseBodyList[baseService].hdurl" class="img-fluid border rounded-lg p-3 mx-auto d-block" *ngIf="serviceResponseBodyList[baseService].media_type === 'image' && showHdImage">
-    </div>
-    <div class="container-fluid row" *ngIf="!showHdImage">
-      <span class="col-sm-5 my-auto d-block">
+    <div class="row">
+      <img id="APoD-img" [src]="serviceResponseBodyList[baseService].url" class="img-fluid border rounded-lg col-auto p-3 d-block col-sm" *ngIf="serviceResponseBodyList[baseService].media_type === 'image' && !showHdImage">
+      <iframe type="text/html" width="750" height="500 " class="col-sm mx-auto" [src]="serviceResponseBodyList[baseService].url" frameborder="0" *ngIf="serviceResponseBodyList[baseService].media_type === 'video'"></iframe>
+      <img id="APoD-hd-img" [src]="serviceResponseBodyList[baseService].hdurl" class="img-fluid max-width-100vw col-sm border rounded-lg p-3 mx-auto d-block" *ngIf="serviceResponseBodyList[baseService].media_type === 'image' && showHdImage">
+      <span class="col-sm mx-auto my-auto p-5">
         <p class="text-justify">{{serviceResponseBodyList[baseService].explanation}}</p>
         <span class="w-100" *ngIf="serviceResponseBodyList[baseService].copyright">
           <b>Copyright:</b>&nbsp;{{serviceResponseBodyList[baseService].copyright}}
         </span>
       </span>
-      <img [src]="serviceResponseBodyList[baseService].url" class="img-fluid border rounded-lg col-sm-7 p-3 mx-auto d-block" *ngIf="serviceResponseBodyList[baseService].media_type === 'image' && !showHdImage">
-      <iframe type="text/html" class="col-sm-6" height="500" [src]="serviceResponseBodyList[baseService].url" frameborder="0" *ngIf="serviceResponseBodyList[baseService].media_type === 'video'"></iframe>
     </div>
   </div>
 </div>
