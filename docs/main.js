@@ -128,9 +128,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
-/* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./app-routing.module */ "./src/app/app-routing.module.ts");
-/* harmony import */ var _template_template_module__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./template/template.module */ "./src/app/template/template.module.ts");
-/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
+/* harmony import */ var _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/platform-browser/animations */ "./node_modules/@angular/platform-browser/fesm5/animations.js");
+/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
+/* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./app-routing.module */ "./src/app/app-routing.module.ts");
+/* harmony import */ var _template_template_module__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./template/template.module */ "./src/app/template/template.module.ts");
+/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
+
+
 
 
 
@@ -145,17 +149,19 @@ var AppModule = /** @class */ (function () {
     AppModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["NgModule"])({
             declarations: [
-                _app_component__WEBPACK_IMPORTED_MODULE_7__["AppComponent"]
+                _app_component__WEBPACK_IMPORTED_MODULE_9__["AppComponent"]
             ],
             imports: [
-                _template_template_module__WEBPACK_IMPORTED_MODULE_6__["TemplateModule"],
+                _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_5__["BrowserAnimationsModule"],
+                _template_template_module__WEBPACK_IMPORTED_MODULE_8__["TemplateModule"],
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"],
-                _app_routing_module__WEBPACK_IMPORTED_MODULE_5__["AppRoutingModule"],
+                _app_routing_module__WEBPACK_IMPORTED_MODULE_7__["AppRoutingModule"],
                 _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClientModule"],
-                _angular_forms__WEBPACK_IMPORTED_MODULE_4__["FormsModule"]
+                _angular_forms__WEBPACK_IMPORTED_MODULE_4__["FormsModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_6__["MatTableModule"]
             ],
             providers: [],
-            bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_7__["AppComponent"]]
+            bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_9__["AppComponent"]]
         })
     ], AppModule);
     return AppModule;
@@ -172,7 +178,7 @@ var AppModule = /** @class */ (function () {
 /*! exports provided: APoD, NeoWs, DONKI, EPIC, default */
 /***/ (function(module) {
 
-module.exports = {"APoD":{"0":{"Name":"Astronomy Picture of the Day","Properties":{"RequestURLDomian":"https://api.nasa.gov/planetary/apod?","QueryString":{"0":{"VariableName":"date","DefaultValue":"2019-05-20"},"1":{"VariableName":"hd","DefaultValue":"true"},"2":{"VariableName":"api_key","DefaultValue":"ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"}}}}},"NeoWs":{"0":{"Name":"Neo - Feed","Properties":{"RequestURLDomian":"https://api.nasa.gov/neo/rest/v1/feed?","QueryString":{"0":{"VariableName":"start_date","DefaultValue":"2019-05-20"},"1":{"VariableName":"end_date","DefaultValue":"2019-05-20"},"2":{"VariableName":"detailed","DefaultValue":"true"},"3":{"VariableName":"api_key","DefaultValue":"ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"}}}},"1":{"Name":"Neo - Lookup","Properties":{"RequestURLDomian":"https://api.nasa.gov/neo/rest/v1/neo/","URLAddder":{"0":{"VariableName":"Asteroid_Id","DefaultValue":"3542519","IncludeVariableName":"false"}},"QueryString":{"0":{"VariableName":"api_key","DefaultValue":"ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"}}}},"2":{"Name":"Neo - Browse","Properties":{"RequestURLDomian":"https://api.nasa.gov/neo/rest/v1/neo/browse?","QueryString":{"0":{"VariableName":"page","DefaultValue":"0"},"1":{"VariableName":"size","DefaultValue":"20"},"2":{"VariableName":"api_key","DefaultValue":"ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"}}}},"3":{"Name":"Neo - Feed Today","Properties":{"RequestURLDomian":"https://api.nasa.gov/neo/rest/v1/feed/today?","QueryString":{"0":{"VariableName":"detailed","DefaultValue":"true"},"1":{"VariableName":"api_key","DefaultValue":"ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"}}}},"4":{"Name":"Neo - Sentry","Properties":{"RequestURLDomian":"https://api.nasa.gov/neo/rest/v1/neo/sentry?","QueryString":{"0":{"VariableName":"is_active","DefaultValue":"true"},"1":{"VariableName":"page","DefaultValue":"0"},"2":{"VariableName":"size","DefaultValue":"50"},"3":{"VariableName":"api_key","DefaultValue":"ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"}}}},"6":{"Name":"Neo - Stats","Properties":{"RequestURLDomian":"https://api.nasa.gov/neo/rest/v1/stats?","QueryString":{"0":{"VariableName":"api_key","DefaultValue":"ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"}}}}},"DONKI":{"0":{"Name":"Coronal Mass Ejection (CME)","Properties":{"RequestURLDomian":"https://api.nasa.gov/DONKI/CME?","QueryString":{"0":{"VariableName":"startDate","DefaultValue":"2017-01-03"},"1":{"VariableName":"endDate","DefaultValue":"2017-01-03"},"2":{"VariableName":"api_key","DefaultValue":"ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"}}}},"1":{"Name":"Coronal Mass Ejection (CME) Analysis","Properties":{"RequestURLDomian":"https://api.nasa.gov/DONKI/CMEAnalysis?","QueryString":{"0":{"VariableName":"startDate","DefaultValue":"2019-04-20"},"1":{"VariableName":"endDate","DefaultValue":"2019-05-20"},"2":{"VariableName":"mostAccurateOnly","DefaultValue":"true"},"3":{"VariableName":"completeEntryOnly","DefaultValue":"true"},"4":{"VariableName":"speed","DefaultValue":"0"},"5":{"VariableName":"halfAngle","DefaultValue":"0"},"6":{"VariableName":"catalog","DefaultValue":"ALL"},"7":{"VariableName":"keyword","DefaultValue":"NONE"},"8":{"VariableName":"api_key","DefaultValue":"ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"}}}},"2":{"Name":"Geomagnetic Storm (GST)","Properties":{"RequestURLDomian":"https://api.nasa.gov/DONKI/GST?","QueryString":{"0":{"VariableName":"startDate","DefaultValue":"2017-01-03"},"1":{"VariableName":"endDate","DefaultValue":"2018-01-03"},"2":{"VariableName":"api_key","DefaultValue":"ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"}}}},"3":{"Name":"Interplanetary Shock (IPS)","Properties":{"RequestURLDomian":"https://api.nasa.gov/DONKI/IPS?","QueryString":{"0":{"VariableName":"startDate","DefaultValue":"2017-01-03"},"1":{"VariableName":"endDate","DefaultValue":"2018-01-03"},"2":{"VariableName":"location","DefaultValue":"ALL"},"3":{"VariableName":"catalog","DefaultValue":"ALL"},"4":{"VariableName":"api_key","DefaultValue":"ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"}}}},"4":{"Name":"Solar Flare (FLR)","Properties":{"RequestURLDomian":"https://api.nasa.gov/DONKI/FLR?","QueryString":{"0":{"VariableName":"startDate","DefaultValue":"2017-01-03"},"1":{"VariableName":"endDate","DefaultValue":"2018-01-03"},"2":{"VariableName":"api_key","DefaultValue":"ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"}}}},"5":{"Name":"Solar Energetic Particle (SEP)","Properties":{"RequestURLDomian":"https://api.nasa.gov/DONKI/SEP?","QueryString":{"0":{"VariableName":"startDate","DefaultValue":"2017-01-03"},"1":{"VariableName":"endDate","DefaultValue":"2018-01-03"},"2":{"VariableName":"api_key","DefaultValue":"ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"}}}},"6":{"Name":"Magnetopause Crossing (MPC)","Properties":{"RequestURLDomian":"https://api.nasa.gov/DONKI/MPC?","QueryString":{"0":{"VariableName":"startDate","DefaultValue":"2017-01-03"},"1":{"VariableName":"endDate","DefaultValue":"2018-01-03"},"2":{"VariableName":"api_key","DefaultValue":"ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"}}}},"7":{"Name":"Radiation Belt Enhancement (RBE)","Properties":{"RequestURLDomian":"https://api.nasa.gov/DONKI/RBE?","QueryString":{"0":{"VariableName":"startDate","DefaultValue":"2017-01-03"},"1":{"VariableName":"endDate","DefaultValue":"2018-01-03"},"2":{"VariableName":"api_key","DefaultValue":"ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"}}}},"8":{"Name":"Hight Speed Stream (HSS)","Properties":{"RequestURLDomian":"https://api.nasa.gov/DONKI/HSS?","QueryString":{"0":{"VariableName":"startDate","DefaultValue":"2017-01-03"},"1":{"VariableName":"endDate","DefaultValue":"2017-01-03"},"2":{"VariableName":"api_key","DefaultValue":"ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"}}}},"9":{"Name":"WSA+EnlilSimulation","Properties":{"RequestURLDomian":"https://api.nasa.gov/DONKI/WSAEnlilSimulations?","QueryString":{"0":{"VariableName":"startDate","DefaultValue":"2017-01-03"},"1":{"VariableName":"endDate","DefaultValue":"2017-01-03"},"2":{"VariableName":"api_key","DefaultValue":"ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"}}}},"10":{"Name":"Notifications","Properties":{"RequestURLDomian":"https://api.nasa.gov/DONKI/notifications?","QueryString":{"0":{"VariableName":"startDate","DefaultValue":"2017-01-03"},"1":{"VariableName":"endDate","DefaultValue":"2017-01-03"},"2":{"VariableName":"type","DefaultValue":"all"},"3":{"VariableName":"api_key","DefaultValue":"ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"}}}}},"EPIC":{"0":{"Name":"Daily imagery collected by DSCOVR's Earth Polychromatic Imaging Camera (EPIC) instrument","Properties":{"RequestURLDomian":"https://api.nasa.gov/EPIC/api/","URLAddder":{"0":{"VariableName":"natural","DefaultValue":"","IncludeVariableName":"true"},"1":{"VariableName":"natural/date","DefaultValue":"2016-12-31","IncludeVariableName":"true"},"2":{"VariableName":"natural/all","DefaultValue":"","IncludeVariableName":"true"},"3":{"VariableName":"natural/available","DefaultValue":"","IncludeVariableName":"true"},"4":{"VariableName":"enhanced","DefaultValue":"","IncludeVariableName":"true"},"5":{"VariableName":"enhanced/date","DefaultValue":"2016-12-31","IncludeVariableName":"true"},"6":{"VariableName":"enhanced/all","DefaultValue":"","IncludeVariableName":"true"},"7":{"VariableName":"enhanced/available","DefaultValue":"","IncludeVariableName":"true"}},"QueryString":{"0":{"VariableName":"api_key","DefaultValue":"ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"}}}}}};
+module.exports = {"APoD":{"0":{"Name":"Astronomy Picture of the Day","Properties":{"RequestURLDomian":"https://api.nasa.gov/planetary/apod?","QueryString":{"0":{"VariableName":"date","DefaultValue":"2019-05-20"},"1":{"VariableName":"hd","DefaultValue":"true"},"2":{"VariableName":"api_key","DefaultValue":"ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"}}}}},"NeoWs":{"0":{"Name":"Neo - Feed","Properties":{"RequestURLDomian":"https://api.nasa.gov/neo/rest/v1/feed?","QueryString":{"0":{"VariableName":"start_date","DefaultValue":"2019-05-20"},"1":{"VariableName":"end_date","DefaultValue":"2019-05-20"},"2":{"VariableName":"detailed","DefaultValue":"true"},"3":{"VariableName":"api_key","DefaultValue":"ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"}}}},"1":{"Name":"Neo - Lookup","Properties":{"RequestURLDomian":"https://api.nasa.gov/neo/rest/v1/neo/","URLAddder":{"0":{"VariableName":"Asteroid_Id","DefaultValue":"3542519","IncludeVariableName":"false"}},"QueryString":{"0":{"VariableName":"api_key","DefaultValue":"ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"}}}},"2":{"Name":"Neo - Browse","Properties":{"RequestURLDomian":"https://api.nasa.gov/neo/rest/v1/neo/browse?","QueryString":{"0":{"VariableName":"page","DefaultValue":"0"},"1":{"VariableName":"size","DefaultValue":"20"},"2":{"VariableName":"api_key","DefaultValue":"ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"}}}},"3":{"Name":"Neo - Sentry","Properties":{"RequestURLDomian":"https://api.nasa.gov/neo/rest/v1/neo/sentry?","QueryString":{"0":{"VariableName":"is_active","DefaultValue":"true"},"1":{"VariableName":"page","DefaultValue":"0"},"2":{"VariableName":"size","DefaultValue":"50"},"3":{"VariableName":"api_key","DefaultValue":"ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"}}}},"4":{"Name":"Neo - Stats","Properties":{"RequestURLDomian":"https://api.nasa.gov/neo/rest/v1/stats?","QueryString":{"0":{"VariableName":"api_key","DefaultValue":"ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"}}}}},"DONKI":{"0":{"Name":"Coronal Mass Ejection (CME)","Properties":{"RequestURLDomian":"https://api.nasa.gov/DONKI/CME?","QueryString":{"0":{"VariableName":"startDate","DefaultValue":"2017-01-03"},"1":{"VariableName":"endDate","DefaultValue":"2017-01-03"},"2":{"VariableName":"api_key","DefaultValue":"ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"}}}},"1":{"Name":"Coronal Mass Ejection (CME) Analysis","Properties":{"RequestURLDomian":"https://api.nasa.gov/DONKI/CMEAnalysis?","QueryString":{"0":{"VariableName":"startDate","DefaultValue":"2019-04-20"},"1":{"VariableName":"endDate","DefaultValue":"2019-05-20"},"2":{"VariableName":"mostAccurateOnly","DefaultValue":"true"},"3":{"VariableName":"completeEntryOnly","DefaultValue":"true"},"4":{"VariableName":"speed","DefaultValue":"0"},"5":{"VariableName":"halfAngle","DefaultValue":"0"},"6":{"VariableName":"catalog","DefaultValue":"ALL"},"7":{"VariableName":"keyword","DefaultValue":"NONE"},"8":{"VariableName":"api_key","DefaultValue":"ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"}}}},"2":{"Name":"Geomagnetic Storm (GST)","Properties":{"RequestURLDomian":"https://api.nasa.gov/DONKI/GST?","QueryString":{"0":{"VariableName":"startDate","DefaultValue":"2017-01-03"},"1":{"VariableName":"endDate","DefaultValue":"2018-01-03"},"2":{"VariableName":"api_key","DefaultValue":"ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"}}}},"3":{"Name":"Interplanetary Shock (IPS)","Properties":{"RequestURLDomian":"https://api.nasa.gov/DONKI/IPS?","QueryString":{"0":{"VariableName":"startDate","DefaultValue":"2017-01-03"},"1":{"VariableName":"endDate","DefaultValue":"2018-01-03"},"2":{"VariableName":"location","DefaultValue":"ALL"},"3":{"VariableName":"catalog","DefaultValue":"ALL"},"4":{"VariableName":"api_key","DefaultValue":"ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"}}}},"4":{"Name":"Solar Flare (FLR)","Properties":{"RequestURLDomian":"https://api.nasa.gov/DONKI/FLR?","QueryString":{"0":{"VariableName":"startDate","DefaultValue":"2017-01-03"},"1":{"VariableName":"endDate","DefaultValue":"2018-01-03"},"2":{"VariableName":"api_key","DefaultValue":"ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"}}}},"5":{"Name":"Solar Energetic Particle (SEP)","Properties":{"RequestURLDomian":"https://api.nasa.gov/DONKI/SEP?","QueryString":{"0":{"VariableName":"startDate","DefaultValue":"2017-01-03"},"1":{"VariableName":"endDate","DefaultValue":"2018-01-03"},"2":{"VariableName":"api_key","DefaultValue":"ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"}}}},"6":{"Name":"Magnetopause Crossing (MPC)","Properties":{"RequestURLDomian":"https://api.nasa.gov/DONKI/MPC?","QueryString":{"0":{"VariableName":"startDate","DefaultValue":"2017-01-03"},"1":{"VariableName":"endDate","DefaultValue":"2018-01-03"},"2":{"VariableName":"api_key","DefaultValue":"ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"}}}},"7":{"Name":"Radiation Belt Enhancement (RBE)","Properties":{"RequestURLDomian":"https://api.nasa.gov/DONKI/RBE?","QueryString":{"0":{"VariableName":"startDate","DefaultValue":"2017-01-03"},"1":{"VariableName":"endDate","DefaultValue":"2018-01-03"},"2":{"VariableName":"api_key","DefaultValue":"ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"}}}},"8":{"Name":"Hight Speed Stream (HSS)","Properties":{"RequestURLDomian":"https://api.nasa.gov/DONKI/HSS?","QueryString":{"0":{"VariableName":"startDate","DefaultValue":"2017-01-03"},"1":{"VariableName":"endDate","DefaultValue":"2017-01-03"},"2":{"VariableName":"api_key","DefaultValue":"ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"}}}},"9":{"Name":"WSA+EnlilSimulation","Properties":{"RequestURLDomian":"https://api.nasa.gov/DONKI/WSAEnlilSimulations?","QueryString":{"0":{"VariableName":"startDate","DefaultValue":"2017-01-03"},"1":{"VariableName":"endDate","DefaultValue":"2017-01-03"},"2":{"VariableName":"api_key","DefaultValue":"ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"}}}},"10":{"Name":"Notifications","Properties":{"RequestURLDomian":"https://api.nasa.gov/DONKI/notifications?","QueryString":{"0":{"VariableName":"startDate","DefaultValue":"2017-01-03"},"1":{"VariableName":"endDate","DefaultValue":"2017-01-03"},"2":{"VariableName":"type","DefaultValue":"all"},"3":{"VariableName":"api_key","DefaultValue":"ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"}}}}},"EPIC":{"0":{"Name":"Daily imagery collected by DSCOVR's Earth Polychromatic Imaging Camera (EPIC) instrument","Properties":{"RequestURLDomian":"https://api.nasa.gov/EPIC/api/","URLAddder":{"0":{"VariableName":"natural","DefaultValue":"","IncludeVariableName":"true"},"1":{"VariableName":"natural/date","DefaultValue":"2016-12-31","IncludeVariableName":"true"},"2":{"VariableName":"natural/all","DefaultValue":"","IncludeVariableName":"true"},"3":{"VariableName":"natural/available","DefaultValue":"","IncludeVariableName":"true"},"4":{"VariableName":"enhanced","DefaultValue":"","IncludeVariableName":"true"},"5":{"VariableName":"enhanced/date","DefaultValue":"2016-12-31","IncludeVariableName":"true"},"6":{"VariableName":"enhanced/all","DefaultValue":"","IncludeVariableName":"true"},"7":{"VariableName":"enhanced/available","DefaultValue":"","IncludeVariableName":"true"}},"QueryString":{"0":{"VariableName":"api_key","DefaultValue":"ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"}}}}}};
 
 /***/ }),
 
@@ -228,6 +234,9 @@ var InfrastructureApiService = /** @class */ (function () {
             var responseURL = serviceProperties.RequestURLDomian;
             var URLAddder = serviceProperties.URLAddder;
             var QueryPram = serviceProperties.QueryString;
+            var date = new Date(new Date().getTime() - 45000000);
+            var startDate = new Date(new Date().getTime() - 131400000);
+            var endDate = new Date(new Date().getTime() - 45000000);
             if (!Object(util__WEBPACK_IMPORTED_MODULE_4__["isNullOrUndefined"])(URLAddder)) {
                 var responseURLwithAdderList = {};
                 var i = 0;
@@ -243,18 +252,30 @@ var InfrastructureApiService = /** @class */ (function () {
                             var property = QueryPram[propertyName];
                             // tslint:disable-next-line: max-line-length
                             this.QueryPrameters[property.VariableName] = (Object(util__WEBPACK_IMPORTED_MODULE_4__["isNullOrUndefined"])(this.QueryPrameters[property.VariableName])) ? property.DefaultValue : this.QueryPrameters[property.VariableName];
-                            var date = new Date();
                             if (Object(util__WEBPACK_IMPORTED_MODULE_4__["isNullOrUndefined"])(this.QueryPrameters[property.VariableName])) {
-                                if (property.VariableName === 'date') {
-                                    // tslint:disable-next-line: max-line-length
-                                    this.QueryPrameters[property.VariableName] = date.getFullYear().toString().padStart(4, '0') + "-" + (date.getMonth() + 1).toString().padStart(2, '0') + "-" + date.getDate().toString().padStart(2, '0');
+                                console.log(property.VariableName);
+                                switch (property.VariableName) {
+                                    case 'date': {
+                                        // tslint:disable-next-line: max-line-length
+                                        this.QueryPrameters[property.VariableName] = date.getFullYear().toString().padStart(4, '0') + "-" + (date.getMonth() + 1).toString().padStart(2, '0') + "-" + date.getDate().toString().padStart(2, '0');
+                                        break;
+                                    }
+                                    case 'startDate': {
+                                        // tslint:disable-next-line: max-line-length
+                                        this.QueryPrameters[property.VariableName] = startDate.getFullYear().toString().padStart(4, '0') + "-" + (startDate.getMonth() + 1).toString().padStart(2, '0') + "-" + startDate.getDate().toString().padStart(2, '0');
+                                        break;
+                                    }
+                                    case 'endDate': {
+                                        // tslint:disable-next-line: max-line-length
+                                        this.QueryPrameters[property.VariableName] = endDate.getFullYear().toString().padStart(4, '0') + "-" + (endDate.getMonth() + 1).toString().padStart(2, '0') + "-" + endDate.getDate().toString().padStart(2, '0');
+                                        break;
+                                    }
+                                    default: {
+                                        this.QueryPrameters[property.VariableName] = property.DefaultValue;
+                                        break;
+                                    }
                                 }
-                                else {
-                                    this.QueryPrameters[property.VariableName] = property.DefaultValue;
-                                }
-                            }
-                            else {
-                                this.QueryPrameters[property.VariableName] = this.QueryPrameters[property.VariableName];
+                                console.log(this.QueryPrameters[property.VariableName]);
                             }
                             responseURL = responseURL.concat(property.VariableName + "=" + this.QueryPrameters[property.VariableName] + "&");
                         }
@@ -271,18 +292,30 @@ var InfrastructureApiService = /** @class */ (function () {
                     for (var _f = 0, _g = Object.keys(QueryPram); _f < _g.length; _f++) {
                         var propertyName = _g[_f];
                         var property = QueryPram[propertyName];
-                        var date = new Date();
                         if (Object(util__WEBPACK_IMPORTED_MODULE_4__["isNullOrUndefined"])(this.QueryPrameters[property.VariableName])) {
-                            if (property.VariableName === 'date') {
-                                // tslint:disable-next-line: max-line-length
-                                this.QueryPrameters[property.VariableName] = date.getFullYear().toString().padStart(4, '0') + "-" + (date.getMonth() + 1).toString().padStart(2, '0') + "-" + date.getDate().toString().padStart(2, '0');
+                            console.log(property.VariableName);
+                            switch (property.VariableName) {
+                                case 'date': {
+                                    // tslint:disable-next-line: max-line-length
+                                    this.QueryPrameters[property.VariableName] = date.getFullYear().toString().padStart(4, '0') + "-" + (date.getMonth() + 1).toString().padStart(2, '0') + "-" + date.getDate().toString().padStart(2, '0');
+                                    break;
+                                }
+                                case 'start_date': {
+                                    // tslint:disable-next-line: max-line-length
+                                    this.QueryPrameters[property.VariableName] = startDate.getFullYear().toString().padStart(4, '0') + "-" + (startDate.getMonth() + 1).toString().padStart(2, '0') + "-" + startDate.getDate().toString().padStart(2, '0');
+                                    break;
+                                }
+                                case 'end_date': {
+                                    // tslint:disable-next-line: max-line-length
+                                    this.QueryPrameters[property.VariableName] = endDate.getFullYear().toString().padStart(4, '0') + "-" + (endDate.getMonth() + 1).toString().padStart(2, '0') + "-" + endDate.getDate().toString().padStart(2, '0');
+                                    break;
+                                }
+                                default: {
+                                    this.QueryPrameters[property.VariableName] = property.DefaultValue;
+                                    break;
+                                }
                             }
-                            else {
-                                this.QueryPrameters[property.VariableName] = property.DefaultValue;
-                            }
-                        }
-                        else {
-                            this.QueryPrameters[property.VariableName] = this.QueryPrameters[property.VariableName];
+                            console.log(this.QueryPrameters[property.VariableName]);
                         }
                         responseURL = responseURL.concat(property.VariableName + "=" + this.QueryPrameters[property.VariableName] + "&");
                     }
@@ -304,7 +337,7 @@ var InfrastructureApiService = /** @class */ (function () {
         });
         return null;
     };
-    InfrastructureApiService.prototype.demoTable = function (columnDefs, rowData) {
+    InfrastructureApiService.prototype.jsonToHtmlCode = function (columnDefs, rowData) {
         var table = '';
         table = table.concat('<table class="table table-striped table-bordered table-hover">');
         table = table.concat('<thead class="thead-dark"><tr>');
@@ -317,7 +350,7 @@ var InfrastructureApiService = /** @class */ (function () {
             var header = columnDefs_2[_a];
             console.log(typeof (rowData[header]) === 'object');
             if (typeof (rowData[header]) === 'object') {
-                table = table.concat("<td>" + this.demoTable(Object.keys(rowData[header]), rowData[header]) + "</td>");
+                table = table.concat("<td>" + this.jsonToHtmlCode(Object.keys(rowData[header]), rowData[header]) + "</td>");
             }
             table = table.concat("<td>" + rowData[header] + "</td>");
         }
@@ -355,7 +388,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container-fluid jumbotron-fluid mx-auto d-block px-5 ml-4\">\n  <div class=\"row\" *ngFor=\"let baseService of baseServiceList\">\n    <h1 class=\"display-1 w-100\"><b>{{baseServiceName}}</b></h1>\n    <h1 class=\"display-4 w-100 mb-4\">{{baseService}}</h1>\n    <input type=\"date\" class=\"mr-4\" id='date' [(ngModel)]=\"infrastructureApi.QueryPrameters.date\">\n    <button type=\"button\" class=\"btn btn-info\" (click)=\"reloadAPoD()\">Show</button>\n    <span class=\"w-100\"></span>\n    <div class=\"mt-2 ml-2\" *ngIf=\"serviceResponseBodyList[baseService].media_type==='image'\">\n      <input type=\"checkbox\" [(ngModel)]=\"showHdImage\">&nbsp;Show HD Image\n    </div>\n    <h2 class=\"w-100 mt-3 mb-5\">{{serviceResponseBodyList[baseService].title}}</h2>\n    <div *ngIf=\"showHdImage\">\n      <p class=\"text-justify\">{{serviceResponseBodyList[baseService].explanation}}</p>\n      <span class=\"w-100\" *ngIf=\"serviceResponseBodyList[baseService].copyright\">\n        <b>Copyright:</b>&nbsp;{{serviceResponseBodyList[baseService].copyright}}\n      </span>\n      <img [src]=\"serviceResponseBodyList[baseService].hdurl\" class=\"img-fluid border rounded-lg p-3 mx-auto d-block\" *ngIf=\"serviceResponseBodyList[baseService].media_type === 'image' && showHdImage\">\n    </div>\n    <div class=\"container-fluid row\" *ngIf=\"!showHdImage\">\n      <span class=\"col-sm-5 my-auto d-block\">\n        <p class=\"text-justify\">{{serviceResponseBodyList[baseService].explanation}}</p>\n        <span class=\"w-100\" *ngIf=\"serviceResponseBodyList[baseService].copyright\">\n          <b>Copyright:</b>&nbsp;{{serviceResponseBodyList[baseService].copyright}}\n        </span>\n      </span>\n      <img [src]=\"serviceResponseBodyList[baseService].url\" class=\"img-fluid border rounded-lg col-sm-7 p-3 mx-auto d-block\" *ngIf=\"serviceResponseBodyList[baseService].media_type === 'image' && !showHdImage\">\n      <iframe type=\"text/html\" class=\"col-sm-6\" height=\"500\" [src]=\"serviceResponseBodyList[baseService].url\" frameborder=\"0\" *ngIf=\"serviceResponseBodyList[baseService].media_type === 'video'\"></iframe>\n    </div>\n  </div>\n</div>\n"
+module.exports = "<div class=\"container-fluid jumbotron-fluid mx-auto d-block px-5 ml-4\">\n  <div class=\"row\" *ngFor=\"let baseService of baseServiceList\">\n    <h1 class=\"display-1 w-100\"><b>{{baseServiceName}}</b></h1>\n    <h1 class=\"display-4 w-100 mb-4\">{{baseService}}</h1>\n    <input type=\"date\" class=\"mr-4\" id='date' [(ngModel)]=\"infrastructureApi.QueryPrameters.date\">\n    <button type=\"button\" class=\"btn btn-info\" (click)=\"reloadAPoD()\">Show</button>\n    <span class=\"w-100\"></span>\n    <div class=\"mt-2 ml-2\" *ngIf=\"serviceResponseBodyList[baseService].media_type==='image'\">\n      <input type=\"checkbox\" [(ngModel)]=\"showHdImage\">&nbsp;Show HD Image\n    </div>\n    <h2 class=\"w-100 mt-3 mb-5\">{{serviceResponseBodyList[baseService].title}}</h2>\n    <div class=\"row\">\n      <img id=\"APoD-img\" [src]=\"serviceResponseBodyList[baseService].url\" class=\"img-fluid border rounded-lg col-auto p-3 d-block col-sm\" *ngIf=\"serviceResponseBodyList[baseService].media_type === 'image' && !showHdImage\">\n      <iframe type=\"text/html\" width=\"750\" height=\"500 \" class=\"col-sm mx-auto\" [src]=\"serviceResponseBodyList[baseService].url\" frameborder=\"0\" *ngIf=\"serviceResponseBodyList[baseService].media_type === 'video'\"></iframe>\n      <img id=\"APoD-hd-img\" [src]=\"serviceResponseBodyList[baseService].hdurl\" class=\"img-fluid max-width-100vw col-sm border rounded-lg p-3 mx-auto d-block\" *ngIf=\"serviceResponseBodyList[baseService].media_type === 'image' && showHdImage\">\n      <span class=\"col-sm mx-auto my-auto p-5\">\n        <p class=\"text-justify\">{{serviceResponseBodyList[baseService].explanation}}</p>\n        <span class=\"w-100\" *ngIf=\"serviceResponseBodyList[baseService].copyright\">\n          <b>Copyright:</b>&nbsp;{{serviceResponseBodyList[baseService].copyright}}\n        </span>\n      </span>\n    </div>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -393,7 +426,6 @@ var ApodTemplateComponent = /** @class */ (function () {
         this.serviceResponseBodyList = {};
         this.baseServiceNameList = Object.keys(_services_domainUrlDict_json__WEBPACK_IMPORTED_MODULE_4__);
         this.baseServiceList = Object.keys(this.infrastructureApi.ResponceURLDict[this.baseServiceName]);
-        this.reloadAPoD();
     }
     ApodTemplateComponent.prototype.reloadAPoD = function () {
         var _this = this;
@@ -405,9 +437,8 @@ var ApodTemplateComponent = /** @class */ (function () {
                 _this.serviceResponseBodyList[baseService] = body;
                 // tslint:disable-next-line: max-line-length
                 _this.serviceResponseBodyList[baseService].url = _this.sanitizer.bypassSecurityTrustResourceUrl(_this.serviceResponseBodyList[baseService].url);
+                // tslint:disable-next-line: object-literal-key-quotes
                 console.table({ 'responseObjectDictionary': _this.serviceResponseBodyList[baseService] });
-                // this.tableObject[baseservice] = this.infrastructureApi.demoTable(Object.keys(body), body);
-                // (document.getElementById(`${baseservice}-table`) as HTMLSpanElement).innerHTML = this.tableObject[baseservice];
             }, function (error) {
                 console.log(error);
             }, function () { });
@@ -417,9 +448,6 @@ var ApodTemplateComponent = /** @class */ (function () {
             var baseService = _a[_i];
             _loop_1(baseService);
         }
-    };
-    ApodTemplateComponent.prototype.UrlSanitizer = function (url) {
-        return this.sanitizer.bypassSecurityTrustUrl(url);
     };
     ApodTemplateComponent.prototype.ngOnInit = function () {
     };
@@ -456,7 +484,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!-- <br />\r\n<br />\r\n<div class=\"table-responsive\">\r\n  <span id='table'></span>\r\n</div>\r\n<br /> -->\r\n<div  class=\"container-fluid jumbotron-fluid no-gutters row w-100\">\r\n  <button (click)=\"toggleShowAPoD()\">ToggleAPoD</button>\r\n  <button (click)=\"toggleShowNeoWs()\">ToggleNeoWs</button>\r\n</div>\r\n<app-apod-template *ngIf=\"showAPoD\"></app-apod-template>\r\n"
+module.exports = "<!-- <br />\r\n<br />\r\n<div class=\"table-responsive\">\r\n  <span id='table'></span>\r\n</div>\r\n<br /> -->\r\n<div  class=\"container-fluid jumbotron-fluid no-gutters row w-100\">\r\n  <button (click)=\"toggleShowAPoD()\">ToggleAPoD</button>\r\n  <button (click)=\"toggleShowNeoWs()\">ToggleNeoWs</button>\r\n</div>\r\n\r\n<app-apod-template *ngIf=\"showAPoD\"></app-apod-template>\r\n<app-neows-template *ngIf=\"showNeoWs\"></app-neows-template>\r\n"
 
 /***/ }),
 
@@ -551,7 +579,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n  neows-template works!\n</p>\n"
+module.exports = "<div class=\"px-3 no-gutters\" *ngFor=\"let baseService of baseServiceList\">\n  <br />{{baseService}}\n</div>\n\n<input type=\"text\" [(ngModel)]=\"NeoWsShowEnum\" />\n<hr />\n<div class=\"container-fluid jumbotron-fluid mx-auto d-block px-5 ml-4\">\n  <div class=\"row\" *ngFor=\"let baseService of baseServiceList\">\n    <div *ngIf=\"NeoWsShowEnum === baseService\">\n      <h1 class=\"display-1 w-100\"><b>{{baseServiceName}}</b></h1>\n      <h1 class=\"display-4 w-100 mb-4\">{{baseService}}</h1>\n    </div>\n  </div>\n  <div [ngSwitch]=\"NeoWsShowEnum\">\n    <div *ngSwitchCase=\"'Neo - Feed'\">\n      <input type=\"date\" class=\"mr-4\" [(ngModel)]=\"infrastructureApi.QueryPrameters.start_date\">\n      to\n      <input type=\"date\" class=\"mx-4\" [(ngModel)]=\"infrastructureApi.QueryPrameters.end_date\">\n      <input type=\"checkbox\" [(ngModel)]=\"GetDetailedBody\">&nbsp;Detailed<br /><br />\n      <button type=\"button\" class=\"btn btn-info mr-4\" (click)=\"reloadNeoWs()\">Show</button>\n      <button type=\"button\" class=\"btn btn-info ml-4\" (click)=\"reloadNeoWsForToday()\">Show Today's Feed</button><br />\n      <span class=\"w-100 font-size-2rem\">\n        <span class=\"font-size-h2\">Element Count:</span>&nbsp;{{serviceResponseBodyList[NeoWsShowEnum].element_count}}\n      </span>\n      <br />\n      <br />\n        <div id=\"accordion\" *ngFor=\"let date of NearEarthObjectsDatesList\">\n          <div class=\"card\">\n            <div class=\"card-header\" attr.id=\"{{'card' + date}}\">\n              <h3 class=\"mb-0\">\n                <button class=\"btn btn-link\" data-toggle=\"collapse\" attr.data-target=\"{{'#collapse' + date}}\" aria-expanded=\"true\" attr.aria-controls=\"{{'#collapse' + date}}\">\n                  <span class=\"fas fa-calendar-alt\"></span>&nbsp;{{date}}\n                </button>\n              </h3>\n            </div>\n            <div attr.id=\"{{'collapse' + date}}\" class=\"collapse show\" data-parent=\"#accordion\">\n              <div class=\"card-body\">\n                <div class=\"table-responsive\">\n                  <table class=\"table table-bordered\">\n                    <thead class=\"table-info\">\n                      <tr>\n                        <th scope=\"col\" *ngFor=\"let column of columnDef\">{{column}}</th>\n                      </tr>\n                    </thead>\n                    <tbody *ngFor=\"let row of serviceResponseBodyList[NeoWsShowEnum].near_earth_objects[date]\">\n                      <tr>\n                        <td *ngFor=\"let column of columnDef\">{{row[column]}}</td>\n                      </tr>\n                    </tbody>\n                  </table>\n                </div>\n              </div>\n            </div>\n          </div>\n          <br />\n        </div>\n    </div>\n    <div *ngSwitchCase=\"'Neo - Lookup'\">Neo - Lookup</div>\n    <div *ngSwitchCase=\"'Neo - Browse'\">Neo - Browse</div>\n    <div *ngSwitchCase=\"'Neo - Sentry'\">Neo - Sentry</div>\n    <div *ngSwitchCase=\"'Neo - Stats'\">Neo - Stats</div>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -567,11 +595,73 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NeowsTemplateComponent", function() { return NeowsTemplateComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _services_domainUrlDict_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../../services/domainUrlDict.json */ "./src/app/services/domainUrlDict.json");
+var _services_domainUrlDict_json__WEBPACK_IMPORTED_MODULE_4___namespace = /*#__PURE__*/__webpack_require__.t(/*! ./../../services/domainUrlDict.json */ "./src/app/services/domainUrlDict.json", 1);
+/* harmony import */ var src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/services/infrastructure-api.service */ "./src/app/services/infrastructure-api.service.ts");
+
+
+
+
 
 
 var NeowsTemplateComponent = /** @class */ (function () {
-    function NeowsTemplateComponent() {
+    function NeowsTemplateComponent(infrastructureApi, http, sanitizer) {
+        this.infrastructureApi = infrastructureApi;
+        this.http = http;
+        this.sanitizer = sanitizer;
+        this.NeoWsShowEnum = '';
+        this.columnDef = [];
+        this.row = [];
+        this.baseServiceName = 'NeoWs';
+        this.serviceResponseBodyList = {};
+        this.baseServiceNameList = Object.keys(_services_domainUrlDict_json__WEBPACK_IMPORTED_MODULE_4__);
+        this.baseServiceList = Object.keys(this.infrastructureApi.ResponceURLDict[this.baseServiceName]);
+        this.GetDetailedBody = false;
+        this.reloadNeoWs();
     }
+    NeowsTemplateComponent.prototype.reloadNeoWsForToday = function () {
+        var endDate = new Date(new Date().getTime() - 45000000);
+        // tslint:disable-next-line: max-line-length
+        this.infrastructureApi.QueryPrameters.start_date = endDate.getFullYear().toString().padStart(4, '0') + "-" + (endDate.getMonth() + 1).toString().padStart(2, '0') + "-" + endDate.getDate().toString().padStart(2, '0');
+        ;
+        this.infrastructureApi.QueryPrameters.end_date = this.infrastructureApi.QueryPrameters.start_date;
+        this.reloadNeoWs();
+    };
+    NeowsTemplateComponent.prototype.reloadNeoWs = function () {
+        var _this = this;
+        this.infrastructureApi.GenerateResponseUrl();
+        // for (const baseService of this.baseServiceList) {
+        var baseService = 'Neo - Feed';
+        console.log(this.infrastructureApi.ResponceURLDict[this.baseServiceName][baseService]);
+        this.http.get(this.infrastructureApi.ResponceURLDict[this.baseServiceName][baseService]).subscribe(function (body) {
+            _this.serviceResponseBodyList[baseService] = {};
+            _this.serviceResponseBodyList[baseService] = body;
+            // tslint:disable-next-line: max-line-length
+            _this.serviceResponseBodyList[baseService].url = _this.sanitizer.bypassSecurityTrustResourceUrl(_this.serviceResponseBodyList[baseService].url);
+            console.table({ 'responseObjectDictionary': _this.serviceResponseBodyList[baseService] });
+            switch (baseService) {
+                case 'Neo - Feed':
+                    _this.NearEarthObjectsDatesList = Object.keys(_this.serviceResponseBodyList[baseService].near_earth_objects).sort();
+                    // tslint:disable-next-line: max-line-length
+                    for (var _i = 0, _a = Object.keys(_this.serviceResponseBodyList[baseService].near_earth_objects[_this.NearEarthObjectsDatesList[0]][0]); _i < _a.length; _i++) {
+                        var key = _a[_i];
+                        // tslint:disable-next-line: max-line-length
+                        if (typeof (_this.serviceResponseBodyList[baseService].near_earth_objects[_this.NearEarthObjectsDatesList[0]][0][key]) !== 'object') {
+                            if (_this.columnDef.indexOf(key) < 0) {
+                                _this.columnDef.push(key);
+                            }
+                        }
+                    }
+                    console.log(_this.columnDef);
+                    console.log(_this.NearEarthObjectsDatesList);
+                    break;
+            }
+        }, function (error) {
+            console.log(error);
+        }, function () { });
+    };
     NeowsTemplateComponent.prototype.ngOnInit = function () {
     };
     NeowsTemplateComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
@@ -580,7 +670,7 @@ var NeowsTemplateComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./neows-template.component.html */ "./src/app/template/neows-template/neows-template.component.html"),
             styles: [__webpack_require__(/*! ./neows-template.component.css */ "./src/app/template/neows-template/neows-template.component.css")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_5__["InfrastructureApiService"], _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClient"], _angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__["DomSanitizer"]])
     ], NeowsTemplateComponent);
     return NeowsTemplateComponent;
 }());
@@ -603,9 +693,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
-/* harmony import */ var _main_template_component_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./main-template-component.component */ "./src/app/template/main-template-component.component.ts");
-/* harmony import */ var _apod_template_apod_template_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./apod-template/apod-template.component */ "./src/app/template/apod-template/apod-template.component.ts");
-/* harmony import */ var _neows_template_neows_template_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./neows-template/neows-template.component */ "./src/app/template/neows-template/neows-template.component.ts");
+/* harmony import */ var _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/platform-browser/animations */ "./node_modules/@angular/platform-browser/fesm5/animations.js");
+/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
+/* harmony import */ var _main_template_component_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./main-template-component.component */ "./src/app/template/main-template-component.component.ts");
+/* harmony import */ var _apod_template_apod_template_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./apod-template/apod-template.component */ "./src/app/template/apod-template/apod-template.component.ts");
+/* harmony import */ var _neows_template_neows_template_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./neows-template/neows-template.component */ "./src/app/template/neows-template/neows-template.component.ts");
+
+
 
 
 
@@ -619,13 +713,15 @@ var TemplateModule = /** @class */ (function () {
     TemplateModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["NgModule"])({
             declarations: [
-                _main_template_component_component__WEBPACK_IMPORTED_MODULE_4__["MainTemplateComponentComponent"],
-                _apod_template_apod_template_component__WEBPACK_IMPORTED_MODULE_5__["ApodTemplateComponent"],
-                _neows_template_neows_template_component__WEBPACK_IMPORTED_MODULE_6__["NeowsTemplateComponent"]
+                _main_template_component_component__WEBPACK_IMPORTED_MODULE_6__["MainTemplateComponentComponent"],
+                _apod_template_apod_template_component__WEBPACK_IMPORTED_MODULE_7__["ApodTemplateComponent"],
+                _neows_template_neows_template_component__WEBPACK_IMPORTED_MODULE_8__["NeowsTemplateComponent"]
             ],
             imports: [
+                _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_4__["BrowserAnimationsModule"],
                 _angular_common__WEBPACK_IMPORTED_MODULE_2__["CommonModule"],
-                _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormsModule"]
+                _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormsModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_5__["MatTableModule"]
             ]
         })
     ], TemplateModule);
@@ -677,6 +773,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/platform-browser-dynamic */ "./node_modules/@angular/platform-browser-dynamic/fesm5/platform-browser-dynamic.js");
 /* harmony import */ var _app_app_module__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./app/app.module */ "./src/app/app.module.ts");
 /* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./environments/environment */ "./src/environments/environment.ts");
+/* harmony import */ var hammerjs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! hammerjs */ "./node_modules/hammerjs/hammer.js");
+/* harmony import */ var hammerjs__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(hammerjs__WEBPACK_IMPORTED_MODULE_4__);
+
 
 
 
