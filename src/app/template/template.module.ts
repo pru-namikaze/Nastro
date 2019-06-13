@@ -10,6 +10,7 @@ import { ApodTemplateComponent } from './apod-template/apod-template.component';
 import { NeowsTemplateComponent } from './neows-template/neows-template.component';
 import { NeowsFeedTemplateComponent } from './neows-feed-template/neows-feed-template.component';
 import { NeowsBrowseTemplateComponent } from './neows-browse-template/neows-browse-template.component';
+import { NeowsNeoSentryTemplateComponent } from './neows-neo-sentry-template/neows-neo-sentry-template.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { NeowsBrowseTemplateComponent } from './neows-browse-template/neows-brow
     ApodTemplateComponent,
     NeowsTemplateComponent,
     NeowsFeedTemplateComponent,
-    NeowsBrowseTemplateComponent
+    NeowsBrowseTemplateComponent,
+    NeowsNeoSentryTemplateComponent
   ],
   imports: [
     BrowserAnimationsModule,

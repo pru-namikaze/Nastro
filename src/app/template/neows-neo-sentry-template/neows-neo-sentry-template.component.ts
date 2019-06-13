@@ -6,49 +6,53 @@ import { HttpClient } from '@angular/common/http';
 import UrlDict from './../../services/domainUrlDict.json';
 import { InfrastructureApiService } from 'src/app/services/infrastructure-api.service';
 
-
 @Component({
-  selector: 'app-neows-feed-template',
-  templateUrl: './neows-feed-template.component.html',
-  styleUrls: ['./neows-feed-template.component.css']
+  selector: 'app-neows-neo-sentry-template',
+  templateUrl: './neows-neo-sentry-template.component.html',
+  styleUrls: ['./neows-neo-sentry-template.component.css']
 })
-export class NeowsFeedTemplateComponent implements OnInit {
+export class NeowsNeoSentryTemplateComponent implements OnInit {
 
-  GetDetailedBody: boolean;
-  NearEarthObjectsDatesList: Array<string>;
   baseServiceName: string;
   baseServiceNameList: Array<string>;
   baseServiceList: Array<string>;
   serviceResponseBodyList: object;
   columnDef: Array<string>;
   baseService: string;
-
+  maxPageNo: string;
 
   constructor(public infrastructureApi: InfrastructureApiService, private http: HttpClient, private sanitizer: DomSanitizer) {
-    this.GetDetailedBody = false;
-    this.NearEarthObjectsDatesList = [];
+
     this.columnDef = [];
     this.baseServiceName = 'NeoWs';
     this.serviceResponseBodyList = {};
     this.baseServiceNameList = Object.keys(UrlDict);
     this.baseServiceList = Object.keys(this.infrastructureApi.ResponceURLDict[this.baseServiceName]);
-    this.baseService = 'Neo - Feed';
+    this.baseService = 'Neo - Sentry';
+    this.maxPageNo = '';
 
-    this.reloadNeoWsFeed();
+    this.reloadNeoWsBrowse();
   }
 
   ngOnInit() {
   }
 
-  reloadNeoWsFeedForToday(): void {
-    const endDate = new Date(new Date().getTime() - 45000000);
+  reloadNeoWsBrowsePrevious(): void {
     // tslint:disable-next-line: max-line-length
-    this.infrastructureApi.QueryPrameters.start_date = `${endDate.getFullYear().toString().padStart(4, '0')}-${(endDate.getMonth() + 1).toString().padStart(2, '0')}-${endDate.getDate().toString().padStart(2, '0')}`;;
-    this.infrastructureApi.QueryPrameters.end_date = this.infrastructureApi.QueryPrameters.start_date;
-    this.reloadNeoWsFeed();
+    this.infrastructureApi.QueryPrameters.page = (this.infrastructureApi.QueryPrameters.page === '0') ? '0' : (parseInt(this.infrastructureApi.QueryPrameters.page) - 1).toString();
+    this.reloadNeoWsBrowse();
   }
 
-  reloadNeoWsFeed(): void {
+  reloadNeoWsBrowseNext(): void {
+    // tslint:disable-next-line: max-line-length
+    this.infrastructureApi.QueryPrameters.page = (parseInt(this.infrastructureApi.QueryPrameters.page) >= (parseInt(this.serviceResponseBodyList[this.baseService].page.total_pages) - 1)) ? (parseInt(this.serviceResponseBodyList[this.baseService].page.total_pages) - 1).toString() : (parseInt(this.infrastructureApi.QueryPrameters.page) + 1).toString();
+    this.reloadNeoWsBrowse();
+  }
+
+  reloadNeoWsBrowse(): void {
+
+    console.log('/*-+');
+    console.log(typeof(this.infrastructureApi.QueryPrameters.page));
     this.infrastructureApi.GenerateResponseUrl();
     console.log(this.serviceResponseBodyList[this.baseService]);
     console.log(this.infrastructureApi.ResponceURLDict[this.baseServiceName][this.baseService]);
@@ -59,19 +63,15 @@ export class NeowsFeedTemplateComponent implements OnInit {
         // tslint:disable-next-line: max-line-length
         this.serviceResponseBodyList[this.baseService].url = this.sanitizer.bypassSecurityTrustResourceUrl(this.serviceResponseBodyList[this.baseService].url);
         console.table({ 'responseObjectDictionary': this.serviceResponseBodyList[this.baseService] });
-
-        this.NearEarthObjectsDatesList = Object.keys(this.serviceResponseBodyList[this.baseService].near_earth_objects).sort();
-        // tslint:disable-next-line: max-line-length
-        for (const key of Object.keys(this.serviceResponseBodyList[this.baseService].near_earth_objects[this.NearEarthObjectsDatesList[0]][0])) {
+        console.log(Object.keys(this.serviceResponseBodyList[this.baseService].near_earth_objects[0]));
+        for (const key of Object.keys(this.serviceResponseBodyList[this.baseService].near_earth_objects[0])) {
           // tslint:disable-next-line: max-line-length
-          if (typeof (this.serviceResponseBodyList[this.baseService].near_earth_objects[this.NearEarthObjectsDatesList[0]][0][key]) !== 'object') {
-            if (this.columnDef.indexOf(key) < 0) {
-              this.columnDef.push(key);
-            }
+          if ((typeof(this.serviceResponseBodyList[this.baseService].near_earth_objects[0][key]) !== 'object') && (this.columnDef.indexOf(key) < 0)) {
+            this.columnDef.push(key);
           }
         }
         console.log(this.columnDef);
-        console.log(this.NearEarthObjectsDatesList);
+        this.maxPageNo = (parseInt(this.serviceResponseBodyList[this.baseService].page.total_pages) - 1).toString();
       },
       (error: any) => {
         console.log(error);
