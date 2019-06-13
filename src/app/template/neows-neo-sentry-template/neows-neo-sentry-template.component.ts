@@ -20,6 +20,7 @@ export class NeowsNeoSentryTemplateComponent implements OnInit {
   columnDef: Array<string>;
   baseService: string;
   maxPageNo: string;
+  totalNoOfElements: string;
 
   constructor(public infrastructureApi: InfrastructureApiService, private http: HttpClient, private sanitizer: DomSanitizer) {
 
@@ -30,6 +31,7 @@ export class NeowsNeoSentryTemplateComponent implements OnInit {
     this.baseServiceList = Object.keys(this.infrastructureApi.ResponceURLDict[this.baseServiceName]);
     this.baseService = 'Neo - Sentry';
     this.maxPageNo = '';
+    this.totalNoOfElements = '';
 
     this.reloadNeoWsBrowse();
   }
@@ -63,15 +65,19 @@ export class NeowsNeoSentryTemplateComponent implements OnInit {
         // tslint:disable-next-line: max-line-length
         this.serviceResponseBodyList[this.baseService].url = this.sanitizer.bypassSecurityTrustResourceUrl(this.serviceResponseBodyList[this.baseService].url);
         console.table({ 'responseObjectDictionary': this.serviceResponseBodyList[this.baseService] });
-        console.log(Object.keys(this.serviceResponseBodyList[this.baseService].near_earth_objects[0]));
-        for (const key of Object.keys(this.serviceResponseBodyList[this.baseService].near_earth_objects[0])) {
+        console.log(Object.keys(this.serviceResponseBodyList[this.baseService].sentry_objects[0]));
+        for (const key of Object.keys(this.serviceResponseBodyList[this.baseService].sentry_objects[0])) {
           // tslint:disable-next-line: max-line-length
-          if ((typeof(this.serviceResponseBodyList[this.baseService].near_earth_objects[0][key]) !== 'object') && (this.columnDef.indexOf(key) < 0)) {
+          if ((typeof(this.serviceResponseBodyList[this.baseService].sentry_objects[0][key]) !== 'object') && (this.columnDef.indexOf(key) < 0)) {
             this.columnDef.push(key);
           }
         }
         console.log(this.columnDef);
         this.maxPageNo = (parseInt(this.serviceResponseBodyList[this.baseService].page.total_pages) - 1).toString();
+        this.totalNoOfElements = this.serviceResponseBodyList[this.baseService].page.total_elements.toString();
+        console.log('maxPage');
+        console.log(this.maxPageNo);
+
       },
       (error: any) => {
         console.log(error);
@@ -80,4 +86,7 @@ export class NeowsNeoSentryTemplateComponent implements OnInit {
     );
   }
 
+  resetPageNumber(): void {
+    this.infrastructureApi.QueryPrameters.page = '0';
+  }
 }

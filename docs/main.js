@@ -579,7 +579,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n<h1 class=\"display-1 w-100\"><b>{{baseServiceName}}</b></h1>\n<h1 class=\"display-4 w-100 mb-4\">{{baseService}}</h1>\n<div class=\"container-fluid row\">\n  <div class=\"w-100 my-2 row\">\n    <span class=\"col-1 align-self-center\">Page:&nbsp;</span><input type=\"text\" class=\"mr-4\" [(ngModel)]=\"infrastructureApi.QueryPrameters.page\">\n  </div>\n  <div class=\"w-100 my-2 row\">\n    <span class=\"col-1 align-self-center\">Size:&nbsp;</span><input type=\"text\" class=\"my-2\" [(ngModel)]=\"infrastructureApi.QueryPrameters.size\"><span class=\"col-1 align-self-center\">&nbsp;/&nbsp;{{maxPageNo}}</span>\n  </div>\n  <button type=\"button\" class=\"btn btn-info mr-4\" (click)=\"reloadNeoWsBrowsePrevious()\">Previous</button>\n  <button type=\"button\" class=\"btn btn-info mr-4\" (click)=\"reloadNeoWsBrowse()\">Show</button>\n  <button type=\"button\" class=\"btn btn-info mr-4\" (click)=\"reloadNeoWsBrowseNext()\">Next</button>\n</div>\n\n<div class=\"table-responsive my-5\">\n    <table class=\"table table-bordered\">\n      <thead class=\"table-info\">\n        <tr>\n          <th scope=\"col\" *ngFor=\"let column of columnDef\">{{column}}</th>\n        </tr>\n      </thead>\n      <tbody *ngFor=\"let row of this.serviceResponseBodyList[this.baseService].near_earth_objects\">\n        <tr>\n            <td *ngFor=\"let column of columnDef\">{{row[column]}}</td>\n          </tr>\n      </tbody>\n    </table>\n  </div>\n"
+module.exports = "\n<h1 class=\"display-1 w-100\"><b>{{baseServiceName}}</b></h1>\n<h1 class=\"display-4 w-100 mb-4\">{{baseService}}</h1>\n<div class=\"container-fluid row\">\n  <div class=\"w-100 my-2 row\">\n    <span class=\"col-1 align-self-center\">Page:&nbsp;</span><input type=\"text\" class=\"mr-4\" [(ngModel)]=\"infrastructureApi.QueryPrameters.page\">\n  </div>\n  <div class=\"w-100 my-2 row\">\n    <span class=\"col-1 align-self-center\">Size:&nbsp;</span><input type=\"text\" class=\"my-2\" [(ngModel)]=\"infrastructureApi.QueryPrameters.size\"><span class=\"col-1 align-self-center\">&nbsp;/&nbsp;{{maxPageNo}}</span>\n  </div>\n  <button type=\"button\" class=\"btn btn-info mr-4\" (click)=\"reloadNeoWsBrowsePrevious()\">Previous</button>\n  <button type=\"button\" class=\"btn btn-info mr-4\" (click)=\"reloadNeoWsBrowse()\">Show</button>\n  <button type=\"button\" class=\"btn btn-info mr-4\" (click)=\"reloadNeoWsBrowseNext()\">Next</button>\n</div>\n<span class=\"row w-100 font-size-2rem\">\n    <span class=\"font-size-h2\">Total Element:</span>&nbsp;{{totalNoOfElements}}\n</span>\n\n<div class=\"table-responsive my-5\">\n    <table class=\"table table-bordered\">\n      <thead class=\"table-info\">\n        <tr>\n          <th scope=\"col\" *ngFor=\"let column of columnDef\">{{column}}</th>\n        </tr>\n      </thead>\n      <tbody *ngFor=\"let row of this.serviceResponseBodyList[this.baseService].near_earth_objects\">\n        <tr>\n            <td *ngFor=\"let column of columnDef\">{{row[column]}}</td>\n          </tr>\n      </tbody>\n    </table>\n  </div>\n"
 
 /***/ }),
 
@@ -618,6 +618,7 @@ var NeowsBrowseTemplateComponent = /** @class */ (function () {
         this.baseServiceList = Object.keys(this.infrastructureApi.ResponceURLDict[this.baseServiceName]);
         this.baseService = 'Neo - Browse';
         this.maxPageNo = '';
+        this.totalNoOfElements = '';
         this.reloadNeoWsBrowse();
     }
     NeowsBrowseTemplateComponent.prototype.ngOnInit = function () {
@@ -655,6 +656,7 @@ var NeowsBrowseTemplateComponent = /** @class */ (function () {
             }
             console.log(_this.columnDef);
             _this.maxPageNo = (parseInt(_this.serviceResponseBodyList[_this.baseService].page.total_pages) - 1).toString();
+            _this.totalNoOfElements = _this.serviceResponseBodyList[_this.baseService].page.total_elements.toString();
         }, function (error) {
             console.log(error);
         }, function () { });
@@ -805,7 +807,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h1 class=\"display-1 w-100\"><b>{{baseServiceName}}</b></h1>\n<h1 class=\"display-4 w-100 mb-4\">{{baseService}}</h1>\n<div class=\"container-fluid row\">\n  <div class=\"w-100 my-2 row\">\n    <span class=\"col-1 align-self-center\">Page:&nbsp;</span><input type=\"text\" class=\"mr-4\" [(ngModel)]=\"infrastructureApi.QueryPrameters.page\">\n  </div>\n  <div class=\"w-100 my-2 row\">\n    <span class=\"col-1 align-self-center\">Size:&nbsp;</span><input type=\"text\" class=\"my-2\" [(ngModel)]=\"infrastructureApi.QueryPrameters.size\"><span class=\"col-1 align-self-center\">&nbsp;/&nbsp;{{maxPageNo}}</span>\n  </div>\n  <button type=\"button\" class=\"btn btn-info mr-4\" (click)=\"reloadNeoWsBrowsePrevious()\">Previous</button>\n  <button type=\"button\" class=\"btn btn-info mr-4\" (click)=\"reloadNeoWsBrowse()\">Show</button>\n  <button type=\"button\" class=\"btn btn-info mr-4\" (click)=\"reloadNeoWsBrowseNext()\">Next</button>\n</div>\n\n<div class=\"table-responsive my-5\">\n    <table class=\"table table-bordered\">\n      <thead class=\"table-info\">\n        <tr>\n          <th scope=\"col\" *ngFor=\"let column of columnDef\">{{column}}</th>\n        </tr>\n      </thead>\n      <tbody *ngFor=\"let row of this.serviceResponseBodyList[this.baseService].near_earth_objects\">\n        <tr>\n            <td *ngFor=\"let column of columnDef\">{{row[column]}}</td>\n          </tr>\n      </tbody>\n    </table>\n  </div>\n"
+module.exports = "<h1 class=\"display-1 w-100\"><b>{{baseServiceName}}</b></h1>\n<h1 class=\"display-4 w-100 mb-4\">{{baseService}}</h1>\n<div class=\"container-fluid row\">\n  <div class=\"w-100 my-2 row\">\n    <span class=\"col-1 align-self-center\">Page:&nbsp;</span><input type=\"text\" class=\"mr-4\" [(ngModel)]=\"infrastructureApi.QueryPrameters.page\">\n  </div>\n  <div class=\"w-100 my-2 row\">\n    <span class=\"col-1 align-self-center\">Size:&nbsp;</span><input type=\"text\" class=\"my-2\" [(ngModel)]=\"infrastructureApi.QueryPrameters.size\"><span class=\"col-1 align-self-center\">&nbsp;/&nbsp;{{maxPageNo}}</span>\n  </div>\n  <div class=\"w-100 my-2 row\">\n      <input type=\"checkbox\" class=\"align-self-center offset-1\" [(ngModel)]=\"infrastructureApi.QueryPrameters.is_active\" (click)=\"resetPageNumber()\"><span class=\"col-1 align-self-center\">&nbsp;is_active</span>\n  </div>\n  <button type=\"button\" class=\"btn btn-info mr-4\" (click)=\"reloadNeoWsBrowsePrevious()\">Previous</button>\n  <button type=\"button\" class=\"btn btn-info mr-4\" (click)=\"reloadNeoWsBrowse()\">Show</button>\n  <button type=\"button\" class=\"btn btn-info mr-4\" (click)=\"reloadNeoWsBrowseNext()\">Next</button>\n</div>\n<br />\n<span class=\"row w-100 font-size-2rem\">\n    <span class=\"font-size-h2\">Total Element:</span>&nbsp;{{totalNoOfElements}}\n</span>\n<div class=\"table-responsive my-5\">\n    <table class=\"table table-bordered\">\n      <thead class=\"table-info\">\n        <tr>\n          <th scope=\"col\" *ngFor=\"let column of columnDef\">{{column}}</th>\n        </tr>\n      </thead>\n      <tbody *ngFor=\"let row of this.serviceResponseBodyList[this.baseService].sentry_objects\">\n        <tr>\n            <td *ngFor=\"let column of columnDef\">{{row[column]}}</td>\n          </tr>\n      </tbody>\n    </table>\n  </div>\n"
 
 /***/ }),
 
@@ -844,6 +846,7 @@ var NeowsNeoSentryTemplateComponent = /** @class */ (function () {
         this.baseServiceList = Object.keys(this.infrastructureApi.ResponceURLDict[this.baseServiceName]);
         this.baseService = 'Neo - Sentry';
         this.maxPageNo = '';
+        this.totalNoOfElements = '';
         this.reloadNeoWsBrowse();
     }
     NeowsNeoSentryTemplateComponent.prototype.ngOnInit = function () {
@@ -871,19 +874,25 @@ var NeowsNeoSentryTemplateComponent = /** @class */ (function () {
             // tslint:disable-next-line: max-line-length
             _this.serviceResponseBodyList[_this.baseService].url = _this.sanitizer.bypassSecurityTrustResourceUrl(_this.serviceResponseBodyList[_this.baseService].url);
             console.table({ 'responseObjectDictionary': _this.serviceResponseBodyList[_this.baseService] });
-            console.log(Object.keys(_this.serviceResponseBodyList[_this.baseService].near_earth_objects[0]));
-            for (var _i = 0, _a = Object.keys(_this.serviceResponseBodyList[_this.baseService].near_earth_objects[0]); _i < _a.length; _i++) {
+            console.log(Object.keys(_this.serviceResponseBodyList[_this.baseService].sentry_objects[0]));
+            for (var _i = 0, _a = Object.keys(_this.serviceResponseBodyList[_this.baseService].sentry_objects[0]); _i < _a.length; _i++) {
                 var key = _a[_i];
                 // tslint:disable-next-line: max-line-length
-                if ((typeof (_this.serviceResponseBodyList[_this.baseService].near_earth_objects[0][key]) !== 'object') && (_this.columnDef.indexOf(key) < 0)) {
+                if ((typeof (_this.serviceResponseBodyList[_this.baseService].sentry_objects[0][key]) !== 'object') && (_this.columnDef.indexOf(key) < 0)) {
                     _this.columnDef.push(key);
                 }
             }
             console.log(_this.columnDef);
             _this.maxPageNo = (parseInt(_this.serviceResponseBodyList[_this.baseService].page.total_pages) - 1).toString();
+            _this.totalNoOfElements = _this.serviceResponseBodyList[_this.baseService].page.total_elements.toString();
+            console.log('maxPage');
+            console.log(_this.maxPageNo);
         }, function (error) {
             console.log(error);
         }, function () { });
+    };
+    NeowsNeoSentryTemplateComponent.prototype.resetPageNumber = function () {
+        this.infrastructureApi.QueryPrameters.page = '0';
     };
     NeowsNeoSentryTemplateComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({

@@ -7,11 +7,17 @@
   <div class="w-100 my-2 row">
     <span class="col-1 align-self-center">Size:&nbsp;</span><input type="text" class="my-2" [(ngModel)]="infrastructureApi.QueryPrameters.size"><span class="col-1 align-self-center">&nbsp;/&nbsp;{{maxPageNo}}</span>
   </div>
+  <div class="w-100 my-2 row">
+      <input type="checkbox" class="align-self-center offset-1" [(ngModel)]="infrastructureApi.QueryPrameters.is_active" (click)="resetPageNumber()"><span class="col-1 align-self-center">&nbsp;is_active</span>
+  </div>
   <button type="button" class="btn btn-info mr-4" (click)="reloadNeoWsBrowsePrevious()">Previous</button>
   <button type="button" class="btn btn-info mr-4" (click)="reloadNeoWsBrowse()">Show</button>
   <button type="button" class="btn btn-info mr-4" (click)="reloadNeoWsBrowseNext()">Next</button>
 </div>
-
+<br />
+<span class="row w-100 font-size-2rem">
+    <span class="font-size-h2">Total Element:</span>&nbsp;{{totalNoOfElements}}
+</span>
 <div class="table-responsive my-5">
     <table class="table table-bordered">
       <thead class="table-info">
@@ -19,7 +25,7 @@
           <th scope="col" *ngFor="let column of columnDef">{{column}}</th>
         </tr>
       </thead>
-      <tbody *ngFor="let row of this.serviceResponseBodyList[this.baseService].near_earth_objects">
+      <tbody *ngFor="let row of this.serviceResponseBodyList[this.baseService].sentry_objects">
         <tr>
             <td *ngFor="let column of columnDef">{{row[column]}}</td>
           </tr>

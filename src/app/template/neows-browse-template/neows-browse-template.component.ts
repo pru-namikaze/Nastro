@@ -20,6 +20,7 @@ export class NeowsBrowseTemplateComponent implements OnInit {
   columnDef: Array<string>;
   baseService: string;
   maxPageNo: string;
+  totalNoOfElements: string;
 
   constructor(public infrastructureApi: InfrastructureApiService, private http: HttpClient, private sanitizer: DomSanitizer) {
 
@@ -30,6 +31,7 @@ export class NeowsBrowseTemplateComponent implements OnInit {
     this.baseServiceList = Object.keys(this.infrastructureApi.ResponceURLDict[this.baseServiceName]);
     this.baseService = 'Neo - Browse';
     this.maxPageNo = '';
+    this.totalNoOfElements = '';
 
     this.reloadNeoWsBrowse();
   }
@@ -72,6 +74,7 @@ export class NeowsBrowseTemplateComponent implements OnInit {
         }
         console.log(this.columnDef);
         this.maxPageNo = (parseInt(this.serviceResponseBodyList[this.baseService].page.total_pages) - 1).toString();
+        this.totalNoOfElements = this.serviceResponseBodyList[this.baseService].page.total_elements.toString();
       },
       (error: any) => {
         console.log(error);
