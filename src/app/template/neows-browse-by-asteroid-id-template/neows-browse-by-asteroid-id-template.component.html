@@ -1,3 +1,19 @@
-<p>
-  neows-browse-by-asteroid-id-template works!
-</p>
+<div class="container-fluid row">
+  <div class="w-100 my-2 row">
+    <span class="col-1 align-self-center">Asteroid Id:&nbsp;</span><input type="text" class="mr-4" [(ngModel)]="infrastructureApi.UrlAdderPrameters.asteroid_id.DefaultValue">
+  </div>
+  <button type="button" class="btn btn-info mr-4" (click)="reloadNeoWsBrowseByAsteroidId()">Show</button>
+</div>
+
+{{serviceResponseBodyList[this.baseService].links}}<br />
+{{serviceResponseBodyList[this.baseService].id}}<br />
+{{serviceResponseBodyList[this.baseService].neo_reference_id}}<br />
+{{serviceResponseBodyList[this.baseService].name}}<br />
+{{serviceResponseBodyList[this.baseService].designation}}<br />
+{{serviceResponseBodyList[this.baseService].nasa_jpl_url}}<br />
+{{serviceResponseBodyList[this.baseService].absolute_magnitude_h}}<br />
+{{serviceResponseBodyList[this.baseService].estimated_diameter}}<br />
+{{serviceResponseBodyList[this.baseService].is_potentially_hazardous_asteroid}}<br />
+{{serviceResponseBodyList[this.baseService].close_approach_data}}<br />
+{{serviceResponseBodyList[this.baseService].orbital_data}}<br />
+{{serviceResponseBodyList[this.baseService].is_sentry_object}}<br />

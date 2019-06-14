@@ -15,11 +15,14 @@ export class InfrastructureApiService {
   DataDict: any;
   ResponceURLDict: any;
   QueryPrameters: any;
+  UrlAdderPrameters: any;
 
   constructor(private http: HttpClient) {
     this.DataDict = UrlDict;
     this.ResponceURLDict = {};
     this.QueryPrameters = {};
+    this.UrlAdderPrameters = {};
+
     this.GenerateResponseUrl();
   }
 
@@ -56,6 +59,8 @@ export class InfrastructureApiService {
         for (const URLAddNumName of Object.keys(URLAddder)) {
           responseURL = serviceProperties.RequestURLDomian;
           const adder: any = URLAddder[URLAddNumName];
+          this.UrlAdderPrameters[URLAddder[URLAddNumName].VariableName] = URLAddder[URLAddNumName];
+
           // tslint:disable-next-line: max-line-length
           responseURL = responseURL.concat(`${(adder.IncludeVariableName === 'true') ? adder.VariableName + '/' : ''}${(true) ? adder.DefaultValue : 'UserInput'}?`);
           if (!isNullOrUndefined(QueryPram)) {
@@ -64,7 +69,6 @@ export class InfrastructureApiService {
               // tslint:disable-next-line: max-line-length
               this.QueryPrameters[property.VariableName] = (isNullOrUndefined(this.QueryPrameters[property.VariableName])) ? property.DefaultValue : this.QueryPrameters[property.VariableName];
               if (isNullOrUndefined(this.QueryPrameters[property.VariableName])) {
-                console.log(property.VariableName);
                 switch (property.VariableName) {
                   case 'date': {
                     // tslint:disable-next-line: max-line-length
@@ -86,15 +90,11 @@ export class InfrastructureApiService {
                     break;
                   }
                 }
-                console.log(this.QueryPrameters[property.VariableName]);
               }
               responseURL = responseURL.concat(`${property.VariableName}=${this.QueryPrameters[property.VariableName]}&`);
             }
           }
           responseURLwithAdderList[i.toString()] = responseURL;
-          // this.http.get(responseURL).subscribe((body) => {
-          // });
-          // i = i + 1;
         }
         responseURLList[serviceName] = (Object.keys(URLAddder).length === 1) ? responseURLwithAdderList[0] : responseURLwithAdderList;
       } else {
@@ -102,7 +102,6 @@ export class InfrastructureApiService {
           for (const propertyName of Object.keys(QueryPram)) {
             const property: any = QueryPram[propertyName];
             if (isNullOrUndefined(this.QueryPrameters[property.VariableName])) {
-              console.log(property.VariableName);
               switch (property.VariableName) {
                 case 'date': {
                   // tslint:disable-next-line: max-line-length
@@ -124,19 +123,19 @@ export class InfrastructureApiService {
                   break;
                 }
               }
-              console.log(this.QueryPrameters[property.VariableName]);
             }
             responseURL = responseURL.concat(`${property.VariableName}=${this.QueryPrameters[property.VariableName]}&`);
           }
         }
         responseURLList[serviceName] = responseURL;
-        // this.http.get(responseURL).subscribe((body) => {
-        //   responseURLList[serviceName] = body;
-        //   // document.getElementById(baseServiceName).innerHTML = JSON.stringify(body);
-        // });
       }
     }
     this.ResponceURLDict[baseServiceName] = responseURLList;
+    console.log('UrlAdderPrameters');
+    console.table(this.UrlAdderPrameters);
+    console.log('QueryPrameters');
+    console.table(this.QueryPrameters);
+    console.table(this.ResponceURLDict);
   }
 
   getJsonResponse(url: string): any {
@@ -148,24 +147,6 @@ export class InfrastructureApiService {
     return null;
   }
 
-  jsonToHtmlCode(columnDefs: Array<string>, rowData: any): string {
-    let table = '';
-    table = table.concat('<table class="table table-striped table-bordered table-hover">');
-    table = table.concat('<thead class="thead-dark"><tr>');
-    for (const header of columnDefs) {
-      table = table.concat(`<th scope="col">${header}</th>`);
-    }
-    table = table.concat('</tr></thead>');
-    for (const header of columnDefs) {
-      console.log(typeof (rowData[header]) === 'object');
-      if (typeof (rowData[header]) === 'object') {
-        table = table.concat(`<td>${this.jsonToHtmlCode(Object.keys(rowData[header]), rowData[header])}</td>`);
-      }
-      table = table.concat(`<td>${rowData[header]}</td>`);
-    }
-    table = table.concat('</table>');
-    return table;
-  }
 
 
 

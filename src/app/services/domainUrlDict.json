@@ -110,7 +110,7 @@
           "0": {
             "VariableName": "asteroid_id",
             "DefaultValue": "3729835",
-            "IncludeVariableName": "true"
+            "IncludeVariableName": "false"
           }
         },
         "QueryString": {

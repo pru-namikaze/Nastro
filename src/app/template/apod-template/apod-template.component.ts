@@ -19,11 +19,9 @@ export class ApodTemplateComponent implements OnInit {
   baseServiceNameList: Array<string>;
   baseServiceList: Array<string>;
   serviceResponseBodyList: object;
-  showHdImage: boolean;
 
   constructor(public infrastructureApi: InfrastructureApiService, private http: HttpClient, private sanitizer: DomSanitizer) {
     this.tableObject = {};
-    this.showHdImage = false;
     this.baseServiceName = 'APoD';
     this.serviceResponseBodyList = {};
     this.baseServiceNameList = Object.keys(UrlDict);
