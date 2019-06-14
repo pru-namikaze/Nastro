@@ -11,6 +11,8 @@ import { NeowsTemplateComponent } from './neows-template/neows-template.componen
 import { NeowsFeedTemplateComponent } from './neows-feed-template/neows-feed-template.component';
 import { NeowsBrowseTemplateComponent } from './neows-browse-template/neows-browse-template.component';
 import { NeowsNeoSentryTemplateComponent } from './neows-neo-sentry-template/neows-neo-sentry-template.component';
+import { NeowsStatsTemplateComponent } from './neows-stats-template/neows-stats-template.component';
+import { NeowsBrowseByAsteroidIdTemplateComponent } from './neows-browse-by-asteroid-id-template/neows-browse-by-asteroid-id-template.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { NeowsNeoSentryTemplateComponent } from './neows-neo-sentry-template/neo
     NeowsTemplateComponent,
     NeowsFeedTemplateComponent,
     NeowsBrowseTemplateComponent,
-    NeowsNeoSentryTemplateComponent
+    NeowsNeoSentryTemplateComponent,
+    NeowsStatsTemplateComponent,
+    NeowsBrowseByAsteroidIdTemplateComponent
   ],
   imports: [
     BrowserAnimationsModule,

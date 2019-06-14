@@ -7,9 +7,9 @@
 <div class="container-fluid jumbotron-fluid mx-auto d-block px-5 ml-4">
   <div [ngSwitch]="NeoWsShowEnum">
     <app-neows-feed-template *ngSwitchCase="'Neo - Feed'"></app-neows-feed-template>
-    <div *ngSwitchCase="'Neo - Lookup'">Neo - Lookup</div>
     <app-neows-browse-template *ngSwitchCase="'Neo - Browse'"></app-neows-browse-template>
     <app-neows-neo-sentry-template *ngSwitchCase="'Neo - Sentry'"></app-neows-neo-sentry-template>
-    <div *ngSwitchCase="'Neo - Stats'">Neo - Stats</div>
+    <app-neows-stats-template *ngSwitchCase="'Neo - Stats'"></app-neows-stats-template>
+    <div *ngSwitchCase="'Neo - Browse by Asteroid ID'">Neo - Browse by Asteroid ID</div>
   </div>
 </div>

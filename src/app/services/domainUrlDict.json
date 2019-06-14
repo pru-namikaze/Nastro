@@ -47,25 +47,6 @@
       }
     },
     "1": {
-      "Name": "Neo - Lookup",
-      "Properties": {
-        "RequestURLDomian": "https://api.nasa.gov/neo/rest/v1/neo/",
-        "URLAddder": {
-          "0": {
-            "VariableName": "Asteroid_Id",
-            "DefaultValue": "3542519",
-            "IncludeVariableName": "false"
-          }
-        },
-        "QueryString": {
-          "0": {
-            "VariableName": "api_key",
-            "DefaultValue": "ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"
-          }
-        }
-      }
-    },
-    "2": {
       "Name": "Neo - Browse",
       "Properties": {
         "RequestURLDomian": "https://api.nasa.gov/neo/rest/v1/neo/browse?",
@@ -85,7 +66,7 @@
         }
       }
     },
-    "3": {
+    "2": {
       "Name": "Neo - Sentry",
       "Properties": {
         "RequestURLDomian": "https://api.nasa.gov/neo/rest/v1/neo/sentry?",
@@ -109,7 +90,7 @@
         }
       }
     },
-    "4": {
+    "3": {
       "Name": "Neo - Stats",
       "Properties": {
         "RequestURLDomian": "https://api.nasa.gov/neo/rest/v1/stats?",
@@ -120,7 +101,27 @@
           }
         }
       }
+    },
+    "4": {
+      "Name": "Neo - Browse by Asteroid ID",
+      "Properties": {
+        "RequestURLDomian": "https://api.nasa.gov/neo/rest/v1/neo/",
+        "URLAddder": {
+          "0": {
+            "VariableName": "asteroid_id",
+            "DefaultValue": "3729835",
+            "IncludeVariableName": "true"
+          }
+        },
+        "QueryString": {
+          "0": {
+            "VariableName": "api_key",
+            "DefaultValue": "ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"
+          }
+        }
+      }
     }
+
   },
   "DONKI": {
     "0": {

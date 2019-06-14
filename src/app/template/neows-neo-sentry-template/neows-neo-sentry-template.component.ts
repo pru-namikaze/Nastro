@@ -52,12 +52,7 @@ export class NeowsNeoSentryTemplateComponent implements OnInit {
   }
 
   reloadNeoWsBrowse(): void {
-
-    console.log('/*-+');
-    console.log(typeof(this.infrastructureApi.QueryPrameters.page));
     this.infrastructureApi.GenerateResponseUrl();
-    console.log(this.serviceResponseBodyList[this.baseService]);
-    console.log(this.infrastructureApi.ResponceURLDict[this.baseServiceName][this.baseService]);
     this.http.get(this.infrastructureApi.ResponceURLDict[this.baseServiceName][this.baseService]).subscribe(
       (body) => {
         this.serviceResponseBodyList[this.baseService] = {};
