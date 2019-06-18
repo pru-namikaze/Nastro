@@ -26,10 +26,13 @@ export class InfrastructureApiService {
     this.QueryPrameters = {};
     this.UrlAdderPrameters = {};
 
-    this.baseServiceName = 'APoD';
+    this.baseServiceName = '';
     this.baseService = '';
 
     this.GenerateResponseUrl();
+
+    this.baseServiceName = Object.keys(UrlDict)[0];
+    this.baseService = Object.keys(this.ResponceURLDict[this.baseServiceName])[0];
   }
 
   GenerateResponseUrl() {

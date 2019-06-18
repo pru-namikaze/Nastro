@@ -11,22 +11,17 @@ import UrlDict from './../services/domainUrlDict.json';
 export class MainTemplateComponentComponent implements OnInit {
 
   baseServiceNameList: Array<string>;
-
-  showAPoD: boolean;
-  showNeoWs: boolean;
+  baseServiceList: Array<string>;
 
   constructor(public infrastructureApi: InfrastructureApiService) {
     this.baseServiceNameList = Object.keys(UrlDict);
-
-    this.showAPoD = false;
-    this.showNeoWs = false;
+    this.baseServiceList = Object.keys(this.infrastructureApi.ResponceURLDict[this.infrastructureApi.baseServiceName]);
+    infrastructureApi.baseService = this.baseServiceList[0];
   }
 
-  toggleShowAPoD(): void {
-    this.showAPoD = !this.showAPoD;
-  }
-  toggleShowNeoWs(): void {
-    this.showNeoWs = !this.showNeoWs;
+  getbaseServiceList() {
+    this.infrastructureApi.baseService = (this.infrastructureApi.baseService === '') ? Object.keys(this.infrastructureApi.ResponceURLDict[this.infrastructureApi.baseServiceName])[0]: this.infrastructureApi.baseService;
+    return Object.keys(this.infrastructureApi.ResponceURLDict[this.infrastructureApi.baseServiceName]);
   }
 
    ngOnInit() {

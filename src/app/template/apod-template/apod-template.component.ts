@@ -21,7 +21,7 @@ export class ApodTemplateComponent implements OnInit {
     // tslint:disable-next-line: max-line-length
     this.serviceResponseBodyList = {};
     this.baseServiceList = Object.keys(this.infrastructureApi.ResponceURLDict[this.infrastructureApi.baseServiceName]);
-    infrastructureApi.baseService = this.baseServiceList[0];
+    this.infrastructureApi.baseService = this.baseServiceList[0];
   }
 
   reloadAPoD(): void {

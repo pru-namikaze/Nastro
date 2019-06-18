@@ -1,10 +1,13 @@
-<div>
-  <div class="input-group">
+<div class="w-100 input-group">
+  <div class="input-group-prepend">
     <select class="custom-select" [(ngModel)]="infrastructureApi.baseServiceName">
       <option *ngFor="let baseServiceName of baseServiceNameList">{{baseServiceName}}</option>
     </select>
-  </div><br />
-</div>
+  </div>
+  <select class="custom-select" [(ngModel)]="infrastructureApi.baseService">
+    <option *ngFor="let baseService of getbaseServiceList()">{{baseService}}</option>
+  </select>
+</div><br />
 
 <div class="container-fluid jumbotron-fluid mx-auto d-block">
   <div [ngSwitch]="infrastructureApi.baseServiceName">

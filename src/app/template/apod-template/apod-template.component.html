@@ -1,8 +1,3 @@
-<div class="input-group display-4">
-  <select class="custom-select" [(ngModel)]="infrastructureApi.baseService">
-    <option *ngFor="let baseService of baseServiceList">{{baseService}}</option>
-  </select>
-</div><br />
 <div class="container-fluid jumbotron-fluid mx-auto d-block px-5 ml-4">
   <div class="row" *ngFor="let baseService of baseServiceList">
       <h1 class="display-1 w-100"><b>{{infrastructureApi.baseServiceName}}</b></h1>
