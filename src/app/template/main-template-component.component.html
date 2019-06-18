@@ -10,6 +10,8 @@
 </div><br />
 
 <div class="container-fluid jumbotron-fluid mx-auto d-block">
+  <h1 class="display-1 w-100"><b>{{infrastructureApi.baseServiceName}}</b></h1>
+  <h1 class="display-4 w-100 mb-4">{{infrastructureApi.baseService}}</h1>
   <div [ngSwitch]="infrastructureApi.baseServiceName">
     <app-apod-template *ngSwitchCase="'APoD'"></app-apod-template>
     <app-neows-template *ngSwitchCase="'NeoWs'"></app-neows-template>

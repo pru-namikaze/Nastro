@@ -1,8 +1,22 @@
-<input type="date" class="mr-4" [(ngModel)]="infrastructureApi.QueryPrameters.start_date">
-to
-<input type="date" class="mx-4" [(ngModel)]="infrastructureApi.QueryPrameters.end_date"><br /><br />
-<button type="button" class="btn btn-info mr-4" (click)="reloadNeoWsFeed()">Show</button>
-<button type="button" class="btn btn-info ml-4" (click)="reloadNeoWsFeedForToday()">Show Today's Feed</button><br /><br />
+<div class="container-fluid col-xl-4 col-lg-5 col-md-7 col-sm-9 col-12 no-gutters">
+  <div class="input-group my-2">
+    <div class="input-group-prepend">
+      <label class="input-group-text">start_date:&nbsp;</label>
+    </div>
+    <input type="date" [(ngModel)]="infrastructureApi.QueryPrameters.start_date">
+  </div>
+  <div class="input-group my-2">
+    <div class="input-group-prepend">
+      <label class="input-group-text">end_date:&nbsp;</label>
+    </div>
+    <input type="date" [(ngModel)]="infrastructureApi.QueryPrameters.end_date">
+  </div>
+  <div class="w-100">
+    <button type="button" class="btn btn-info mr-4" (click)="reloadNeoWsFeed()">Show</button>
+    <button type="button" class="btn btn-info ml-4" (click)="reloadNeoWsFeedForToday()">Show Today's
+      Feed</button><br /><br />
+  </div>
+</div>
 <span class="w-100 font-size-2rem">
   <span class="font-size-h2">Element Count:</span>&nbsp;{{serviceResponseBodyList[baseService].element_count}}
 </span>
