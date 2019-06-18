@@ -208,9 +208,11 @@ var InfrastructureApiService = /** @class */ (function () {
         this.ResponceURLDict = {};
         this.QueryPrameters = {};
         this.UrlAdderPrameters = {};
-        this.baseServiceName = 'APoD';
+        this.baseServiceName = '';
         this.baseService = '';
         this.GenerateResponseUrl();
+        this.baseServiceName = Object.keys(_domainUrlDict_json__WEBPACK_IMPORTED_MODULE_3__)[0];
+        this.baseService = Object.keys(this.ResponceURLDict[this.baseServiceName])[0];
     }
     InfrastructureApiService.prototype.GenerateResponseUrl = function () {
         var baseServiceNameList = Object.keys(_domainUrlDict_json__WEBPACK_IMPORTED_MODULE_3__);
@@ -360,7 +362,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"input-group display-4\">\n  <select class=\"custom-select\" [(ngModel)]=\"infrastructureApi.baseService\">\n    <option *ngFor=\"let baseService of baseServiceList\">{{baseService}}</option>\n  </select>\n</div><br />\n<div class=\"container-fluid jumbotron-fluid mx-auto d-block px-5 ml-4\">\n  <div class=\"row\" *ngFor=\"let baseService of baseServiceList\">\n      <h1 class=\"display-1 w-100\"><b>{{infrastructureApi.baseServiceName}}</b></h1>\n      <h1 class=\"display-4 w-100 mb-4\">{{infrastructureApi.baseService}}</h1>\n        <input type=\"date\" class=\"mr-4\" id='date' [(ngModel)]=\"infrastructureApi.QueryPrameters.date\">\n    <button type=\"button\" class=\"btn btn-info\" (click)=\"reloadAPoD()\">Show</button>\n    <span class=\"w-100\"></span>\n    <div class=\"mt-2 ml-2\" *ngIf=\"serviceResponseBodyList[baseService].media_type==='image'\">\n      <input type=\"checkbox\" [(ngModel)]=\"infrastructureApi.QueryPrameters.hd\">&nbsp;Show HD Image\n    </div>\n    <h2 class=\"w-100 mt-3 mb-5\">{{serviceResponseBodyList[baseService].title}}</h2>\n    <div class=\"row\">\n      <img id=\"APoD-img\" [src]=\"serviceResponseBodyList[baseService].url\" class=\"img-fluid border rounded-lg col-auto p-3 d-block col-sm\" *ngIf=\"serviceResponseBodyList[baseService].media_type === 'image' && !infrastructureApi.QueryPrameters.hd\">\n      <iframe type=\"text/html\" width=\"750\" height=\"500 \" class=\"col-sm mx-auto\" [src]=\"serviceResponseBodyList[baseService].url\" frameborder=\"0\" *ngIf=\"serviceResponseBodyList[baseService].media_type === 'video'\"></iframe>\n      <img id=\"APoD-hd-img\" [src]=\"serviceResponseBodyList[baseService].hdurl\" class=\"img-fluid max-width-100vw col-sm border rounded-lg p-3 mx-auto d-block\" *ngIf=\"serviceResponseBodyList[baseService].media_type === 'image' && infrastructureApi.QueryPrameters.hd\">\n      <span class=\"col-sm mx-auto my-auto p-5\">\n        <p class=\"text-justify\">{{serviceResponseBodyList[baseService].explanation}}</p>\n        <span class=\"w-100\" *ngIf=\"serviceResponseBodyList[baseService].copyright\">\n          <b>Copyright:</b>&nbsp;{{serviceResponseBodyList[baseService].copyright}}\n        </span>\n      </span>\n    </div>\n  </div>\n</div>\n"
+module.exports = "<div class=\"container-fluid jumbotron-fluid mx-auto d-block px-5 ml-4\">\n  <div class=\"row\" *ngFor=\"let baseService of baseServiceList\">\n      <h1 class=\"display-1 w-100\"><b>{{infrastructureApi.baseServiceName}}</b></h1>\n      <h1 class=\"display-4 w-100 mb-4\">{{infrastructureApi.baseService}}</h1>\n        <input type=\"date\" class=\"mr-4\" id='date' [(ngModel)]=\"infrastructureApi.QueryPrameters.date\">\n    <button type=\"button\" class=\"btn btn-info\" (click)=\"reloadAPoD()\">Show</button>\n    <span class=\"w-100\"></span>\n    <div class=\"mt-2 ml-2\" *ngIf=\"serviceResponseBodyList[baseService].media_type==='image'\">\n      <input type=\"checkbox\" [(ngModel)]=\"infrastructureApi.QueryPrameters.hd\">&nbsp;Show HD Image\n    </div>\n    <h2 class=\"w-100 mt-3 mb-5\">{{serviceResponseBodyList[baseService].title}}</h2>\n    <div class=\"row\">\n      <img id=\"APoD-img\" [src]=\"serviceResponseBodyList[baseService].url\" class=\"img-fluid border rounded-lg col-auto p-3 d-block col-sm\" *ngIf=\"serviceResponseBodyList[baseService].media_type === 'image' && !infrastructureApi.QueryPrameters.hd\">\n      <iframe type=\"text/html\" width=\"750\" height=\"500 \" class=\"col-sm mx-auto\" [src]=\"serviceResponseBodyList[baseService].url\" frameborder=\"0\" *ngIf=\"serviceResponseBodyList[baseService].media_type === 'video'\"></iframe>\n      <img id=\"APoD-hd-img\" [src]=\"serviceResponseBodyList[baseService].hdurl\" class=\"img-fluid max-width-100vw col-sm border rounded-lg p-3 mx-auto d-block\" *ngIf=\"serviceResponseBodyList[baseService].media_type === 'image' && infrastructureApi.QueryPrameters.hd\">\n      <span class=\"col-sm mx-auto my-auto p-5\">\n        <p class=\"text-justify\">{{serviceResponseBodyList[baseService].explanation}}</p>\n        <span class=\"w-100\" *ngIf=\"serviceResponseBodyList[baseService].copyright\">\n          <b>Copyright:</b>&nbsp;{{serviceResponseBodyList[baseService].copyright}}\n        </span>\n      </span>\n    </div>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -393,7 +395,7 @@ var ApodTemplateComponent = /** @class */ (function () {
         // tslint:disable-next-line: max-line-length
         this.serviceResponseBodyList = {};
         this.baseServiceList = Object.keys(this.infrastructureApi.ResponceURLDict[this.infrastructureApi.baseServiceName]);
-        infrastructureApi.baseService = this.baseServiceList[0];
+        this.infrastructureApi.baseService = this.baseServiceList[0];
     }
     ApodTemplateComponent.prototype.reloadAPoD = function () {
         var _this = this;
@@ -446,7 +448,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div>\r\n  <div class=\"input-group\">\r\n    <select class=\"custom-select\" [(ngModel)]=\"infrastructureApi.baseServiceName\">\r\n      <option *ngFor=\"let baseServiceName of baseServiceNameList\">{{baseServiceName}}</option>\r\n    </select>\r\n  </div><br />\r\n</div>\r\n\r\n<div class=\"container-fluid jumbotron-fluid mx-auto d-block\">\r\n  <div [ngSwitch]=\"infrastructureApi.baseServiceName\">\r\n    <app-apod-template *ngSwitchCase=\"'APoD'\"></app-apod-template>\r\n    <app-neows-template *ngSwitchCase=\"'NeoWs'\"></app-neows-template>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div class=\"w-100 input-group\">\r\n  <div class=\"input-group-prepend\">\r\n    <select class=\"custom-select\" [(ngModel)]=\"infrastructureApi.baseServiceName\">\r\n      <option *ngFor=\"let baseServiceName of baseServiceNameList\">{{baseServiceName}}</option>\r\n    </select>\r\n  </div>\r\n  <select class=\"custom-select\" [(ngModel)]=\"infrastructureApi.baseService\">\r\n    <option *ngFor=\"let baseService of getbaseServiceList()\">{{baseService}}</option>\r\n  </select>\r\n</div><br />\r\n\r\n<div class=\"container-fluid jumbotron-fluid mx-auto d-block\">\r\n  <div [ngSwitch]=\"infrastructureApi.baseServiceName\">\r\n    <app-apod-template *ngSwitchCase=\"'APoD'\"></app-apod-template>\r\n    <app-neows-template *ngSwitchCase=\"'NeoWs'\"></app-neows-template>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -473,14 +475,12 @@ var MainTemplateComponentComponent = /** @class */ (function () {
     function MainTemplateComponentComponent(infrastructureApi) {
         this.infrastructureApi = infrastructureApi;
         this.baseServiceNameList = Object.keys(_services_domainUrlDict_json__WEBPACK_IMPORTED_MODULE_3__);
-        this.showAPoD = false;
-        this.showNeoWs = false;
+        this.baseServiceList = Object.keys(this.infrastructureApi.ResponceURLDict[this.infrastructureApi.baseServiceName]);
+        infrastructureApi.baseService = this.baseServiceList[0];
     }
-    MainTemplateComponentComponent.prototype.toggleShowAPoD = function () {
-        this.showAPoD = !this.showAPoD;
-    };
-    MainTemplateComponentComponent.prototype.toggleShowNeoWs = function () {
-        this.showNeoWs = !this.showNeoWs;
+    MainTemplateComponentComponent.prototype.getbaseServiceList = function () {
+        this.infrastructureApi.baseService = (this.infrastructureApi.baseService === '') ? Object.keys(this.infrastructureApi.ResponceURLDict[this.infrastructureApi.baseServiceName])[0] : this.infrastructureApi.baseService;
+        return Object.keys(this.infrastructureApi.ResponceURLDict[this.infrastructureApi.baseServiceName]);
     };
     MainTemplateComponentComponent.prototype.ngOnInit = function () {
     };
@@ -1104,7 +1104,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"input-group display-4\">\n  <select class=\"custom-select\" [(ngModel)]=\"infrastructureApi.baseService\">\n    <option *ngFor=\"let baseService of baseServiceList\">{{baseService}}</option>\n  </select>\n</div><br />\n\n<div class=\"container-fluid jumbotron-fluid mx-auto d-block px-5 ml-4\">\n  <h1 class=\"display-1 w-100\"><b>{{infrastructureApi.baseServiceName}}</b></h1>\n  <h1 class=\"display-4 w-100 mb-4\">{{infrastructureApi.baseService}}</h1>\n  <div [ngSwitch]=\"infrastructureApi.baseService\">\n    <app-neows-feed-template *ngSwitchCase=\"'Neo - Feed'\"></app-neows-feed-template>\n    <app-neows-browse-template *ngSwitchCase=\"'Neo - Browse'\"></app-neows-browse-template>\n    <app-neows-neo-sentry-template *ngSwitchCase=\"'Neo - Sentry'\"></app-neows-neo-sentry-template>\n    <app-neows-stats-template *ngSwitchCase=\"'Neo - Stats'\"></app-neows-stats-template>\n    <app-neows-browse-by-asteroid-id-template *ngSwitchCase=\"'Neo - Browse by Asteroid ID'\">Neo - Browse by Asteroid ID</app-neows-browse-by-asteroid-id-template>\n  </div>\n</div>\n"
+module.exports = "<div class=\"container-fluid jumbotron-fluid mx-auto d-block px-5 ml-4\">\n  <h1 class=\"display-1 w-100\"><b>{{infrastructureApi.baseServiceName}}</b></h1>\n  <h1 class=\"display-4 w-100 mb-4\">{{infrastructureApi.baseService}}</h1>\n  <div [ngSwitch]=\"infrastructureApi.baseService\">\n    <app-neows-feed-template *ngSwitchCase=\"'Neo - Feed'\"></app-neows-feed-template>\n    <app-neows-browse-template *ngSwitchCase=\"'Neo - Browse'\"></app-neows-browse-template>\n    <app-neows-neo-sentry-template *ngSwitchCase=\"'Neo - Sentry'\"></app-neows-neo-sentry-template>\n    <app-neows-stats-template *ngSwitchCase=\"'Neo - Stats'\"></app-neows-stats-template>\n    <app-neows-browse-by-asteroid-id-template *ngSwitchCase=\"'Neo - Browse by Asteroid ID'\">Neo - Browse by Asteroid ID</app-neows-browse-by-asteroid-id-template>\n  </div>\n</div>\n"
 
 /***/ }),
 
