@@ -1,12 +1,9 @@
-
-<h1 class="display-1 w-100"><b>{{baseServiceName}}</b></h1>
-<h1 class="display-4 w-100 mb-4">{{baseService}}</h1>
 <div class="container-fluid row">
   <div class="w-100 my-2 row">
-    <span class="col-1 align-self-center">Page:&nbsp;</span><input type="text" class="mr-4" [(ngModel)]="infrastructureApi.QueryPrameters.page">
+    <span class="col-1 align-self-center">Page:&nbsp;</span><input type="text" [(ngModel)]="infrastructureApi.QueryPrameters.page"><span class="col-1 align-self-center">&nbsp;/&nbsp;{{maxPageNo}}</span>
   </div>
   <div class="w-100 my-2 row">
-    <span class="col-1 align-self-center">Size:&nbsp;</span><input type="text" class="my-2" [(ngModel)]="infrastructureApi.QueryPrameters.size"><span class="col-1 align-self-center">&nbsp;/&nbsp;{{maxPageNo}}</span>
+    <span class="col-1 align-self-center">Size:&nbsp;</span><input type="text" class="my-2" [(ngModel)]="infrastructureApi.QueryPrameters.size">
   </div>
   <button type="button" class="btn btn-info mr-4" (click)="reloadNeoWsBrowsePrevious()">Previous</button>
   <button type="button" class="btn btn-info mr-4" (click)="reloadNeoWsBrowse()">Show</button>

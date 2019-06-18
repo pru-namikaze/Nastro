@@ -1,19 +1,80 @@
-<div class="container-fluid row">
-  <div class="w-100 my-2 row">
-    <span class="col-1 align-self-center">Asteroid Id:&nbsp;</span><input type="text" class="mr-4" [(ngModel)]="infrastructureApi.UrlAdderPrameters.asteroid_id.DefaultValue">
-  </div>
-  <button type="button" class="btn btn-info mr-4" (click)="reloadNeoWsBrowseByAsteroidId()">Show</button>
-</div>
+<div class="container-fluid row my-2">
+  <div class="container-fluid col-xl-4 col-lg-5 col-md-7 col-sm-9 col-12 no-gutters">
+    <div class="w-100 input-group">
+      <div class="input-group-prepend">
+        <label class="input-group-text" for="inputGroupSelect01">Asteroid Id</label>
+      </div>
+      <input type="text" class="form-control" [(ngModel)]="infrastructureApi.UrlAdderPrameters.asteroid_id.DefaultValue">
+    </div><br />
+    <div class="w-100 input-group">
+      <div class="input-group-prepend">
+        <label class="input-group-text">estimated_diameterType</label>
+      </div>
+      <select class="custom-select" [(ngModel)]="selectEstimatedDiameterType">
+        <option *ngFor="let estimated_diameterType of estimatedDiameterTypes">{{estimated_diameterType}}</option>
+      </select>
+    </div><br />
+    <div class="w-100 input-group">
+      <div class="input-group-prepend">
+        <label class="input-group-text">asteroidRelativeVelocityType</label>
+      </div>
+      <select class="custom-select" [(ngModel)]="selectcloseApproachDataRelativeVelocityType">
+        <option *ngFor="let asteroidRelativeVelocityType of closeApproachDataRelativeVelocityTypes">
+          {{asteroidRelativeVelocityType}}</option>
+      </select>
+    </div><br />
+    <div class="w-100 input-group">
+      <div class="input-group-prepend">
+        <label class="input-group-text">asteroidMissDistanceType</label>
+      </div>
+      <select class="custom-select" [(ngModel)]="selectCloseApproachDataMissDistanceType">
+        <option *ngFor="let asteroidMissDistanceType of closeApproachDataMissDistanceTypes">{{asteroidMissDistanceType}}
+        </option>
+      </select>
+    </div><br />
 
-{{serviceResponseBodyList[this.baseService].links}}<br />
-{{serviceResponseBodyList[this.baseService].id}}<br />
-{{serviceResponseBodyList[this.baseService].neo_reference_id}}<br />
-{{serviceResponseBodyList[this.baseService].name}}<br />
-{{serviceResponseBodyList[this.baseService].designation}}<br />
-{{serviceResponseBodyList[this.baseService].nasa_jpl_url}}<br />
-{{serviceResponseBodyList[this.baseService].absolute_magnitude_h}}<br />
-{{serviceResponseBodyList[this.baseService].estimated_diameter}}<br />
-{{serviceResponseBodyList[this.baseService].is_potentially_hazardous_asteroid}}<br />
-{{serviceResponseBodyList[this.baseService].close_approach_data}}<br />
-{{serviceResponseBodyList[this.baseService].orbital_data}}<br />
-{{serviceResponseBodyList[this.baseService].is_sentry_object}}<br />
+    <button type="button" class="btn btn-info mr-4" (click)="reloadNeoWsBrowseByAsteroidId()">Show</button>
+  </div>
+</div>
+<br />
+<span class="w-100 font-size-2rem" *ngFor="let tuple of tupleList">
+  <span class="font-size-h2">{{tuple[0]}}:</span>&nbsp;{{tuple[1]}}<br />
+</span>
+<br />
+<div *ngFor="let table of tableDef">
+
+  <div id="accordion">
+    <div class="card">
+      <div class="card-header" attr.id="{{'card' + table}}">
+        <h3 class="mb-0">
+          <button class="btn btn-link" data-toggle="collapse" attr.data-target="{{'#collapse' + table}}" aria-expanded="true" attr.aria-controls="{{'#collapse' + table}}">
+            <span class="fas fa-calendar-alt"></span>&nbsp;
+            <span class="w-100 font-size-2rem">
+                <span class="font-size-h2">{{table}}:</span>&nbsp;<br />
+              </span>
+            </button>
+        </h3>
+      </div>
+      <div attr.id="{{'collapse' + table}}" class="collapse show" data-parent="#accordion">
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead class="table-info">
+                <tr>
+                  <th scope="col" *ngFor="let column of tableTupleList[findIndexInColumnDef(table)][1]">{{column}}</th>
+                </tr>
+              </thead>
+              <tbody *ngFor="let row of tableTupleList[findIndexInColumnDef(table)][2]">
+                <tr>
+                  <td *ngFor="let column of tableTupleList[findIndexInColumnDef(table)][1]">{{row[column]}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br />
+  </div>
+</div>
+<br />

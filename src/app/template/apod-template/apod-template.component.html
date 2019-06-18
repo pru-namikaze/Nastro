@@ -1,8 +1,13 @@
+<div class="input-group display-4">
+  <select class="custom-select" [(ngModel)]="infrastructureApi.baseService">
+    <option *ngFor="let baseService of baseServiceList">{{baseService}}</option>
+  </select>
+</div><br />
 <div class="container-fluid jumbotron-fluid mx-auto d-block px-5 ml-4">
   <div class="row" *ngFor="let baseService of baseServiceList">
-    <h1 class="display-1 w-100"><b>{{baseServiceName}}</b></h1>
-    <h1 class="display-4 w-100 mb-4">{{baseService}}</h1>
-    <input type="date" class="mr-4" id='date' [(ngModel)]="infrastructureApi.QueryPrameters.date">
+      <h1 class="display-1 w-100"><b>{{infrastructureApi.baseServiceName}}</b></h1>
+      <h1 class="display-4 w-100 mb-4">{{infrastructureApi.baseService}}</h1>
+        <input type="date" class="mr-4" id='date' [(ngModel)]="infrastructureApi.QueryPrameters.date">
     <button type="button" class="btn btn-info" (click)="reloadAPoD()">Show</button>
     <span class="w-100"></span>
     <div class="mt-2 ml-2" *ngIf="serviceResponseBodyList[baseService].media_type==='image'">

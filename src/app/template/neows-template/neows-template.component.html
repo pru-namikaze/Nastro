@@ -1,11 +1,13 @@
-<div class="px-3 no-gutters" *ngFor="let baseService of baseServiceList">
-  <br />{{baseService}}
-</div>
+<div class="input-group display-4">
+  <select class="custom-select" [(ngModel)]="infrastructureApi.baseService">
+    <option *ngFor="let baseService of baseServiceList">{{baseService}}</option>
+  </select>
+</div><br />
 
-<input type="text" [(ngModel)]="NeoWsShowEnum" />
-<hr />
 <div class="container-fluid jumbotron-fluid mx-auto d-block px-5 ml-4">
-  <div [ngSwitch]="NeoWsShowEnum">
+  <h1 class="display-1 w-100"><b>{{infrastructureApi.baseServiceName}}</b></h1>
+  <h1 class="display-4 w-100 mb-4">{{infrastructureApi.baseService}}</h1>
+  <div [ngSwitch]="infrastructureApi.baseService">
     <app-neows-feed-template *ngSwitchCase="'Neo - Feed'"></app-neows-feed-template>
     <app-neows-browse-template *ngSwitchCase="'Neo - Browse'"></app-neows-browse-template>
     <app-neows-neo-sentry-template *ngSwitchCase="'Neo - Sentry'"></app-neows-neo-sentry-template>

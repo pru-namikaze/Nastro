@@ -1,13 +1,14 @@
-<!-- <br />
-<br />
-<div class="table-responsive">
-  <span id='table'></span>
-</div>
-<br /> -->
-<div  class="container-fluid jumbotron-fluid no-gutters row w-100">
-  <button (click)="toggleShowAPoD()">ToggleAPoD</button>
-  <button (click)="toggleShowNeoWs()">ToggleNeoWs</button>
+<div>
+  <div class="input-group">
+    <select class="custom-select" [(ngModel)]="infrastructureApi.baseServiceName">
+      <option *ngFor="let baseServiceName of baseServiceNameList">{{baseServiceName}}</option>
+    </select>
+  </div><br />
 </div>
 
-<app-apod-template *ngIf="showAPoD"></app-apod-template>
-<app-neows-template *ngIf="showNeoWs"></app-neows-template>
+<div class="container-fluid jumbotron-fluid mx-auto d-block">
+  <div [ngSwitch]="infrastructureApi.baseServiceName">
+    <app-apod-template *ngSwitchCase="'APoD'"></app-apod-template>
+    <app-neows-template *ngSwitchCase="'NeoWs'"></app-neows-template>
+  </div>
+</div>

@@ -4,8 +4,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { MatTableModule } from '@angular/material';
-
 import { AppRoutingModule } from './app-routing.module';
 import { TemplateModule } from './template/template.module';
 import { AppComponent } from './app.component';
@@ -20,8 +18,7 @@ import { AppComponent } from './app.component';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule,
-    MatTableModule
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -17,11 +17,9 @@ export class NeowsStatsTemplateComponent implements OnInit {
   baseServiceNameList: Array<string>;
   baseServiceList: Array<string>;
   serviceResponseBodyList: object;
-  columnDef: Array<string>;
   baseService: string;
 
   constructor(public infrastructureApi: InfrastructureApiService, private http: HttpClient, private sanitizer: DomSanitizer) {
-    this.columnDef = [];
     this.baseServiceName = 'NeoWs';
     this.serviceResponseBodyList = {};
     this.baseServiceNameList = Object.keys(UrlDict);

@@ -17,11 +17,17 @@ export class InfrastructureApiService {
   QueryPrameters: any;
   UrlAdderPrameters: any;
 
+  baseServiceName: string;
+  baseService: string;
+
   constructor(private http: HttpClient) {
     this.DataDict = UrlDict;
     this.ResponceURLDict = {};
     this.QueryPrameters = {};
     this.UrlAdderPrameters = {};
+
+    this.baseServiceName = 'APoD';
+    this.baseService = '';
 
     this.GenerateResponseUrl();
   }
@@ -31,15 +37,17 @@ export class InfrastructureApiService {
     for (const baseServiceName of baseServiceNameList) {
       this.getResponseURL(baseServiceName);
     }
+    console.log('UrlAdderPrameters');
+    console.table(this.UrlAdderPrameters);
+    console.log('QueryPrameters');
+    console.table(this.QueryPrameters);
     console.table(this.ResponceURLDict);
-  }
-
-  getResponseJsonData(): void {
-    console.log(this.ResponceURLDict);
   }
 
   getResponseURL(baseServiceName: string): void {
     const responseURLList: any = {};
+    const responseURLwithAdderList: any = {};
+
     const baseService: any = this.DataDict[baseServiceName];
     for (const serviceNumName of Object.keys(baseService)) {
       const serviceNum: any = baseService[serviceNumName];
@@ -54,8 +62,7 @@ export class InfrastructureApiService {
       const endDate = new Date(new Date().getTime() - 45000000);
 
       if (!isNullOrUndefined(URLAddder)) {
-        const responseURLwithAdderList: any = {};
-        const i = 0;
+        let i = 0;
         for (const URLAddNumName of Object.keys(URLAddder)) {
           responseURL = serviceProperties.RequestURLDomian;
           const adder: any = URLAddder[URLAddNumName];
@@ -95,6 +102,7 @@ export class InfrastructureApiService {
             }
           }
           responseURLwithAdderList[i.toString()] = responseURL;
+          i = i + 1;
         }
         responseURLList[serviceName] = (Object.keys(URLAddder).length === 1) ? responseURLwithAdderList[0] : responseURLwithAdderList;
       } else {
@@ -131,11 +139,6 @@ export class InfrastructureApiService {
       }
     }
     this.ResponceURLDict[baseServiceName] = responseURLList;
-    console.log('UrlAdderPrameters');
-    console.table(this.UrlAdderPrameters);
-    console.log('QueryPrameters');
-    console.table(this.QueryPrameters);
-    console.table(this.ResponceURLDict);
   }
 
   getJsonResponse(url: string): any {

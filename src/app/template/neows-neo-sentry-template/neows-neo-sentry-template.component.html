@@ -1,11 +1,9 @@
-<h1 class="display-1 w-100"><b>{{baseServiceName}}</b></h1>
-<h1 class="display-4 w-100 mb-4">{{baseService}}</h1>
 <div class="container-fluid row">
   <div class="w-100 my-2 row">
-    <span class="col-1 align-self-center">Page:&nbsp;</span><input type="text" class="mr-4" [(ngModel)]="infrastructureApi.QueryPrameters.page">
+    <span class="col-1 align-self-center">Page:&nbsp;</span><input type="text" [(ngModel)]="infrastructureApi.QueryPrameters.page"><span class="col-1 align-self-center">&nbsp;/&nbsp;{{maxPageNo}}</span>
   </div>
   <div class="w-100 my-2 row">
-    <span class="col-1 align-self-center">Size:&nbsp;</span><input type="text" class="my-2" [(ngModel)]="infrastructureApi.QueryPrameters.size"><span class="col-1 align-self-center">&nbsp;/&nbsp;{{maxPageNo}}</span>
+    <span class="col-1 align-self-center">Size:&nbsp;</span><input type="text" class="my-2" [(ngModel)]="infrastructureApi.QueryPrameters.size">
   </div>
   <div class="w-100 my-2 row">
       <input type="checkbox" class="align-self-center offset-1" [(ngModel)]="infrastructureApi.QueryPrameters.is_active" (click)="resetPageNumber()"><span class="col-1 align-self-center">&nbsp;is_active</span>
