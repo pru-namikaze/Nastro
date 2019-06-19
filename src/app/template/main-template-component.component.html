@@ -1,13 +1,25 @@
-<div class="w-100 input-group">
-  <div class="input-group-prepend">
-    <select class="custom-select" [(ngModel)]="infrastructureApi.baseServiceName">
-      <option *ngFor="let baseServiceName of baseServiceNameList">{{baseServiceName}}</option>
-    </select>
+<nav class="navbar navbar-expand-lg navbar-light bg-light y-padding-0rem my-5 px-5">
+  <span class="navbar-brand align-self-center">
+      <img src="../assets/Nastro_logo.jpg" width="150" height="150" class="d-inline-block align-top" alt="">
+    </span>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item dropdown" *ngFor="let baseServiceName of baseServiceNameList" attr.id="{{'navbar-list-' + baseServiceName}}" (mouseover)="toggleNavDropDown(baseServiceName, true)" (mouseout)="toggleNavDropDown(baseServiceName, false)">
+        <span class="nav-link dropdown-toggle" attr.id="{{'navbarDropdown' + baseServiceName}}" role="button" data-toggle="dropdown">
+          {{baseServiceName}}
+        </span>
+        <div class="dropdown-menu" attr.id="{{'navbar-dropdown-list-' + baseServiceName}}">
+          <a class="dropdown-item" *ngFor="let baseService of getNavbaseServiceList(baseServiceName)" (click)="Visit(baseServiceName, baseService)">{{baseService}}</a>
+        </div>
+      </li>
+    </ul>
   </div>
-  <select class="custom-select" [(ngModel)]="infrastructureApi.baseService">
-    <option *ngFor="let baseService of getbaseServiceList()">{{baseService}}</option>
-  </select>
-</div><br />
+</nav>
 
 <div class="container-fluid jumbotron-fluid mx-auto d-block">
   <h1 class="display-1 w-100"><b>{{infrastructureApi.baseServiceName}}</b></h1>

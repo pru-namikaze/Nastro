@@ -14,7 +14,7 @@ export class NeowsTemplateComponent implements OnInit {
 
   constructor(public infrastructureApi: InfrastructureApiService) {
     this.baseServiceList = Object.keys(this.infrastructureApi.ResponceURLDict[this.infrastructureApi.baseServiceName]);
-    infrastructureApi.baseService = this.baseServiceList[0];
+    this.infrastructureApi.baseService = this.baseServiceList[0];
 
   }
 

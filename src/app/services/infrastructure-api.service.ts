@@ -32,7 +32,7 @@ export class InfrastructureApiService {
     this.GenerateResponseUrl();
 
     this.baseServiceName = Object.keys(UrlDict)[0];
-    this.baseService = Object.keys(this.ResponceURLDict[this.baseServiceName])[0];
+    this.baseService = UrlDict[Object.keys(UrlDict)[0]][Object.keys(UrlDict[Object.keys(UrlDict)[0]])[0]].Name;
   }
 
   GenerateResponseUrl() {
@@ -44,6 +44,7 @@ export class InfrastructureApiService {
     console.table(this.UrlAdderPrameters);
     console.log('QueryPrameters');
     console.table(this.QueryPrameters);
+    console.log('ResponceURLDict');
     console.table(this.ResponceURLDict);
   }
 
@@ -144,16 +145,14 @@ export class InfrastructureApiService {
     this.ResponceURLDict[baseServiceName] = responseURLList;
   }
 
-  getJsonResponse(url: string): any {
-    let response: any = {};
-    this.http.get(url).subscribe((body) => {
-      response = body;
-      return response;
-    });
-    return null;
+  cardPress(tablename: string): void {
+    if (!document.getElementById('collapse' + tablename).className.includes('show')) {
+      document.getElementById('arrow' + tablename).className = 'fas fa-angle-down';
+    } else {
+      document.getElementById('arrow' + tablename).className = 'fas fa-angle-right';
+    }
+    document.location.href = '#accordion-' + tablename;
   }
-
-
 
 
   // "Category" : {

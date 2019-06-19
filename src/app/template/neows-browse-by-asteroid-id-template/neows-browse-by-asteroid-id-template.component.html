@@ -42,20 +42,19 @@
 </span>
 <br />
 <div *ngFor="let table of tableDef">
-
-  <div id="accordion">
-    <div class="card">
-      <div class="card-header" attr.id="{{'card' + table}}">
+  <div attr.id="{{'accordion-' + table}}">
+    <div attr.id="{{'card-' + table}}" class="card">
+      <div class="card-header" attr.id="{{'card-header' + table}}">
         <h3 class="mb-0">
-          <button class="btn btn-link" data-toggle="collapse" attr.data-target="{{'#collapse' + table}}" aria-expanded="true" attr.aria-controls="{{'#collapse' + table}}">
-            <span class="fas fa-calendar-alt"></span>&nbsp;
+          <button class="btn btn-link" data-toggle="collapse" attr.data-target="{{'#collapse' + table}}" aria-expanded="false" attr.aria-controls="{{'#collapse' + table}}" (click)="infrastructureApi.cardPress(table)">
+            <span class="fas fa-angle-right" attr.id="{{'arrow' + table}}"></span>&nbsp;
             <span class="w-100 font-size-2rem">
-                <span class="font-size-h2">{{table}}:</span>&nbsp;<br />
-              </span>
-            </button>
+              <span class="font-size-h2">{{table}}:&nbsp;</span><br />
+            </span>
+          </button>
         </h3>
       </div>
-      <div attr.id="{{'collapse' + table}}" class="collapse show" data-parent="#accordion">
+      <div attr.id="{{'collapse' + table}}" class="collapse" attr.data-parent="{{'#accordion-' + table}}">
         <div class="card-body">
           <div class="table-responsive">
             <table class="table table-bordered">

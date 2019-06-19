@@ -22,6 +22,8 @@ export class ApodTemplateComponent implements OnInit {
     this.serviceResponseBodyList = {};
     this.baseServiceList = Object.keys(this.infrastructureApi.ResponceURLDict[this.infrastructureApi.baseServiceName]);
     this.infrastructureApi.baseService = this.baseServiceList[0];
+
+    this.reloadAPoD();
   }
 
   reloadAPoD(): void {

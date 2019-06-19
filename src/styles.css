@@ -30,3 +30,7 @@ img{
 .width-50_percent {
   width:50%;
 }
+.y-padding-0rem {
+  padding-top: 0rem;
+  padding-bottom: 0rem;
+}
