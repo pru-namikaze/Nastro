@@ -212,7 +212,7 @@ var InfrastructureApiService = /** @class */ (function () {
         this.baseService = '';
         this.GenerateResponseUrl();
         this.baseServiceName = Object.keys(_domainUrlDict_json__WEBPACK_IMPORTED_MODULE_3__)[0];
-        this.baseService = Object.keys(this.ResponceURLDict[this.baseServiceName])[0];
+        this.baseService = _domainUrlDict_json__WEBPACK_IMPORTED_MODULE_3__[Object.keys(_domainUrlDict_json__WEBPACK_IMPORTED_MODULE_3__)[0]][Object.keys(_domainUrlDict_json__WEBPACK_IMPORTED_MODULE_3__[Object.keys(_domainUrlDict_json__WEBPACK_IMPORTED_MODULE_3__)[0]])[0]].Name;
     }
     InfrastructureApiService.prototype.GenerateResponseUrl = function () {
         var baseServiceNameList = Object.keys(_domainUrlDict_json__WEBPACK_IMPORTED_MODULE_3__);
@@ -224,6 +224,7 @@ var InfrastructureApiService = /** @class */ (function () {
         console.table(this.UrlAdderPrameters);
         console.log('QueryPrameters');
         console.table(this.QueryPrameters);
+        console.log('ResponceURLDict');
         console.table(this.ResponceURLDict);
     };
     InfrastructureApiService.prototype.getResponseURL = function (baseServiceName) {
@@ -323,13 +324,14 @@ var InfrastructureApiService = /** @class */ (function () {
         }
         this.ResponceURLDict[baseServiceName] = responseURLList;
     };
-    InfrastructureApiService.prototype.getJsonResponse = function (url) {
-        var response = {};
-        this.http.get(url).subscribe(function (body) {
-            response = body;
-            return response;
-        });
-        return null;
+    InfrastructureApiService.prototype.cardPress = function (tablename) {
+        if (!document.getElementById('collapse' + tablename).className.includes('show')) {
+            document.getElementById('arrow' + tablename).className = 'fas fa-angle-down';
+        }
+        else {
+            document.getElementById('arrow' + tablename).className = 'fas fa-angle-right';
+        }
+        document.location.href = '#accordion-' + tablename;
     };
     InfrastructureApiService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
@@ -396,6 +398,7 @@ var ApodTemplateComponent = /** @class */ (function () {
         this.serviceResponseBodyList = {};
         this.baseServiceList = Object.keys(this.infrastructureApi.ResponceURLDict[this.infrastructureApi.baseServiceName]);
         this.infrastructureApi.baseService = this.baseServiceList[0];
+        this.reloadAPoD();
     }
     ApodTemplateComponent.prototype.reloadAPoD = function () {
         var _this = this;
@@ -448,7 +451,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"w-100 input-group\">\r\n  <div class=\"input-group-prepend\">\r\n    <select class=\"custom-select\" [(ngModel)]=\"infrastructureApi.baseServiceName\">\r\n      <option *ngFor=\"let baseServiceName of baseServiceNameList\">{{baseServiceName}}</option>\r\n    </select>\r\n  </div>\r\n  <select class=\"custom-select\" [(ngModel)]=\"infrastructureApi.baseService\">\r\n    <option *ngFor=\"let baseService of getbaseServiceList()\">{{baseService}}</option>\r\n  </select>\r\n</div><br />\r\n\r\n<div class=\"container-fluid jumbotron-fluid mx-auto d-block\">\r\n  <h1 class=\"display-1 w-100\"><b>{{infrastructureApi.baseServiceName}}</b></h1>\r\n  <h1 class=\"display-4 w-100 mb-4\">{{infrastructureApi.baseService}}</h1>\r\n  <div [ngSwitch]=\"infrastructureApi.baseServiceName\">\r\n    <app-apod-template *ngSwitchCase=\"'APoD'\"></app-apod-template>\r\n    <app-neows-template *ngSwitchCase=\"'NeoWs'\"></app-neows-template>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<nav class=\"navbar navbar-expand-lg navbar-light bg-light y-padding-0rem my-5 px-5\">\r\n  <span class=\"navbar-brand align-self-center\">\r\n      <img src=\"../assets/Nastro_logo.jpg\" width=\"150\" height=\"150\" class=\"d-inline-block align-top\" alt=\"\">\r\n    </span>\r\n\r\n  <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarSupportedContent\" aria-controls=\"navbarSupportedContent\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\r\n    <span class=\"navbar-toggler-icon\"></span>\r\n  </button>\r\n\r\n  <div class=\"collapse navbar-collapse\" id=\"navbarSupportedContent\">\r\n    <ul class=\"navbar-nav mr-auto\">\r\n      <li class=\"nav-item dropdown\" *ngFor=\"let baseServiceName of baseServiceNameList\" attr.id=\"{{'navbar-list-' + baseServiceName}}\" (mouseover)=\"toggleNavDropDown(baseServiceName, true)\" (mouseout)=\"toggleNavDropDown(baseServiceName, false)\">\r\n        <span class=\"nav-link dropdown-toggle\" attr.id=\"{{'navbarDropdown' + baseServiceName}}\" role=\"button\" data-toggle=\"dropdown\">\r\n          {{baseServiceName}}\r\n        </span>\r\n        <div class=\"dropdown-menu\" attr.id=\"{{'navbar-dropdown-list-' + baseServiceName}}\">\r\n          <a class=\"dropdown-item\" *ngFor=\"let baseService of getNavbaseServiceList(baseServiceName)\" (click)=\"Visit(baseServiceName, baseService)\">{{baseService}}</a>\r\n        </div>\r\n      </li>\r\n    </ul>\r\n  </div>\r\n</nav>\r\n\r\n<div class=\"container-fluid jumbotron-fluid mx-auto d-block\">\r\n  <h1 class=\"display-1 w-100\"><b>{{infrastructureApi.baseServiceName}}</b></h1>\r\n  <h1 class=\"display-4 w-100 mb-4\">{{infrastructureApi.baseService}}</h1>\r\n  <div [ngSwitch]=\"infrastructureApi.baseServiceName\">\r\n    <app-apod-template *ngSwitchCase=\"'APoD'\"></app-apod-template>\r\n    <app-neows-template *ngSwitchCase=\"'NeoWs'\"></app-neows-template>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -479,8 +482,34 @@ var MainTemplateComponentComponent = /** @class */ (function () {
         infrastructureApi.baseService = this.baseServiceList[0];
     }
     MainTemplateComponentComponent.prototype.getbaseServiceList = function () {
+        // tslint:disable-next-line: max-line-length
         this.infrastructureApi.baseService = (this.infrastructureApi.baseService === '') ? Object.keys(this.infrastructureApi.ResponceURLDict[this.infrastructureApi.baseServiceName])[0] : this.infrastructureApi.baseService;
         return Object.keys(this.infrastructureApi.ResponceURLDict[this.infrastructureApi.baseServiceName]);
+    };
+    MainTemplateComponentComponent.prototype.getNavbaseServiceList = function (baseServiceName) {
+        var baseService = [];
+        for (var _i = 0, _a = Object.keys(_services_domainUrlDict_json__WEBPACK_IMPORTED_MODULE_3__[baseServiceName]); _i < _a.length; _i++) {
+            var index = _a[_i];
+            baseService = baseService.concat([_services_domainUrlDict_json__WEBPACK_IMPORTED_MODULE_3__[baseServiceName][index].Name]);
+        }
+        return baseService;
+    };
+    MainTemplateComponentComponent.prototype.Visit = function (baseServiceName, baseService) {
+        console.table([[this.infrastructureApi.baseServiceName, baseServiceName], [this.infrastructureApi.baseService, baseService]]);
+        this.infrastructureApi.baseServiceName = baseServiceName;
+        console.log('qwertygfcvbjkl;');
+        console.table(this.infrastructureApi);
+        this.infrastructureApi.baseService = baseService;
+    };
+    MainTemplateComponentComponent.prototype.toggleNavDropDown = function (baseServiceName, showDropDownFlag) {
+        if (showDropDownFlag) {
+            document.getElementById('navbar-list-' + baseServiceName).className = 'nav-item dropdown show';
+            document.getElementById('navbar-dropdown-list-' + baseServiceName).className = 'dropdown-menu show';
+        }
+        else {
+            document.getElementById('navbar-list-' + baseServiceName).className = 'nav-item dropdown';
+            document.getElementById('navbar-dropdown-list-' + baseServiceName).className = 'dropdown-menu';
+        }
     };
     MainTemplateComponentComponent.prototype.ngOnInit = function () {
     };
@@ -517,7 +546,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container-fluid row my-2\">\n  <div class=\"container-fluid col-xl-4 col-lg-5 col-md-7 col-sm-9 col-12 no-gutters\">\n    <div class=\"w-100 input-group\">\n      <div class=\"input-group-prepend\">\n        <label class=\"input-group-text\" for=\"inputGroupSelect01\">Asteroid Id</label>\n      </div>\n      <input type=\"text\" class=\"form-control\" [(ngModel)]=\"infrastructureApi.UrlAdderPrameters.asteroid_id.DefaultValue\">\n    </div><br />\n    <div class=\"w-100 input-group\">\n      <div class=\"input-group-prepend\">\n        <label class=\"input-group-text\">estimated_diameterType</label>\n      </div>\n      <select class=\"custom-select\" [(ngModel)]=\"selectEstimatedDiameterType\">\n        <option *ngFor=\"let estimated_diameterType of estimatedDiameterTypes\">{{estimated_diameterType}}</option>\n      </select>\n    </div><br />\n    <div class=\"w-100 input-group\">\n      <div class=\"input-group-prepend\">\n        <label class=\"input-group-text\">asteroidRelativeVelocityType</label>\n      </div>\n      <select class=\"custom-select\" [(ngModel)]=\"selectcloseApproachDataRelativeVelocityType\">\n        <option *ngFor=\"let asteroidRelativeVelocityType of closeApproachDataRelativeVelocityTypes\">\n          {{asteroidRelativeVelocityType}}</option>\n      </select>\n    </div><br />\n    <div class=\"w-100 input-group\">\n      <div class=\"input-group-prepend\">\n        <label class=\"input-group-text\">asteroidMissDistanceType</label>\n      </div>\n      <select class=\"custom-select\" [(ngModel)]=\"selectCloseApproachDataMissDistanceType\">\n        <option *ngFor=\"let asteroidMissDistanceType of closeApproachDataMissDistanceTypes\">{{asteroidMissDistanceType}}\n        </option>\n      </select>\n    </div><br />\n\n    <button type=\"button\" class=\"btn btn-info mr-4\" (click)=\"reloadNeoWsBrowseByAsteroidId()\">Show</button>\n  </div>\n</div>\n<br />\n<span class=\"w-100 font-size-2rem\" *ngFor=\"let tuple of tupleList\">\n  <span class=\"font-size-h2\">{{tuple[0]}}:</span>&nbsp;{{tuple[1]}}<br />\n</span>\n<br />\n<div *ngFor=\"let table of tableDef\">\n\n  <div id=\"accordion\">\n    <div class=\"card\">\n      <div class=\"card-header\" attr.id=\"{{'card' + table}}\">\n        <h3 class=\"mb-0\">\n          <button class=\"btn btn-link\" data-toggle=\"collapse\" attr.data-target=\"{{'#collapse' + table}}\" aria-expanded=\"true\" attr.aria-controls=\"{{'#collapse' + table}}\">\n            <span class=\"fas fa-calendar-alt\"></span>&nbsp;\n            <span class=\"w-100 font-size-2rem\">\n                <span class=\"font-size-h2\">{{table}}:</span>&nbsp;<br />\n              </span>\n            </button>\n        </h3>\n      </div>\n      <div attr.id=\"{{'collapse' + table}}\" class=\"collapse show\" data-parent=\"#accordion\">\n        <div class=\"card-body\">\n          <div class=\"table-responsive\">\n            <table class=\"table table-bordered\">\n              <thead class=\"table-info\">\n                <tr>\n                  <th scope=\"col\" *ngFor=\"let column of tableTupleList[findIndexInColumnDef(table)][1]\">{{column}}</th>\n                </tr>\n              </thead>\n              <tbody *ngFor=\"let row of tableTupleList[findIndexInColumnDef(table)][2]\">\n                <tr>\n                  <td *ngFor=\"let column of tableTupleList[findIndexInColumnDef(table)][1]\">{{row[column]}}</td>\n                </tr>\n              </tbody>\n            </table>\n          </div>\n        </div>\n      </div>\n    </div>\n    <br />\n  </div>\n</div>\n<br />\n"
+module.exports = "<div class=\"container-fluid row my-2\">\n  <div class=\"container-fluid col-xl-4 col-lg-5 col-md-7 col-sm-9 col-12 no-gutters\">\n    <div class=\"w-100 input-group\">\n      <div class=\"input-group-prepend\">\n        <label class=\"input-group-text\" for=\"inputGroupSelect01\">Asteroid Id</label>\n      </div>\n      <input type=\"text\" class=\"form-control\" [(ngModel)]=\"infrastructureApi.UrlAdderPrameters.asteroid_id.DefaultValue\">\n    </div><br />\n    <div class=\"w-100 input-group\">\n      <div class=\"input-group-prepend\">\n        <label class=\"input-group-text\">estimated_diameterType</label>\n      </div>\n      <select class=\"custom-select\" [(ngModel)]=\"selectEstimatedDiameterType\">\n        <option *ngFor=\"let estimated_diameterType of estimatedDiameterTypes\">{{estimated_diameterType}}</option>\n      </select>\n    </div><br />\n    <div class=\"w-100 input-group\">\n      <div class=\"input-group-prepend\">\n        <label class=\"input-group-text\">asteroidRelativeVelocityType</label>\n      </div>\n      <select class=\"custom-select\" [(ngModel)]=\"selectcloseApproachDataRelativeVelocityType\">\n        <option *ngFor=\"let asteroidRelativeVelocityType of closeApproachDataRelativeVelocityTypes\">\n          {{asteroidRelativeVelocityType}}</option>\n      </select>\n    </div><br />\n    <div class=\"w-100 input-group\">\n      <div class=\"input-group-prepend\">\n        <label class=\"input-group-text\">asteroidMissDistanceType</label>\n      </div>\n      <select class=\"custom-select\" [(ngModel)]=\"selectCloseApproachDataMissDistanceType\">\n        <option *ngFor=\"let asteroidMissDistanceType of closeApproachDataMissDistanceTypes\">{{asteroidMissDistanceType}}\n        </option>\n      </select>\n    </div><br />\n\n    <button type=\"button\" class=\"btn btn-info mr-4\" (click)=\"reloadNeoWsBrowseByAsteroidId()\">Show</button>\n  </div>\n</div>\n<br />\n<span class=\"w-100 font-size-2rem\" *ngFor=\"let tuple of tupleList\">\n  <span class=\"font-size-h2\">{{tuple[0]}}:</span>&nbsp;{{tuple[1]}}<br />\n</span>\n<br />\n<div *ngFor=\"let table of tableDef\">\n  <div attr.id=\"{{'accordion-' + table}}\">\n    <div attr.id=\"{{'card-' + table}}\" class=\"card\">\n      <div class=\"card-header\" attr.id=\"{{'card-header' + table}}\">\n        <h3 class=\"mb-0\">\n          <button class=\"btn btn-link\" data-toggle=\"collapse\" attr.data-target=\"{{'#collapse' + table}}\" aria-expanded=\"false\" attr.aria-controls=\"{{'#collapse' + table}}\" (click)=\"infrastructureApi.cardPress(table)\">\n            <span class=\"fas fa-angle-right\" attr.id=\"{{'arrow' + table}}\"></span>&nbsp;\n            <span class=\"w-100 font-size-2rem\">\n              <span class=\"font-size-h2\">{{table}}:&nbsp;</span><br />\n            </span>\n          </button>\n        </h3>\n      </div>\n      <div attr.id=\"{{'collapse' + table}}\" class=\"collapse\" attr.data-parent=\"{{'#accordion-' + table}}\">\n        <div class=\"card-body\">\n          <div class=\"table-responsive\">\n            <table class=\"table table-bordered\">\n              <thead class=\"table-info\">\n                <tr>\n                  <th scope=\"col\" *ngFor=\"let column of tableTupleList[findIndexInColumnDef(table)][1]\">{{column}}</th>\n                </tr>\n              </thead>\n              <tbody *ngFor=\"let row of tableTupleList[findIndexInColumnDef(table)][2]\">\n                <tr>\n                  <td *ngFor=\"let column of tableTupleList[findIndexInColumnDef(table)][1]\">{{row[column]}}</td>\n                </tr>\n              </tbody>\n            </table>\n          </div>\n        </div>\n      </div>\n    </div>\n    <br />\n  </div>\n</div>\n<br />\n"
 
 /***/ }),
 
@@ -1128,7 +1157,7 @@ var NeowsTemplateComponent = /** @class */ (function () {
     function NeowsTemplateComponent(infrastructureApi) {
         this.infrastructureApi = infrastructureApi;
         this.baseServiceList = Object.keys(this.infrastructureApi.ResponceURLDict[this.infrastructureApi.baseServiceName]);
-        infrastructureApi.baseService = this.baseServiceList[0];
+        this.infrastructureApi.baseService = this.baseServiceList[0];
     }
     NeowsTemplateComponent.prototype.ngOnInit = function () {
     };
