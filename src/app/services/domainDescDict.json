@@ -1,0 +1,53 @@
+{
+  "baseServiceName": {
+    "APoD": "Each day a different image or photograph of our universe is featured, along with a brief explanation written by a professional astronomer.",
+    "NeoWs": "NeoWs(Near Earth Object Web Service) is a web service for near earth objects. All the data is from the NASA JPL Asteroid team.",
+    "DONKI": "The Space Weather Database Of Notifications, Knowledge, Information (DONKI) is a comprehensive on-line tool for space weather forecasters, scientists, and the general space science community.",
+    "EPIC": "The EPIC API provides information on the daily imagery collected by DSCOVR's Earth Polychromatic Imaging Camera (EPIC) instrument. Uniquely positioned at the Earth-Sun Lagrange point, EPIC provides full disc imagery of the Earth and captures unique perspectives of certain astronomical events such as lunar transits using a 2048x2048 pixel CCD (Charge Coupled Device) detector coupled to a 30-cm aperture Cassegrain telescope."
+  },
+  "baseService": {
+    "Astronomy Picture of the Day": "Astronomy Picture of the Day (APOD) is originated, written, coordinated, and edited since 1995 by Robert Nemiroff and Jerry Bonnell. The APOD archive contains the largest collection of annotated astronomical images on the internet.",
+    "Neo - Feed": "Get a list of Near Earth Objects(NEOs) within a date range. The max range in one query is 7 days.",
+    "Neo - Browse": "Browse the overall Asteroid data-set.",
+    "Neo - Sentry": "Retrieves Near Earth Objects listed in the NASA sentry data set. Sentry is a highly automated impact prediction system operated by the JPL Center for NEO Studies (CNEOS) since 2002.",
+    "Neo - Stats": "retrieve Current Neo Statistics.",
+    "Neo - Browse by Asteroid ID": "Lookup a specific Asteroid based on its NASA JPL small body (SPK-ID) ID.",
+    "Coronal Mass Ejection (CME)": "A coronal mass ejection (CME) is a significant release of plasma and accompanying magnetic field from the solar corona. They often follow solar flares and are normally present during a solar prominence eruption. The plasma is released into the solar wind, and can be observed in coronagraph imagery.",
+    "Coronal Mass Ejection (CME) Analysis": "A more detailed dataset for Coronal Mass Ejection (CME).",
+    "Geomagnetic Storm (GST)": "A geomagnetic storm (commonly referred to as a solar storm) is a temporary disturbance of the Earth's magnetosphere caused by a solar wind shock wave and/or cloud of magnetic field that interacts with the Earth's magnetic field.",
+    "Interplanetary Shock (IPS)": "Shock waves are common in astrophysical environments. Interplanetary shock waves due to solar flares and coronal mass ejections, and originally discovered via geomagnetic sudden commencements.",
+    "Solar Flare (FLR)": "Solar flares are large eruptions of electromagnetic radiation from the Sun lasting from minutes to hours. The sudden outburst of electromagnetic energy travels at the speed of light, therefore any effect upon the sunlit side of Earth’s exposed outer atmosphere occurs at the same time the event is observed.",
+    "Solar Energetic Particle (SEP)": "Solar Energetic Particle (SEP) events are observed as flux increases above a background level, and their energies range from ~10 keV to 10 GeV/nuclei. SEPs consist of electrons, protons, alpha particles and heavier ions up to Fe and their arrival to Earth spans from hours to a few days.",
+    "Magnetopause Crossing (MPC)": "The magnetic boundary between the Earth's field and the solar wind, named the magnetopause, has a bullet-shaped front, gradually changing into a cylinder. Its cross-section is approximately circular.",
+    "Radiation Belt Enhancement (RBE)": "A radiation belt refers to a layer of charged and energetic particles which is held by the planet’s magnetic field around the planet. The Van Allen belt specifically refers to the radiation belts around the Earth.",
+    "Hight Speed Stream (HSS)": "Coronal holes appear as dark areas in the solar corona in extreme ultraviolet (EUV) and soft x-ray solar images. They appear dark because they are cooler, less dense regions than the surrounding plasma and are regions of open, unipolar magnetic fields. This open, magnetic field line structure allows the solar wind to escape more readily into space, resulting in streams of relatively fast solar wind and is often referred to as a high speed stream in the context of analysis of structures in interplanetary space.",
+    "WSA+EnlilSimulation": "The WSA-ENLIL model is essential for modeling and predicting the effects of solar winds and coronal mass ejections (CMEs) on human instruments.",
+    "Notifications": "Provides a notification of events whihc happened between the timeframe.",
+    "Daily imagery collected by DSCOVR's Earth Polychromatic Imaging Camera (EPIC) instrument": "Development of the EPIC API began in 2015, and is supported by the web development team for the Laboratory for Atmospheres in the Earth Sciences Division of the Goddard Space Flight Center."
+  },
+  "Parameters": {
+    "date": "Specify the date.",
+    "hd": "Show the Image in HD Resolution.",
+    "api_key": "API Key for the Project.",
+    "start_date": "Specify a Starting Date.",
+    "end_date": "Specify an Ending Date.",
+    "detailed": "Show Detailed Table for the request.",
+    "page": "Specify a Page Number to View.",
+    "size": "Specify the number of Elements to be present in a Page",
+    "is_active": "Show Sentry which are Active.",
+    "startDate": "Specify a Starting Date.",
+    "endDate": "Specify an Ending Date.",
+    "mostAccurateOnly": "Default is set to true.",
+    "completeEntryOnly": "Default is set to true.",
+    "speed": "Lower Speed Limit: Default is set to 0.",
+    "halfAngle": "Lower Half Angle Limit: Default is set to 0.",
+    "catalog": "default is set to ALL (choices: ALL, SWRC_CATALOG, JANG_ET_AL_CATALOG).",
+    "keyword": "default is set to NONE (example choices: swpc_annex).",
+    "location": "Default to ALL (choices: Earth, MESSENGER, STEREO A, STEREO B).",
+    "type": "Could be: all, FLR, SEP, CME, IPS, MPC, GST, RBE, report.",
+    "asteroid_id": "ID of NearEarth object. ID can be SPK_ID, Asteroid des (designation) or Sentry ID.",
+    "estimated_diameter": "Estimated diameter Measurement Unit",
+    "asteroid_relative_velocity": "Asteroid Relative Velocity Measurement Unit",
+    "asteroid_miss_distance": "Asteroid Miss Distance Measurement Unit"
+  }
+}

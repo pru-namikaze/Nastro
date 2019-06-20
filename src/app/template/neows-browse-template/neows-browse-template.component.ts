@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 
 
 import UrlDict from './../../services/domainUrlDict.json';
+import DescDict from '../../services/domainDescDict.json';
 import { InfrastructureApiService } from 'src/app/services/infrastructure-api.service';
 
 @Component({
@@ -21,6 +22,7 @@ export class NeowsBrowseTemplateComponent implements OnInit {
   baseService: string;
   maxPageNo: string;
   totalNoOfElements: string;
+  DescDict: any;
 
   constructor(public infrastructureApi: InfrastructureApiService, private http: HttpClient, private sanitizer: DomSanitizer) {
 
@@ -32,6 +34,8 @@ export class NeowsBrowseTemplateComponent implements OnInit {
     this.baseService = 'Neo - Browse';
     this.maxPageNo = '';
     this.totalNoOfElements = '';
+    this.DescDict = DescDict;
+
 
     this.reloadNeoWsBrowse();
   }

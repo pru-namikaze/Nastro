@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 
 
 import UrlDict from './../../services/domainUrlDict.json';
+import DescDict from '../../services/domainDescDict.json';
 import { InfrastructureApiService } from 'src/app/services/infrastructure-api.service';
 
 
@@ -22,6 +23,7 @@ export class NeowsFeedTemplateComponent implements OnInit {
   serviceResponseBodyList: object;
   columnDef: Array<string>;
   baseService: string;
+  DescDict: any;
 
 
   constructor(public infrastructureApi: InfrastructureApiService, private http: HttpClient, private sanitizer: DomSanitizer) {
@@ -33,6 +35,7 @@ export class NeowsFeedTemplateComponent implements OnInit {
     this.baseServiceNameList = Object.keys(UrlDict);
     this.baseServiceList = Object.keys(this.infrastructureApi.ResponceURLDict[this.baseServiceName]);
     this.baseService = 'Neo - Feed';
+    this.DescDict = DescDict;
 
     this.reloadNeoWsFeed();
   }

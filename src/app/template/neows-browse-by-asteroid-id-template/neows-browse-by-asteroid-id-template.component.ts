@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { HttpClient } from '@angular/common/http';
+import { isArray, isNullOrUndefined } from 'util';
 
 
 import UrlDict from './../../services/domainUrlDict.json';
+import DescDict from '../../services/domainDescDict.json';
 import { InfrastructureApiService } from 'src/app/services/infrastructure-api.service';
-import { isArray, isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'app-neows-browse-by-asteroid-id-template',
@@ -33,7 +34,7 @@ export class NeowsBrowseByAsteroidIdTemplateComponent implements OnInit {
   closeApproachDataMissDistanceTypes: Array<string>;
   selectCloseApproachDataMissDistanceType: string;
 
-
+  DescDict: any;
 
   constructor(public infrastructureApi: InfrastructureApiService, private http: HttpClient, private sanitizer: DomSanitizer) {
     this.tableDef = [];
@@ -53,6 +54,8 @@ export class NeowsBrowseByAsteroidIdTemplateComponent implements OnInit {
     this.selectEstimatedDiameterType = '';
     this.selectcloseApproachDataRelativeVelocityType = '';
     this.selectCloseApproachDataMissDistanceType = '';
+
+    this.DescDict = DescDict;
 
     this.reloadNeoWsBrowseByAsteroidId();
   }
@@ -130,7 +133,7 @@ export class NeowsBrowseByAsteroidIdTemplateComponent implements OnInit {
     );
 
   }
-  
+
   ngOnInit() {
   }
 

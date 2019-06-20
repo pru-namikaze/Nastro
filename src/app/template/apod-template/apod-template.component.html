@@ -1,22 +1,24 @@
 <div class="container-fluid jumbotron-fluid mx-auto d-block px-5 ml-4">
   <div class="row" *ngFor="let baseService of baseServiceList">
-    <div class="input-group my-2">
+    <div class="input-group my-2" tabindex="0" data-toggle="tooltip" attr.title="{{DescDict.Parameters['date']}}">
       <div class="input-group-prepend">
         <label class="input-group-text">date:&nbsp;</label>
       </div>
       <input type="date" id='date' [(ngModel)]="infrastructureApi.QueryPrameters.date">
     </div>
-
     <button type="button" class="btn btn-info" (click)="reloadAPoD()">Show</button>
     <span class="w-100"></span>
-    <div class="mt-2 ml-2" *ngIf="serviceResponseBodyList[baseService].media_type==='image'">
+    <div class="mt-2 ml-2" *ngIf="serviceResponseBodyList[baseService].media_type==='image'" tabindex="0" data-toggle="tooltip" attr.title="{{DescDict.Parameters['hd']}}">
       <input type="checkbox" [(ngModel)]="infrastructureApi.QueryPrameters.hd">&nbsp;Show HD Image
     </div>
     <h2 class="w-100 mt-3 mb-5">{{serviceResponseBodyList[baseService].title}}</h2>
     <div class="row">
-      <img id="APoD-img" [src]="serviceResponseBodyList[baseService].url" class="img-fluid border rounded-lg col-auto p-3 d-block col-sm" *ngIf="serviceResponseBodyList[baseService].media_type === 'image' && !infrastructureApi.QueryPrameters.hd">
+      <img id="APoD-img" [src]="serviceResponseBodyList[baseService].url" class="img-fluid border rounded-lg col-auto p-3 d-block col-sm shadow" *ngIf="serviceResponseBodyList[baseService].media_type === 'image' && !infrastructureApi.QueryPrameters.hd">
+      <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <img id="APoD-hd-img" class="p-3 rounded-lg shadow" [src]="serviceResponseBodyList[baseService].hdurl">
+      </div>
+      <img id="APoD-hd-img" class="p-3 rounded-lg shadow" [src]="serviceResponseBodyList[baseService].hdurl" *ngIf="serviceResponseBodyList[baseService].media_type === 'image' && infrastructureApi.QueryPrameters.hd">
       <iframe type="text/html" width="750" height="500 " class="col-sm mx-auto" [src]="serviceResponseBodyList[baseService].url" frameborder="0" *ngIf="serviceResponseBodyList[baseService].media_type === 'video'"></iframe>
-      <img id="APoD-hd-img" [src]="serviceResponseBodyList[baseService].hdurl" class="img-fluid max-width-100vw col-sm border rounded-lg p-3 mx-auto d-block" *ngIf="serviceResponseBodyList[baseService].media_type === 'image' && infrastructureApi.QueryPrameters.hd">
       <span class="col-sm mx-auto my-auto p-5">
         <p class="text-justify">{{serviceResponseBodyList[baseService].explanation}}</p>
         <span class="w-100" *ngIf="serviceResponseBodyList[baseService].copyright">

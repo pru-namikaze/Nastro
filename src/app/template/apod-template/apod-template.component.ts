@@ -2,7 +2,9 @@ import { Component, OnInit, SecurityContext } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { HttpClient } from '@angular/common/http';
 
+import DescDict from '../../services/domainDescDict.json';
 import { InfrastructureApiService } from 'src/app/services/infrastructure-api.service';
+
 
 @Component({
   selector: 'app-apod-template',
@@ -15,6 +17,7 @@ export class ApodTemplateComponent implements OnInit {
   apodBaseService: Array<string>;
   baseServiceList: Array<string>;
   serviceResponseBodyList: object;
+  DescDict: any;
 
   constructor(public infrastructureApi: InfrastructureApiService, private http: HttpClient, private sanitizer: DomSanitizer) {
     this.tableObject = {};
@@ -22,8 +25,11 @@ export class ApodTemplateComponent implements OnInit {
     this.serviceResponseBodyList = {};
     this.baseServiceList = Object.keys(this.infrastructureApi.ResponceURLDict[this.infrastructureApi.baseServiceName]);
     this.infrastructureApi.baseService = this.baseServiceList[0];
+    this.DescDict = DescDict;
 
     this.reloadAPoD();
+
+    this.infrastructureApi.QueryPrameters.hd = false;
   }
 
   reloadAPoD(): void {

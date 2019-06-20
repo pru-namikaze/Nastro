@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light y-padding-0rem my-5 px-5">
+<nav class="navbar navbar-expand-lg navbar-light bg-light y-padding-0rem mt-5 px-5">
   <span class="navbar-brand align-self-center">
       <img src="https://raw.githubusercontent.com/pru-namikaze/Nastro/master/src/assets/Nastro_logo.jpg" width="150" height="150" class="d-inline-block align-top" alt="">
     </span>
@@ -20,12 +20,16 @@
     </ul>
   </div>
 </nav>
-
-<div class="container-fluid jumbotron-fluid mx-auto d-block">
-  <h1 class="display-1 w-100"><b>{{infrastructureApi.baseServiceName}}</b></h1>
-  <h1 class="display-4 w-100 mb-4">{{infrastructureApi.baseService}}</h1>
-  <div [ngSwitch]="infrastructureApi.baseServiceName">
-    <app-apod-template *ngSwitchCase="'APoD'"></app-apod-template>
-    <app-neows-template *ngSwitchCase="'NeoWs'"></app-neows-template>
+<div class="ml-5">
+  <div class="container-fluid jumbotron-fluid mx-auto d-block">
+    <h1 class="display-1 w-100"><b>{{infrastructureApi.baseServiceName}}</b></h1>
+    {{DescDict.baseServiceName[infrastructureApi.baseServiceName]}}
+    <h1 class="display-4 w-100 mb-4">{{infrastructureApi.baseService}}</h1>
+    {{DescDict.baseService[infrastructureApi.baseService]}}
   </div>
+</div>
+
+<div class="container-fluid jumbotron-fluid mx-auto d-block" [ngSwitch]="infrastructureApi.baseServiceName">
+  <app-apod-template *ngSwitchCase="'APoD'"></app-apod-template>
+  <app-neows-template *ngSwitchCase="'NeoWs'"></app-neows-template>
 </div>

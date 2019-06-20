@@ -67,7 +67,7 @@ var AppRoutingModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiIuLi9hcHAuY29tcG9uZW50LmNzcyJ9 */"
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2FwcC5jb21wb25lbnQuY3NzIn0= */"
 
 /***/ }),
 
@@ -353,7 +353,7 @@ var InfrastructureApiService = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJhcG9kLXRlbXBsYXRlL2Fwb2QtdGVtcGxhdGUuY29tcG9uZW50LmNzcyJ9 */"
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL3RlbXBsYXRlL2Fwb2QtdGVtcGxhdGUvYXBvZC10ZW1wbGF0ZS5jb21wb25lbnQuY3NzIn0= */"
 
 /***/ }),
 
@@ -440,7 +440,7 @@ var ApodTemplateComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJtYWluLXRlbXBsYXRlLWNvbXBvbmVudC5jb21wb25lbnQuY3NzIn0= */"
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL3RlbXBsYXRlL21haW4tdGVtcGxhdGUtY29tcG9uZW50LmNvbXBvbmVudC5jc3MifQ== */"
 
 /***/ }),
 
@@ -451,7 +451,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar navbar-expand-lg navbar-light bg-light y-padding-0rem my-5 px-5\">\r\n  <span class=\"navbar-brand align-self-center\">\r\n      <img src=\"https://raw.githubusercontent.com/pru-namikaze/Nastro/master/src/assets/Nastro_logo.jpg\" width=\"150\" height=\"150\" class=\"d-inline-block align-top\" alt=\"\">\r\n    </span>\r\n\r\n  <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarSupportedContent\" aria-controls=\"navbarSupportedContent\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\r\n    <span class=\"navbar-toggler-icon\"></span>\r\n  </button>\r\n\r\n  <div class=\"collapse navbar-collapse\" id=\"navbarSupportedContent\">\r\n    <ul class=\"navbar-nav mr-auto\">\r\n      <li class=\"nav-item dropdown\" *ngFor=\"let baseServiceName of baseServiceNameList\" attr.id=\"{{'navbar-list-' + baseServiceName}}\" (mouseover)=\"toggleNavDropDown(baseServiceName, true)\" (mouseout)=\"toggleNavDropDown(baseServiceName, false)\">\r\n        <span class=\"nav-link dropdown-toggle\" attr.id=\"{{'navbarDropdown' + baseServiceName}}\" role=\"button\" data-toggle=\"dropdown\">\r\n          {{baseServiceName}}\r\n        </span>\r\n        <div class=\"dropdown-menu\" attr.id=\"{{'navbar-dropdown-list-' + baseServiceName}}\">\r\n          <a class=\"dropdown-item\" *ngFor=\"let baseService of getNavbaseServiceList(baseServiceName)\" (click)=\"Visit(baseServiceName, baseService)\">{{baseService}}</a>\r\n        </div>\r\n      </li>\r\n    </ul>\r\n  </div>\r\n</nav>\r\n\r\n<div class=\"container-fluid jumbotron-fluid mx-auto d-block\">\r\n  <h1 class=\"display-1 w-100\"><b>{{infrastructureApi.baseServiceName}}</b></h1>\r\n  <h1 class=\"display-4 w-100 mb-4\">{{infrastructureApi.baseService}}</h1>\r\n  <div [ngSwitch]=\"infrastructureApi.baseServiceName\">\r\n    <app-apod-template *ngSwitchCase=\"'APoD'\"></app-apod-template>\r\n    <app-neows-template *ngSwitchCase=\"'NeoWs'\"></app-neows-template>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<nav class=\"navbar navbar-expand-lg navbar-light bg-light y-padding-0rem mt-5 px-5\">\r\n  <span class=\"navbar-brand align-self-center\">\r\n      <img src=\"https://raw.githubusercontent.com/pru-namikaze/Nastro/master/src/assets/Nastro_logo.jpg\" width=\"150\" height=\"150\" class=\"d-inline-block align-top\" alt=\"\">\r\n    </span>\r\n\r\n  <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarSupportedContent\" aria-controls=\"navbarSupportedContent\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\r\n    <span class=\"navbar-toggler-icon\"></span>\r\n  </button>\r\n\r\n  <div class=\"collapse navbar-collapse\" id=\"navbarSupportedContent\">\r\n    <ul class=\"navbar-nav mr-auto\">\r\n      <li class=\"nav-item dropdown\" *ngFor=\"let baseServiceName of baseServiceNameList\" attr.id=\"{{'navbar-list-' + baseServiceName}}\" (mouseover)=\"toggleNavDropDown(baseServiceName, true)\" (mouseout)=\"toggleNavDropDown(baseServiceName, false)\">\r\n        <span class=\"nav-link dropdown-toggle\" attr.id=\"{{'navbarDropdown' + baseServiceName}}\" role=\"button\" data-toggle=\"dropdown\">\r\n          {{baseServiceName}}\r\n        </span>\r\n        <div class=\"dropdown-menu\" attr.id=\"{{'navbar-dropdown-list-' + baseServiceName}}\">\r\n          <a class=\"dropdown-item\" *ngFor=\"let baseService of getNavbaseServiceList(baseServiceName)\" (click)=\"Visit(baseServiceName, baseService)\">{{baseService}}</a>\r\n        </div>\r\n      </li>\r\n    </ul>\r\n  </div>\r\n</nav>\r\n\r\n<div>\r\n  <div class=\"container-fluid jumbotron-fluid mx-auto d-block\">\r\n    <h1 class=\"display-1 w-100\"><b>{{infrastructureApi.baseServiceName}}</b></h1>\r\n    <h1 class=\"display-4 w-100 mb-4\">{{infrastructureApi.baseService}}</h1>\r\n    <div [ngSwitch]=\"infrastructureApi.baseServiceName\">\r\n      <app-apod-template *ngSwitchCase=\"'APoD'\"></app-apod-template>\r\n      <app-neows-template *ngSwitchCase=\"'NeoWs'\"></app-neows-template>\r\n  </div>\r\n</div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -535,7 +535,7 @@ var MainTemplateComponentComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJuZW93cy1icm93c2UtYnktYXN0ZXJvaWQtaWQtdGVtcGxhdGUvbmVvd3MtYnJvd3NlLWJ5LWFzdGVyb2lkLWlkLXRlbXBsYXRlLmNvbXBvbmVudC5jc3MifQ== */"
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL3RlbXBsYXRlL25lb3dzLWJyb3dzZS1ieS1hc3Rlcm9pZC1pZC10ZW1wbGF0ZS9uZW93cy1icm93c2UtYnktYXN0ZXJvaWQtaWQtdGVtcGxhdGUuY29tcG9uZW50LmNzcyJ9 */"
 
 /***/ }),
 
@@ -687,7 +687,7 @@ var NeowsBrowseByAsteroidIdTemplateComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJuZW93cy1icm93c2UtdGVtcGxhdGUvbmVvd3MtYnJvd3NlLXRlbXBsYXRlLmNvbXBvbmVudC5jc3MifQ== */"
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL3RlbXBsYXRlL25lb3dzLWJyb3dzZS10ZW1wbGF0ZS9uZW93cy1icm93c2UtdGVtcGxhdGUuY29tcG9uZW50LmNzcyJ9 */"
 
 /***/ }),
 
@@ -802,7 +802,7 @@ var NeowsBrowseTemplateComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJuZW93cy1mZWVkLXRlbXBsYXRlL25lb3dzLWZlZWQtdGVtcGxhdGUuY29tcG9uZW50LmNzcyJ9 */"
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL3RlbXBsYXRlL25lb3dzLWZlZWQtdGVtcGxhdGUvbmVvd3MtZmVlZC10ZW1wbGF0ZS5jb21wb25lbnQuY3NzIn0= */"
 
 /***/ }),
 
@@ -915,7 +915,7 @@ var NeowsFeedTemplateComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJuZW93cy1uZW8tc2VudHJ5LXRlbXBsYXRlL25lb3dzLW5lby1zZW50cnktdGVtcGxhdGUuY29tcG9uZW50LmNzcyJ9 */"
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL3RlbXBsYXRlL25lb3dzLW5lby1zZW50cnktdGVtcGxhdGUvbmVvd3MtbmVvLXNlbnRyeS10ZW1wbGF0ZS5jb21wb25lbnQuY3NzIn0= */"
 
 /***/ }),
 
@@ -1031,7 +1031,7 @@ var NeowsNeoSentryTemplateComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJuZW93cy1zdGF0cy10ZW1wbGF0ZS9uZW93cy1zdGF0cy10ZW1wbGF0ZS5jb21wb25lbnQuY3NzIn0= */"
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL3RlbXBsYXRlL25lb3dzLXN0YXRzLXRlbXBsYXRlL25lb3dzLXN0YXRzLXRlbXBsYXRlLmNvbXBvbmVudC5jc3MifQ== */"
 
 /***/ }),
 
@@ -1122,7 +1122,7 @@ var NeowsStatsTemplateComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJuZW93cy10ZW1wbGF0ZS9uZW93cy10ZW1wbGF0ZS5jb21wb25lbnQuY3NzIn0= */"
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL3RlbXBsYXRlL25lb3dzLXRlbXBsYXRlL25lb3dzLXRlbXBsYXRlLmNvbXBvbmVudC5jc3MifQ== */"
 
 /***/ }),
 
