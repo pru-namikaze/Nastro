@@ -151,7 +151,10 @@ export class InfrastructureApiService {
     } else {
       document.getElementById('arrow' + tablename).className = 'fas fa-angle-right';
     }
-    document.location.href = '#accordion-' + tablename;
+    this.documentLocationHref('#accordion-' + tablename);
+  }
+  documentLocationHref(elementId: string): void {
+    document.location.href = elementId;
   }
 
 
