@@ -29,7 +29,9 @@
   </div>
 </div>
 
-<div class="container-fluid jumbotron-fluid mx-auto d-block" [ngSwitch]="infrastructureApi.baseServiceName">
-  <app-apod-template *ngSwitchCase="'APoD'"></app-apod-template>
-  <app-neows-template *ngSwitchCase="'NeoWs'"></app-neows-template>
+<div class="ml-5">
+  <div class="container-fluid jumbotron-fluid mx-auto d-block" [ngSwitch]="infrastructureApi.baseServiceName">
+    <app-apod-template *ngSwitchCase="'APoD'"></app-apod-template>
+    <app-neows-template *ngSwitchCase="'NeoWs'"></app-neows-template>
+  </div>
 </div>

@@ -37,3 +37,6 @@ img{
 .ml-40 {
   margin-left: 24rem;
 }
+.strip-property-modal-dialog {
+  max-width: none;
+}

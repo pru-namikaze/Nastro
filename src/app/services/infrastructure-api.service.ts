@@ -155,60 +155,6 @@ export class InfrastructureApiService {
   }
 
 
-  // "Category" : {
-  //   "0": {
-  //     "Name": "CategoryTitle",
-  //     "Properties": {
-  //       "RequestURLDomian": "Domain",
-  //       "URLAddder": {
-  //         "0": {
-  //           "VariableName": "Asteroid_Id",
-  //           "DefaultValue": "3542519"
-  //         }
-  //       },
-  //       "QueryString": {
-  //         "0": {
-  //           "VariableName": "Pram1",
-  //           "DefaultValue": "2019-05-20"
-  //         },
-  //         "1": {
-  //           "VariableName": "Pram2",
-  //           "DefaultValue": "true"
-  //         },
-  //         "2": {
-  //           "VariableName": "api_key",
-  //           "DefaultValue": "ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"
-  //         }
-  //       }
-  //     }
-  //   }
-  // },
-
-
-
-  // "5": {
-  //   "Name": "Neo - Sentry Asteroid_Id",
-  //   "Properties": {
-  //     "RequestURLDomian": "https://api.nasa.gov/neo/rest/v1/neo/sentry/",
-  //     "URLAddder": {
-  //       "0": {
-  //         "VariableName": "Asteroid_Id",
-  //         "DefaultValue": "3542519",
-  //         "IncludeVariableName": "false"
-
-  //       }
-  //     },
-  //     "QueryString": {
-  //       "0": {
-  //         "VariableName": "api_key",
-  //         "DefaultValue": "ZXn3VY8awAQjbLgQYxaW0Jph0AoJFkS1hdhxDZWB"
-  //       }
-  //     }
-  //   }
-  // },
-
-
-
   // Take Care of : catalog: default is set to ALL (choices: ALL, SWRC_CATALOG, JANG_ET_AL_CATALOG)
   // keyword: default is set to NONE (example choices: swpc_annex)
   // location: default to ALL (choices: Earth, MESSENGER, STEREO A, STEREO B)

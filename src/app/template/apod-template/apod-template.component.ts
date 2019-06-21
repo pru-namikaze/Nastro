@@ -53,6 +53,10 @@ export class ApodTemplateComponent implements OnInit {
     );
   }
 
+  toggleHdPic(): void {
+    this.infrastructureApi.QueryPrameters.hd = !this.infrastructureApi.QueryPrameters.hd;
+  }
+
   ngOnInit() {
   }
 
