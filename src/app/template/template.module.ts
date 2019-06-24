@@ -13,6 +13,8 @@ import { NeowsBrowseTemplateComponent } from './neows-browse-template/neows-brow
 import { NeowsNeoSentryTemplateComponent } from './neows-neo-sentry-template/neows-neo-sentry-template.component';
 import { NeowsStatsTemplateComponent } from './neows-stats-template/neows-stats-template.component';
 import { NeowsBrowseByAsteroidIdTemplateComponent } from './neows-browse-by-asteroid-id-template/neows-browse-by-asteroid-id-template.component';
+import { FiltersTemplateComponent } from './filters-template/filters-template.component';
+import { TableTemplateComponent } from './table-template/table-template.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,9 @@ import { NeowsBrowseByAsteroidIdTemplateComponent } from './neows-browse-by-aste
     NeowsBrowseTemplateComponent,
     NeowsNeoSentryTemplateComponent,
     NeowsStatsTemplateComponent,
-    NeowsBrowseByAsteroidIdTemplateComponent
+    NeowsBrowseByAsteroidIdTemplateComponent,
+    FiltersTemplateComponent,
+    TableTemplateComponent
   ],
   imports: [
     BrowserAnimationsModule,

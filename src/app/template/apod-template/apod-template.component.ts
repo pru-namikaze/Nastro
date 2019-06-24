@@ -13,15 +13,12 @@ import { InfrastructureApiService } from 'src/app/services/infrastructure-api.se
 })
 export class ApodTemplateComponent implements OnInit {
 
-  tableObject: object;
   apodBaseService: Array<string>;
   baseServiceList: Array<string>;
   serviceResponseBodyList: object;
   DescDict: any;
 
   constructor(public infrastructureApi: InfrastructureApiService, private http: HttpClient, private sanitizer: DomSanitizer) {
-    this.tableObject = {};
-    // tslint:disable-next-line: max-line-length
     this.serviceResponseBodyList = {};
     this.baseServiceList = Object.keys(this.infrastructureApi.ResponceURLDict[this.infrastructureApi.baseServiceName]);
     this.infrastructureApi.baseService = this.baseServiceList[0];

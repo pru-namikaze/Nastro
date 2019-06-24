@@ -17,6 +17,8 @@ export class InfrastructureApiService {
   QueryPrameters: any;
   UrlAdderPrameters: any;
 
+  filterParameters: any;
+
   baseServiceName: string;
   baseService: string;
 
@@ -153,6 +155,7 @@ export class InfrastructureApiService {
     }
     this.documentLocationHref('#accordion-' + tablename);
   }
+  
   documentLocationHref(elementId: string): void {
     document.location.href = elementId;
   }

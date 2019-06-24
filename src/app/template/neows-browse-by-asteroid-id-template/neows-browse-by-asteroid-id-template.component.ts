@@ -7,6 +7,7 @@ import { isArray, isNullOrUndefined } from 'util';
 import UrlDict from './../../services/domainUrlDict.json';
 import DescDict from '../../services/domainDescDict.json';
 import { InfrastructureApiService } from 'src/app/services/infrastructure-api.service';
+import { InfrastructureCommonTableService } from 'src/app/services/infrastructure-common-table.service';
 
 @Component({
   selector: 'app-neows-browse-by-asteroid-id-template',
@@ -36,7 +37,7 @@ export class NeowsBrowseByAsteroidIdTemplateComponent implements OnInit {
 
   DescDict: any;
 
-  constructor(public infrastructureApi: InfrastructureApiService, private http: HttpClient, private sanitizer: DomSanitizer) {
+  constructor(public infrastructureApi: InfrastructureApiService, public infrastructureCommonTable: InfrastructureCommonTableService,private http: HttpClient, private sanitizer: DomSanitizer) {
     this.tableDef = [];
     this.tableTupleList = [];
     this.tupleList = [];
