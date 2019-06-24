@@ -22,10 +22,6 @@ export class NeowsBrowseByAsteroidIdTemplateComponent implements OnInit {
   serviceResponseBodyList: object;
   baseService: string;
 
-  tableDef: Array<string>;
-  tableTupleList: Array<[string, Array<string>, Array<Array<string>>]>;
-  tupleList: Array<[string, string]>;
-
   estimatedDiameterTypes: Array<string>;
   selectEstimatedDiameterType: string;
 
@@ -37,10 +33,12 @@ export class NeowsBrowseByAsteroidIdTemplateComponent implements OnInit {
 
   DescDict: any;
 
-  constructor(public infrastructureApi: InfrastructureApiService, public infrastructureCommonTable: InfrastructureCommonTableService,private http: HttpClient, private sanitizer: DomSanitizer) {
-    this.tableDef = [];
-    this.tableTupleList = [];
-    this.tupleList = [];
+  constructor(
+    public infrastructureApi: InfrastructureApiService,
+    public infrastructureCommonTable: InfrastructureCommonTableService,
+    private http: HttpClient,
+    private sanitizer: DomSanitizer
+    ) {
 
     this.serviceResponseBodyList = {};
     this.baseServiceName = 'NeoWs';
@@ -59,15 +57,6 @@ export class NeowsBrowseByAsteroidIdTemplateComponent implements OnInit {
     this.DescDict = DescDict;
 
     this.reloadNeoWsBrowseByAsteroidId();
-  }
-
-  findIndexInColumnDef(tableName: string): number {
-    for (const row of this.tableTupleList) {
-      if ( row[0] === tableName) {
-        return this.tableTupleList.indexOf(row);
-      }
-    }
-    return null;
   }
 
   reloadNeoWsBrowseByAsteroidId(): void {
@@ -107,25 +96,7 @@ export class NeowsBrowseByAsteroidIdTemplateComponent implements OnInit {
         this.serviceResponseBodyList[this.baseService].orbital_data = { ...this.serviceResponseBodyList[this.baseService].orbital_data, ...this.serviceResponseBodyList[this.baseService].orbital_data.orbit_class };
         delete this.serviceResponseBodyList[this.baseService].orbital_data.orbit_class;
 
-        this.tableTupleList = [];
-        this.tableDef = [];
-        this.tupleList = [];
-
-        for (const key of Object.keys(this.serviceResponseBodyList[this.baseService])) {
-          if (typeof (this.serviceResponseBodyList[this.baseService][key]) === 'object') {
-            if (isArray(this.serviceResponseBodyList[this.baseService][key])) {
-              // tslint:disable-next-line: max-line-length
-              this.tableTupleList.push([key, Object.keys(this.serviceResponseBodyList[this.baseService][key][0]), this.serviceResponseBodyList[this.baseService][key]]);
-            } else if (this.tableDef.indexOf(key) < 0) {
-              // tslint:disable-next-line: max-line-length
-              this.tableTupleList.push([key, Object.keys(this.serviceResponseBodyList[this.baseService][key]), [this.serviceResponseBodyList[this.baseService][key]]]);
-            }
-            this.tableDef.push(key);
-          } else {
-            this.tupleList.push([key, this.serviceResponseBodyList[this.baseService][key]]);
-          }
-        }
-        console.table(this.tupleList);
+        this.infrastructureCommonTable.makeTableDef(this.serviceResponseBodyList, this.baseService);
       },
       (error: any) => {
         console.log(error);

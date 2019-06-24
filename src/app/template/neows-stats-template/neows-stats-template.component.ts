@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 
 import UrlDict from './../../services/domainUrlDict.json';
 import { InfrastructureApiService } from 'src/app/services/infrastructure-api.service';
+import { InfrastructureCommonTableService } from 'src/app/services/infrastructure-common-table.service';
 
 @Component({
   selector: 'app-neows-stats-template',
@@ -19,7 +20,11 @@ export class NeowsStatsTemplateComponent implements OnInit {
   serviceResponseBodyList: object;
   baseService: string;
 
-  constructor(public infrastructureApi: InfrastructureApiService, private http: HttpClient, private sanitizer: DomSanitizer) {
+  constructor(
+    public infrastructureApi: InfrastructureApiService,
+    public infrastructureCommonTable: InfrastructureCommonTableService,
+    private http: HttpClient,
+    private sanitizer: DomSanitizer) {
     this.baseServiceName = 'NeoWs';
     this.serviceResponseBodyList = {};
     this.baseServiceNameList = Object.keys(UrlDict);
@@ -36,13 +41,13 @@ export class NeowsStatsTemplateComponent implements OnInit {
       (body) => {
         this.serviceResponseBodyList[this.baseService] = {};
         this.serviceResponseBodyList[this.baseService] = body;
-        // tslint:disable-next-line: max-line-length
-        this.serviceResponseBodyList[this.baseService].url = this.sanitizer.bypassSecurityTrustResourceUrl(this.serviceResponseBodyList[this.baseService].url);
         console.table({ 'responseObjectDictionary': this.serviceResponseBodyList[this.baseService] });
         // tslint:disable-next-line: max-line-length
         this.serviceResponseBodyList[this.baseService].nasa_jpl_url = this.sanitizer.bypassSecurityTrustResourceUrl(this.serviceResponseBodyList[this.baseService].nasa_jpl_url);
         // tslint:disable-next-line: max-line-length
         this.serviceResponseBodyList[this.baseService].nasa_jpl_url = this.serviceResponseBodyList[this.baseService].nasa_jpl_url.changingThisBreaksApplicationSecurity;
+
+        this.infrastructureCommonTable.makeTableDef(this.serviceResponseBodyList, this.baseService);
       },
       (error: any) => {
         console.log(error);

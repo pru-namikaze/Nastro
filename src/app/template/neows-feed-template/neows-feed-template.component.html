@@ -21,34 +21,3 @@
   <span class="font-size-h2">Element Count:</span>&nbsp;{{serviceResponseBodyList[baseService].element_count}}
 </span>
 <br />
-<br />
-  <div attr.id="{{'accordion' + date}}" *ngFor="let date of NearEarthObjectsDatesList">
-    <div class="card">
-      <div class="card-header" attr.id="{{'card' + date}}">
-        <h3 class="mb-0">
-          <button class="btn btn-link" data-toggle="collapse" attr.data-target="{{'#collapse' + date}}" aria-expanded="false" attr.aria-controls="{{'#collapse' + date}}" (click)="infrastructureApi.documentLocationHref('#accordion' + date)">
-            <span class="fas fa-calendar-alt"></span>&nbsp;{{date}}
-          </button>
-        </h3>
-      </div>
-      <div attr.id="{{'collapse' + date}}" class="collapse" attr.data-parent="{{'#accordion' + date}}">
-        <div class="card-body">
-          <div class="table-responsive">
-            <table class="table table-bordered">
-              <thead class="table-info">
-                <tr>
-                  <th scope="col" *ngFor="let column of columnDef">{{column}}</th>
-                </tr>
-              </thead>
-              <tbody *ngFor="let row of serviceResponseBodyList[baseService].near_earth_objects[date]">
-                <tr>
-                  <td *ngFor="let column of columnDef">{{row[column]}}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-    <br />
-  </div>

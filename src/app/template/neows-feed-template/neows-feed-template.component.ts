@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import UrlDict from './../../services/domainUrlDict.json';
 import DescDict from '../../services/domainDescDict.json';
 import { InfrastructureApiService } from 'src/app/services/infrastructure-api.service';
+import { InfrastructureCommonTableService } from 'src/app/services/infrastructure-common-table.service';
 
 
 @Component({
@@ -26,7 +27,12 @@ export class NeowsFeedTemplateComponent implements OnInit {
   DescDict: any;
 
 
-  constructor(public infrastructureApi: InfrastructureApiService, private http: HttpClient, private sanitizer: DomSanitizer) {
+  constructor(
+    public infrastructureApi: InfrastructureApiService,
+    public infrastructureCommonTable: InfrastructureCommonTableService,
+    private http: HttpClient,
+    private sanitizer: DomSanitizer
+    ) {
     this.GetDetailedBody = false;
     this.NearEarthObjectsDatesList = [];
     this.columnDef = [];
@@ -53,8 +59,6 @@ export class NeowsFeedTemplateComponent implements OnInit {
 
   reloadNeoWsFeed(): void {
     this.infrastructureApi.GenerateResponseUrl();
-    console.log(this.serviceResponseBodyList[this.baseService]);
-    console.log(this.infrastructureApi.ResponceURLDict[this.baseServiceName][this.baseService]);
     this.http.get(this.infrastructureApi.ResponceURLDict[this.baseServiceName][this.baseService]).subscribe(
       (body) => {
         this.serviceResponseBodyList[this.baseService] = {};
@@ -63,18 +67,7 @@ export class NeowsFeedTemplateComponent implements OnInit {
         this.serviceResponseBodyList[this.baseService].url = this.sanitizer.bypassSecurityTrustResourceUrl(this.serviceResponseBodyList[this.baseService].url);
         console.table({ 'responseObjectDictionary': this.serviceResponseBodyList[this.baseService] });
 
-        this.NearEarthObjectsDatesList = Object.keys(this.serviceResponseBodyList[this.baseService].near_earth_objects).sort();
-        // tslint:disable-next-line: max-line-length
-        for (const key of Object.keys(this.serviceResponseBodyList[this.baseService].near_earth_objects[this.NearEarthObjectsDatesList[0]][0])) {
-          // tslint:disable-next-line: max-line-length
-          if (typeof (this.serviceResponseBodyList[this.baseService].near_earth_objects[this.NearEarthObjectsDatesList[0]][0][key]) !== 'object') {
-            if (this.columnDef.indexOf(key) < 0) {
-              this.columnDef.push(key);
-            }
-          }
-        }
-        console.log(this.columnDef);
-        console.log(this.NearEarthObjectsDatesList);
+        this.infrastructureCommonTable.makeTableDef(this.serviceResponseBodyList[this.baseService], 'near_earth_objects');
       },
       (error: any) => {
         console.log(error);

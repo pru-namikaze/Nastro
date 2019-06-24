@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import UrlDict from './../../services/domainUrlDict.json';
 import DescDict from '../../services/domainDescDict.json';
 import { InfrastructureApiService } from 'src/app/services/infrastructure-api.service';
+import { InfrastructureCommonTableService } from 'src/app/services/infrastructure-common-table.service';
 
 @Component({
   selector: 'app-neows-browse-template',
@@ -24,7 +25,11 @@ export class NeowsBrowseTemplateComponent implements OnInit {
   totalNoOfElements: string;
   DescDict: any;
 
-  constructor(public infrastructureApi: InfrastructureApiService, private http: HttpClient, private sanitizer: DomSanitizer) {
+  constructor(
+    public infrastructureApi: InfrastructureApiService,
+    public infrastructureCommonTable: InfrastructureCommonTableService,
+    private http: HttpClient,
+    private sanitizer: DomSanitizer) {
 
     this.columnDef = [];
     this.baseServiceName = 'NeoWs';
@@ -79,6 +84,12 @@ export class NeowsBrowseTemplateComponent implements OnInit {
         console.log(this.columnDef);
         this.maxPageNo = (parseInt(this.serviceResponseBodyList[this.baseService].page.total_pages) - 1).toString();
         this.totalNoOfElements = this.serviceResponseBodyList[this.baseService].page.total_elements.toString();
+
+        const tableDef: any = {};
+        tableDef[this.baseService] = {};
+        tableDef[this.baseService].near_earth_objects = {};
+        tableDef[this.baseService].near_earth_objects = this.serviceResponseBodyList[this.baseService].near_earth_objects;
+        this.infrastructureCommonTable.makeTableDef(tableDef, this.baseService, `Total Element: ${this.totalNoOfElements}`);
       },
       (error: any) => {
         console.log(error);

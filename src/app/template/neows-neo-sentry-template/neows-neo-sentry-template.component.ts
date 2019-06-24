@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import UrlDict from './../../services/domainUrlDict.json';
 import DescDict from '../../services/domainDescDict.json';
 import { InfrastructureApiService } from 'src/app/services/infrastructure-api.service';
+import { InfrastructureCommonTableService } from 'src/app/services/infrastructure-common-table.service';
 
 @Component({
   selector: 'app-neows-neo-sentry-template',
@@ -25,7 +26,12 @@ export class NeowsNeoSentryTemplateComponent implements OnInit {
   DescDict: any;
 
 
-  constructor(public infrastructureApi: InfrastructureApiService, private http: HttpClient, private sanitizer: DomSanitizer) {
+  constructor(
+    public infrastructureApi: InfrastructureApiService,
+    public infrastructureCommonTable: InfrastructureCommonTableService,
+    private http: HttpClient,
+    private sanitizer: DomSanitizer
+    ) {
 
     this.columnDef = [];
     this.baseServiceName = 'NeoWs';
@@ -78,6 +84,11 @@ export class NeowsNeoSentryTemplateComponent implements OnInit {
         console.log('maxPage');
         console.log(this.maxPageNo);
 
+        const tableDef: any = {};
+        tableDef[this.baseService] = {};
+        tableDef[this.baseService].sentry_objects = {};
+        tableDef[this.baseService].sentry_objects = this.serviceResponseBodyList[this.baseService].sentry_objects;
+        this.infrastructureCommonTable.makeTableDef(tableDef, this.baseService, `Total Element: ${this.totalNoOfElements}`);
       },
       (error: any) => {
         console.log(error);

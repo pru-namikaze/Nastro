@@ -13,6 +13,7 @@ export class TableTemplateComponent implements OnInit {
 
   constructor(public infrastructureCommonTable: InfrastructureCommonTableService) { }
 
+
   ngOnInit() {
   }
 

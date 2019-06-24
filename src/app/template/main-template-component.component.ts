@@ -39,7 +39,6 @@ export class MainTemplateComponentComponent implements OnInit {
   Visit(baseServiceName: string, baseService: string): void {
     console.table([[this.infrastructureApi.baseServiceName, baseServiceName], [this.infrastructureApi.baseService, baseService]]);
     this.infrastructureApi.baseServiceName = baseServiceName;
-    console.log('qwertygfcvbjkl;');
     console.table(this.infrastructureApi);
     this.infrastructureApi.baseService = baseService;
   }

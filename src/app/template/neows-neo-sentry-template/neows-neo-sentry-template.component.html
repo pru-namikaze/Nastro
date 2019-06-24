@@ -26,21 +26,3 @@
     </div>
   </div>
 </div>
-<br />
-<span class="row w-100 font-size-2rem">
-    <span class="font-size-h2">Total Element:</span>&nbsp;{{totalNoOfElements}}
-</span>
-<div class="table-responsive my-5">
-    <table class="table table-bordered">
-      <thead class="table-info">
-        <tr>
-          <th scope="col" *ngFor="let column of columnDef">{{column}}</th>
-        </tr>
-      </thead>
-      <tbody *ngFor="let row of this.serviceResponseBodyList[this.baseService].sentry_objects">
-        <tr>
-            <td *ngFor="let column of columnDef">{{row[column]}}</td>
-          </tr>
-      </tbody>
-    </table>
-  </div>
