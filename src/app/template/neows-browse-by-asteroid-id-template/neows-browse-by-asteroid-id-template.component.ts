@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { HttpClient } from '@angular/common/http';
-import { isArray, isNullOrUndefined } from 'util';
 
 
 import UrlDict from './../../services/domainUrlDict.json';
@@ -16,11 +15,7 @@ import { InfrastructureCommonTableService } from 'src/app/services/infrastructur
 })
 export class NeowsBrowseByAsteroidIdTemplateComponent implements OnInit {
 
-  baseServiceName: string;
-  baseServiceNameList: Array<string>;
-  baseServiceList: Array<string>;
   serviceResponseBodyList: object;
-  baseService: string;
 
   estimatedDiameterTypes: Array<string>;
   selectEstimatedDiameterType: string;
@@ -39,12 +34,7 @@ export class NeowsBrowseByAsteroidIdTemplateComponent implements OnInit {
     private http: HttpClient,
     private sanitizer: DomSanitizer
     ) {
-
     this.serviceResponseBodyList = {};
-    this.baseServiceName = 'NeoWs';
-    this.baseServiceNameList = Object.keys(UrlDict);
-    this.baseServiceList = Object.keys(this.infrastructureApi.ResponceURLDict[this.baseServiceName]);
-    this.baseService = 'Neo - Browse by Asteroid ID';
 
     this.estimatedDiameterTypes = [];
     this.closeApproachDataRelativeVelocityTypes = [];
@@ -61,22 +51,24 @@ export class NeowsBrowseByAsteroidIdTemplateComponent implements OnInit {
 
   reloadNeoWsBrowseByAsteroidId(): void {
     this.infrastructureApi.GenerateResponseUrl();
-    this.http.get(this.infrastructureApi.ResponceURLDict[this.baseServiceName][this.baseService]).subscribe(
+    // tslint:disable-next-line: max-line-length
+    this.http.get(this.infrastructureApi.ResponceURLDict[this.infrastructureApi.baseServiceName][this.infrastructureApi.baseService]).subscribe(
       (body) => {
-        this.serviceResponseBodyList[this.baseService] = {};
-        this.serviceResponseBodyList[this.baseService] = body;
+        this.serviceResponseBodyList[this.infrastructureApi.baseService] = {};
+        this.serviceResponseBodyList[this.infrastructureApi.baseService] = body;
 
         // tslint:disable-next-line: max-line-length
-        this.serviceResponseBodyList[this.baseService].links.self = this.sanitizer.bypassSecurityTrustResourceUrl(this.serviceResponseBodyList[this.baseService].links.self);
+        this.serviceResponseBodyList[this.infrastructureApi.baseService].links.self = this.sanitizer.bypassSecurityTrustResourceUrl(this.serviceResponseBodyList[this.infrastructureApi.baseService].links.self);
         // tslint:disable-next-line: max-line-length
-        this.serviceResponseBodyList[this.baseService].links = this.serviceResponseBodyList[this.baseService].links.self.changingThisBreaksApplicationSecurity;
-        console.table({ 'responseObjectDictionary': this.serviceResponseBodyList[this.baseService] });
+        this.serviceResponseBodyList[this.infrastructureApi.baseService].links = this.serviceResponseBodyList[this.infrastructureApi.baseService].links.self.changingThisBreaksApplicationSecurity;
 
-        this.estimatedDiameterTypes = Object.keys(this.serviceResponseBodyList[this.baseService].estimated_diameter);
+        console.table({ 'responseObjectDictionary': this.serviceResponseBodyList[this.infrastructureApi.baseService] });
+
+        this.estimatedDiameterTypes = Object.keys(this.serviceResponseBodyList[this.infrastructureApi.baseService].estimated_diameter);
         // tslint:disable-next-line: max-line-length
-        this.closeApproachDataRelativeVelocityTypes = Object.keys(this.serviceResponseBodyList[this.baseService].close_approach_data[0].relative_velocity);
+        this.closeApproachDataRelativeVelocityTypes = Object.keys(this.serviceResponseBodyList[this.infrastructureApi.baseService].close_approach_data[0].relative_velocity);
         // tslint:disable-next-line: max-line-length
-        this.closeApproachDataMissDistanceTypes = Object.keys(this.serviceResponseBodyList[this.baseService].close_approach_data[0].miss_distance);
+        this.closeApproachDataMissDistanceTypes = Object.keys(this.serviceResponseBodyList[this.infrastructureApi.baseService].close_approach_data[0].miss_distance);
 
         // tslint:disable-next-line: max-line-length
         this.selectEstimatedDiameterType = (this.selectEstimatedDiameterType === '') ? this.estimatedDiameterTypes[0] : this.selectEstimatedDiameterType;
@@ -86,17 +78,17 @@ export class NeowsBrowseByAsteroidIdTemplateComponent implements OnInit {
         this.selectCloseApproachDataMissDistanceType = (this.selectCloseApproachDataMissDistanceType === '') ? this.closeApproachDataMissDistanceTypes[0] : this.selectCloseApproachDataMissDistanceType;
 
         // tslint:disable-next-line: max-line-length
-        this.serviceResponseBodyList[this.baseService].estimated_diameter = this.serviceResponseBodyList[this.baseService].estimated_diameter[this.selectEstimatedDiameterType];
-        for (const row of this.serviceResponseBodyList[this.baseService].close_approach_data) {
+        this.serviceResponseBodyList[this.infrastructureApi.baseService].estimated_diameter = this.serviceResponseBodyList[this.infrastructureApi.baseService].estimated_diameter[this.selectEstimatedDiameterType];
+        for (const row of this.serviceResponseBodyList[this.infrastructureApi.baseService].close_approach_data) {
           row.miss_distance = row.miss_distance[this.selectCloseApproachDataMissDistanceType];
           row.relative_velocity = row.relative_velocity[this.selectcloseApproachDataRelativeVelocityType];
         }
 
         // tslint:disable-next-line: max-line-length
-        this.serviceResponseBodyList[this.baseService].orbital_data = { ...this.serviceResponseBodyList[this.baseService].orbital_data, ...this.serviceResponseBodyList[this.baseService].orbital_data.orbit_class };
-        delete this.serviceResponseBodyList[this.baseService].orbital_data.orbit_class;
+        this.serviceResponseBodyList[this.infrastructureApi.baseService].orbital_data = { ...this.serviceResponseBodyList[this.infrastructureApi.baseService].orbital_data, ...this.serviceResponseBodyList[this.infrastructureApi.baseService].orbital_data.orbit_class };
+        delete this.serviceResponseBodyList[this.infrastructureApi.baseService].orbital_data.orbit_class;
 
-        this.infrastructureCommonTable.makeTableDef(this.serviceResponseBodyList, this.baseService);
+        this.infrastructureCommonTable.makeTableDef(this.serviceResponseBodyList, this.infrastructureApi.baseService);
       },
       (error: any) => {
         console.log(error);

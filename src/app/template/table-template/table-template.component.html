@@ -1,3 +1,7 @@
+<span class="w-100 font-size-2rem" *ngIf="infrastructureCommonTable.additionalInformationText">
+  {{infrastructureCommonTable.additionalInformationText}}
+</span>
+<br />
 <div *ngIf="infrastructureCommonTable.tupleList">
   <span class="w-100 font-size-2rem" *ngFor="let tuple of infrastructureCommonTable.tupleList">
     <span class="font-size-h2">{{tuple[0]}}:</span>&nbsp;{{tuple[1]}}<br />

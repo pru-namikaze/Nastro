@@ -1,14 +1,12 @@
-import { Component, OnInit, SecurityContext } from '@angular/core';
-
+import { Component, OnInit } from '@angular/core';
 import { InfrastructureApiService } from 'src/app/services/infrastructure-api.service';
 
 @Component({
-  selector: 'app-neows-template',
-  templateUrl: './neows-template.component.html',
-  styleUrls: ['./neows-template.component.css']
+  selector: 'app-donki-template',
+  templateUrl: './donki-template.component.html',
+  styleUrls: ['./donki-template.component.css']
 })
-
-export class NeowsTemplateComponent implements OnInit {
+export class DonkiTemplateComponent implements OnInit {
 
   baseServiceList: Array<string>;
 
@@ -16,7 +14,6 @@ export class NeowsTemplateComponent implements OnInit {
     this.baseServiceList = Object.keys(this.infrastructureApi.ResponceURLDict[this.infrastructureApi.baseServiceName]);
     this.infrastructureApi.baseService = this.baseServiceList[0];
   }
-
   ngOnInit() {
   }
 

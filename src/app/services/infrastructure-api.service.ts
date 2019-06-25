@@ -132,6 +132,16 @@ export class InfrastructureApiService {
                   this.QueryPrameters[property.VariableName] = `${endDate.getFullYear().toString().padStart(4, '0')}-${(endDate.getMonth() + 1).toString().padStart(2, '0')}-${endDate.getDate().toString().padStart(2, '0')}`;
                   break;
                 }
+                case 'startDate' : {
+                  // tslint:disable-next-line: max-line-length
+                  this.QueryPrameters[property.VariableName] = `${endDate.getFullYear().toString().padStart(4, '0')}-01-01`;
+                  break;
+                }
+                case 'endDate' : {
+                  // tslint:disable-next-line: max-line-length
+                  this.QueryPrameters[property.VariableName] = `${endDate.getFullYear().toString().padStart(4, '0')}-${(endDate.getMonth() + 1).toString().padStart(2, '0')}-${endDate.getDate().toString().padStart(2, '0')}`;
+                  break;
+                }
                 default: {
                   this.QueryPrameters[property.VariableName] = property.DefaultValue;
                   break;
@@ -145,19 +155,6 @@ export class InfrastructureApiService {
       }
     }
     this.ResponceURLDict[baseServiceName] = responseURLList;
-  }
-
-  cardPress(tablename: string): void {
-    if (!document.getElementById('collapse' + tablename).className.includes('show')) {
-      document.getElementById('arrow' + tablename).className = 'fas fa-angle-down';
-    } else {
-      document.getElementById('arrow' + tablename).className = 'fas fa-angle-right';
-    }
-    this.documentLocationHref('#accordion-' + tablename);
-  }
-  
-  documentLocationHref(elementId: string): void {
-    document.location.href = elementId;
   }
 
 

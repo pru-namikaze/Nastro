@@ -1,21 +1,22 @@
 import { Injectable } from '@angular/core';
-import { isArray } from 'util';
+import { isArray, isNullOrUndefined } from 'util';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class InfrastructureCommonTableService {
 
   tableDef: Array<string>;
   tableTupleList: Array<[string, Array<string>, Array<Array<string>>]>;
   tupleList: Array<[string, string]>;
   cardTitle: string;
+  additionalInformationText: string;
 
   constructor() {
     this.tableDef = [];
     this.tableTupleList = [];
     this.tupleList = [];
-
   }
   getKeylist(row: any): Array<string> {
     const keyList: Array<string> = [];
@@ -27,14 +28,40 @@ export class InfrastructureCommonTableService {
     return keyList;
   }
 
-  makeTableDef(serviceResponseBodyList: object, baseService: string, cardTitle?: string): void {
+  // tslint:disable-next-line: max-line-length
+  makeTableDef(serviceResponseBodyList: object, baseService: string, cardTitle?: string, level?: number, accessKey?: string, infoText?: string): void {
     console.table([serviceResponseBodyList, baseService]);
     this.tableTupleList = [];
     this.tableDef = [];
     this.tupleList = [];
 
-    this.cardTitle = cardTitle;
+    if (!isNullOrUndefined(cardTitle)) {
+      this.cardTitle = cardTitle;
+    } else {
+      this.cardTitle = null;
+    }
+    if (!isNullOrUndefined(infoText)) {
+      this.additionalInformationText = infoText;
+    } else {
+      this.additionalInformationText = null;
+    }
+    if (!isNullOrUndefined(level) && !isNullOrUndefined(cardTitle)) {
+      if (level === 1) {
+        const table: any = {};
+        table[baseService] = {};
+        table[baseService][cardTitle] = serviceResponseBodyList[baseService];
+        serviceResponseBodyList = {};
+        serviceResponseBodyList = table;
+      } else if (level === 2 && !isNullOrUndefined(accessKey)) {
+        for (const key of Object.keys(serviceResponseBodyList[baseService])) {
+          if (key !== accessKey) {
+            delete serviceResponseBodyList[baseService][key];
+          }
+        }
+      }
+    }
 
+    console.table(['serviceResponseBodyList', serviceResponseBodyList, Object.keys(serviceResponseBodyList[baseService])]);
     for (const key of Object.keys(serviceResponseBodyList[baseService])) {
       if (typeof (serviceResponseBodyList[baseService][key]) === 'object') {
         if (isArray(serviceResponseBodyList[baseService][key])) {

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { HttpClient } from '@angular/common/http';
 
 
@@ -8,11 +9,11 @@ import { InfrastructureCommonTableService } from 'src/app/services/infrastructur
 
 
 @Component({
-  selector: 'app-neows-feed-template',
-  templateUrl: './neows-feed-template.component.html',
-  styleUrls: ['./neows-feed-template.component.css']
+  selector: 'app-donki-cme-template',
+  templateUrl: './donki-cme-template.component.html',
+  styleUrls: ['./donki-cme-template.component.css']
 })
-export class NeowsFeedTemplateComponent implements OnInit {
+export class DonkiCmeTemplateComponent implements OnInit {
 
   serviceResponseBodyList: object;
   DescDict: any;
@@ -22,25 +23,19 @@ export class NeowsFeedTemplateComponent implements OnInit {
     public infrastructureApi: InfrastructureApiService,
     public infrastructureCommonTable: InfrastructureCommonTableService,
     private http: HttpClient,
+    private sanitizer: DomSanitizer
     ) {
     this.serviceResponseBodyList = {};
     this.DescDict = DescDict;
 
-    this.reloadNeoWsFeed();
+    this.reloadDONKICoronalMassEjection();
   }
 
   ngOnInit() {
   }
 
-  reloadNeoWsFeedForToday(): void {
-    const endDate = new Date(new Date().getTime() - 45000000);
-    // tslint:disable-next-line: max-line-length
-    this.infrastructureApi.QueryPrameters.start_date = `${endDate.getFullYear().toString().padStart(4, '0')}-${(endDate.getMonth() + 1).toString().padStart(2, '0')}-${endDate.getDate().toString().padStart(2, '0')}`;;
-    this.infrastructureApi.QueryPrameters.end_date = this.infrastructureApi.QueryPrameters.start_date;
-    this.reloadNeoWsFeed();
-  }
 
-  reloadNeoWsFeed(): void {
+  reloadDONKICoronalMassEjection(): void {
     this.infrastructureApi.GenerateResponseUrl();
     // tslint:disable-next-line: max-line-length
     this.http.get(this.infrastructureApi.ResponceURLDict[this.infrastructureApi.baseServiceName][this.infrastructureApi.baseService]).subscribe(
@@ -48,10 +43,25 @@ export class NeowsFeedTemplateComponent implements OnInit {
         this.serviceResponseBodyList[this.infrastructureApi.baseService] = {};
         this.serviceResponseBodyList[this.infrastructureApi.baseService] = body;
 
+        for ( const element of this.serviceResponseBodyList[this.infrastructureApi.baseService]) {
+          let tempInstumentString = '';
+          for (const instument of element.instruments) {
+            tempInstumentString = tempInstumentString.concat(`, ${instument.displayName}`);
+          }
+          element.instruments = tempInstumentString.slice(2);
+        }
+
         console.table({ 'responseObjectDictionary': this.serviceResponseBodyList[this.infrastructureApi.baseService] });
 
+        const table: any = {};
+        table[this.infrastructureApi.baseService] = {};
+        table[this.infrastructureApi.baseService].CoronalMassEjection = this.serviceResponseBodyList[this.infrastructureApi.baseService];
+
         // tslint:disable-next-line: max-line-length
-        this.infrastructureCommonTable.makeTableDef(this.serviceResponseBodyList[this.infrastructureApi.baseService], 'near_earth_objects', null, null, null, `Element Count: ${this.serviceResponseBodyList[this.infrastructureApi.baseService].element_count}`);
+        const cardTitle = `CoronalMassEjection in Timeframe ${this.infrastructureApi.QueryPrameters.startDate} to ${this.infrastructureApi.QueryPrameters.endDate}`;
+
+        // tslint:disable-next-line: max-line-length
+        this.infrastructureCommonTable.makeTableDef(this.serviceResponseBodyList, this.infrastructureApi.baseService, cardTitle, 1);
       },
       (error: any) => {
         console.log(error);

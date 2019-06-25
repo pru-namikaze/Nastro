@@ -15,6 +15,8 @@ import { NeowsStatsTemplateComponent } from './neows-stats-template/neows-stats-
 import { NeowsBrowseByAsteroidIdTemplateComponent } from './neows-browse-by-asteroid-id-template/neows-browse-by-asteroid-id-template.component';
 import { FiltersTemplateComponent } from './filters-template/filters-template.component';
 import { TableTemplateComponent } from './table-template/table-template.component';
+import { DonkiTemplateComponent } from './donki-template/donki-template.component';
+import { DonkiCmeTemplateComponent } from './donki-cme-template/donki-cme-template.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import { TableTemplateComponent } from './table-template/table-template.componen
     NeowsStatsTemplateComponent,
     NeowsBrowseByAsteroidIdTemplateComponent,
     FiltersTemplateComponent,
-    TableTemplateComponent
+    TableTemplateComponent,
+    DonkiTemplateComponent,
+    DonkiCmeTemplateComponent
   ],
   imports: [
     BrowserAnimationsModule,

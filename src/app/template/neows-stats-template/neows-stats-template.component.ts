@@ -14,40 +14,37 @@ import { InfrastructureCommonTableService } from 'src/app/services/infrastructur
 })
 export class NeowsStatsTemplateComponent implements OnInit {
 
-  baseServiceName: string;
   baseServiceNameList: Array<string>;
   baseServiceList: Array<string>;
   serviceResponseBodyList: object;
-  baseService: string;
 
   constructor(
     public infrastructureApi: InfrastructureApiService,
     public infrastructureCommonTable: InfrastructureCommonTableService,
     private http: HttpClient,
     private sanitizer: DomSanitizer) {
-    this.baseServiceName = 'NeoWs';
     this.serviceResponseBodyList = {};
-    this.baseServiceNameList = Object.keys(UrlDict);
-    this.baseServiceList = Object.keys(this.infrastructureApi.ResponceURLDict[this.baseServiceName]);
-    this.baseService = 'Neo - Stats';
 
     this.reloadNeoWsStats();
-
    }
 
    reloadNeoWsStats(): void {
     this.infrastructureApi.GenerateResponseUrl();
-    this.http.get(this.infrastructureApi.ResponceURLDict[this.baseServiceName][this.baseService]).subscribe(
+    
+    // tslint:disable-next-line: max-line-length
+    this.http.get(this.infrastructureApi.ResponceURLDict[this.infrastructureApi.baseServiceName][this.infrastructureApi.baseService]).subscribe(
       (body) => {
-        this.serviceResponseBodyList[this.baseService] = {};
-        this.serviceResponseBodyList[this.baseService] = body;
-        console.table({ 'responseObjectDictionary': this.serviceResponseBodyList[this.baseService] });
-        // tslint:disable-next-line: max-line-length
-        this.serviceResponseBodyList[this.baseService].nasa_jpl_url = this.sanitizer.bypassSecurityTrustResourceUrl(this.serviceResponseBodyList[this.baseService].nasa_jpl_url);
-        // tslint:disable-next-line: max-line-length
-        this.serviceResponseBodyList[this.baseService].nasa_jpl_url = this.serviceResponseBodyList[this.baseService].nasa_jpl_url.changingThisBreaksApplicationSecurity;
+        this.serviceResponseBodyList[this.infrastructureApi.baseService] = {};
+        this.serviceResponseBodyList[this.infrastructureApi.baseService] = body;
 
-        this.infrastructureCommonTable.makeTableDef(this.serviceResponseBodyList, this.baseService);
+        console.table({ 'responseObjectDictionary': this.serviceResponseBodyList[this.infrastructureApi.baseService] });
+
+        // tslint:disable-next-line: max-line-length
+        this.serviceResponseBodyList[this.infrastructureApi.baseService].nasa_jpl_url = this.sanitizer.bypassSecurityTrustResourceUrl(this.serviceResponseBodyList[this.infrastructureApi.baseService].nasa_jpl_url);
+        // tslint:disable-next-line: max-line-length
+        this.serviceResponseBodyList[this.infrastructureApi.baseService].nasa_jpl_url = this.serviceResponseBodyList[this.infrastructureApi.baseService].nasa_jpl_url.changingThisBreaksApplicationSecurity;
+
+        this.infrastructureCommonTable.makeTableDef(this.serviceResponseBodyList, this.infrastructureApi.baseService);
       },
       (error: any) => {
         console.log(error);
