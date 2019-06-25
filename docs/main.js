@@ -321,6 +321,16 @@ var InfrastructureApiService = /** @class */ (function () {
                                     this.QueryPrameters[property.VariableName] = endDate.getFullYear().toString().padStart(4, '0') + "-" + (endDate.getMonth() + 1).toString().padStart(2, '0') + "-" + endDate.getDate().toString().padStart(2, '0');
                                     break;
                                 }
+                                case 'startDate': {
+                                    // tslint:disable-next-line: max-line-length
+                                    this.QueryPrameters[property.VariableName] = endDate.getFullYear().toString().padStart(4, '0') + "-01-01";
+                                    break;
+                                }
+                                case 'endDate': {
+                                    // tslint:disable-next-line: max-line-length
+                                    this.QueryPrameters[property.VariableName] = endDate.getFullYear().toString().padStart(4, '0') + "-" + (endDate.getMonth() + 1).toString().padStart(2, '0') + "-" + endDate.getDate().toString().padStart(2, '0');
+                                    break;
+                                }
                                 default: {
                                     this.QueryPrameters[property.VariableName] = property.DefaultValue;
                                     break;
@@ -334,18 +344,6 @@ var InfrastructureApiService = /** @class */ (function () {
             }
         }
         this.ResponceURLDict[baseServiceName] = responseURLList;
-    };
-    InfrastructureApiService.prototype.cardPress = function (tablename) {
-        if (!document.getElementById('collapse' + tablename).className.includes('show')) {
-            document.getElementById('arrow' + tablename).className = 'fas fa-angle-down';
-        }
-        else {
-            document.getElementById('arrow' + tablename).className = 'fas fa-angle-right';
-        }
-        this.documentLocationHref('#accordion-' + tablename);
-    };
-    InfrastructureApiService.prototype.documentLocationHref = function (elementId) {
-        document.location.href = elementId;
     };
     InfrastructureApiService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
@@ -393,14 +391,44 @@ var InfrastructureCommonTableService = /** @class */ (function () {
         }
         return keyList;
     };
-    InfrastructureCommonTableService.prototype.makeTableDef = function (serviceResponseBodyList, baseService, cardTitle) {
+    // tslint:disable-next-line: max-line-length
+    InfrastructureCommonTableService.prototype.makeTableDef = function (serviceResponseBodyList, baseService, cardTitle, level, accessKey, infoText) {
         console.table([serviceResponseBodyList, baseService]);
         this.tableTupleList = [];
         this.tableDef = [];
         this.tupleList = [];
-        this.cardTitle = cardTitle;
-        for (var _i = 0, _a = Object.keys(serviceResponseBodyList[baseService]); _i < _a.length; _i++) {
-            var key = _a[_i];
+        if (!Object(util__WEBPACK_IMPORTED_MODULE_2__["isNullOrUndefined"])(cardTitle)) {
+            this.cardTitle = cardTitle;
+        }
+        else {
+            this.cardTitle = null;
+        }
+        if (!Object(util__WEBPACK_IMPORTED_MODULE_2__["isNullOrUndefined"])(infoText)) {
+            this.additionalInformationText = infoText;
+        }
+        else {
+            this.additionalInformationText = null;
+        }
+        if (!Object(util__WEBPACK_IMPORTED_MODULE_2__["isNullOrUndefined"])(level) && !Object(util__WEBPACK_IMPORTED_MODULE_2__["isNullOrUndefined"])(cardTitle)) {
+            if (level === 1) {
+                var table = {};
+                table[baseService] = {};
+                table[baseService][cardTitle] = serviceResponseBodyList[baseService];
+                serviceResponseBodyList = {};
+                serviceResponseBodyList = table;
+            }
+            else if (level === 2 && !Object(util__WEBPACK_IMPORTED_MODULE_2__["isNullOrUndefined"])(accessKey)) {
+                for (var _i = 0, _a = Object.keys(serviceResponseBodyList[baseService]); _i < _a.length; _i++) {
+                    var key = _a[_i];
+                    if (key !== accessKey) {
+                        delete serviceResponseBodyList[baseService][key];
+                    }
+                }
+            }
+        }
+        console.table(['serviceResponseBodyList', serviceResponseBodyList, Object.keys(serviceResponseBodyList[baseService])]);
+        for (var _b = 0, _c = Object.keys(serviceResponseBodyList[baseService]); _b < _c.length; _b++) {
+            var key = _c[_b];
             if (typeof (serviceResponseBodyList[baseService][key]) === 'object') {
                 if (Object(util__WEBPACK_IMPORTED_MODULE_2__["isArray"])(serviceResponseBodyList[baseService][key])) {
                     // tslint:disable-next-line: max-line-length
@@ -545,6 +573,172 @@ var ApodTemplateComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/template/donki-cme-template/donki-cme-template.component.css":
+/*!******************************************************************************!*\
+  !*** ./src/app/template/donki-cme-template/donki-cme-template.component.css ***!
+  \******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL3RlbXBsYXRlL2RvbmtpLWNtZS10ZW1wbGF0ZS9kb25raS1jbWUtdGVtcGxhdGUuY29tcG9uZW50LmNzcyJ9 */"
+
+/***/ }),
+
+/***/ "./src/app/template/donki-cme-template/donki-cme-template.component.html":
+/*!*******************************************************************************!*\
+  !*** ./src/app/template/donki-cme-template/donki-cme-template.component.html ***!
+  \*******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"container-fluid col-xl-4 col-lg-5 col-md-7 col-sm-9 col-12 no-gutters\">\n  <div class=\"input-group my-2\" tabindex=\"0\" data-toggle=\"tooltip\" attr.title=\"{{DescDict.Parameters['startDate']}}\">\n    <div class=\"input-group-prepend\">\n      <label class=\"input-group-text\">startDate:&nbsp;</label>\n    </div>\n    <input type=\"date\" [(ngModel)]=\"infrastructureApi.QueryPrameters.startDate\">\n  </div>\n  <div class=\"input-group my-2\" tabindex=\"0\" data-toggle=\"tooltip\" attr.title=\"{{DescDict.Parameters['endDate']}}\">\n    <div class=\"input-group-prepend\">\n      <label class=\"input-group-text\">endDate:&nbsp;</label>\n    </div>\n    <input type=\"date\" [(ngModel)]=\"infrastructureApi.QueryPrameters.endDate\">\n  </div>\n  <div class=\"w-100\">\n    <button type=\"button\" class=\"btn btn-info mr-4\" (click)=\"reloadDONKICoronalMassEjection()\">Show</button>\n  </div>\n</div>\n"
+
+/***/ }),
+
+/***/ "./src/app/template/donki-cme-template/donki-cme-template.component.ts":
+/*!*****************************************************************************!*\
+  !*** ./src/app/template/donki-cme-template/donki-cme-template.component.ts ***!
+  \*****************************************************************************/
+/*! exports provided: DonkiCmeTemplateComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DonkiCmeTemplateComponent", function() { return DonkiCmeTemplateComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../services/domainDescDict.json */ "./src/app/services/domainDescDict.json");
+var _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_4___namespace = /*#__PURE__*/__webpack_require__.t(/*! ../../services/domainDescDict.json */ "./src/app/services/domainDescDict.json", 1);
+/* harmony import */ var src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/services/infrastructure-api.service */ "./src/app/services/infrastructure-api.service.ts");
+/* harmony import */ var src_app_services_infrastructure_common_table_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/services/infrastructure-common-table.service */ "./src/app/services/infrastructure-common-table.service.ts");
+
+
+
+
+
+
+
+var DonkiCmeTemplateComponent = /** @class */ (function () {
+    function DonkiCmeTemplateComponent(infrastructureApi, infrastructureCommonTable, http, sanitizer) {
+        this.infrastructureApi = infrastructureApi;
+        this.infrastructureCommonTable = infrastructureCommonTable;
+        this.http = http;
+        this.sanitizer = sanitizer;
+        this.serviceResponseBodyList = {};
+        this.DescDict = _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_4__;
+        this.reloadDONKICoronalMassEjection();
+    }
+    DonkiCmeTemplateComponent.prototype.ngOnInit = function () {
+    };
+    DonkiCmeTemplateComponent.prototype.reloadDONKICoronalMassEjection = function () {
+        var _this = this;
+        this.infrastructureApi.GenerateResponseUrl();
+        // tslint:disable-next-line: max-line-length
+        this.http.get(this.infrastructureApi.ResponceURLDict[this.infrastructureApi.baseServiceName][this.infrastructureApi.baseService]).subscribe(function (body) {
+            _this.serviceResponseBodyList[_this.infrastructureApi.baseService] = {};
+            _this.serviceResponseBodyList[_this.infrastructureApi.baseService] = body;
+            for (var _i = 0, _a = _this.serviceResponseBodyList[_this.infrastructureApi.baseService]; _i < _a.length; _i++) {
+                var element = _a[_i];
+                var tempInstumentString = '';
+                for (var _b = 0, _c = element.instruments; _b < _c.length; _b++) {
+                    var instument = _c[_b];
+                    tempInstumentString = tempInstumentString.concat(", " + instument.displayName);
+                }
+                element.instruments = tempInstumentString.slice(2);
+            }
+            console.table({ 'responseObjectDictionary': _this.serviceResponseBodyList[_this.infrastructureApi.baseService] });
+            var table = {};
+            table[_this.infrastructureApi.baseService] = {};
+            table[_this.infrastructureApi.baseService].CoronalMassEjection = _this.serviceResponseBodyList[_this.infrastructureApi.baseService];
+            // tslint:disable-next-line: max-line-length
+            var cardTitle = "CoronalMassEjection in Timeframe " + _this.infrastructureApi.QueryPrameters.startDate + " to " + _this.infrastructureApi.QueryPrameters.endDate;
+            // tslint:disable-next-line: max-line-length
+            _this.infrastructureCommonTable.makeTableDef(_this.serviceResponseBodyList, _this.infrastructureApi.baseService, cardTitle, 1);
+        }, function (error) {
+            console.log(error);
+        }, function () { });
+    };
+    DonkiCmeTemplateComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-donki-cme-template',
+            template: __webpack_require__(/*! ./donki-cme-template.component.html */ "./src/app/template/donki-cme-template/donki-cme-template.component.html"),
+            styles: [__webpack_require__(/*! ./donki-cme-template.component.css */ "./src/app/template/donki-cme-template/donki-cme-template.component.css")]
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_5__["InfrastructureApiService"],
+            src_app_services_infrastructure_common_table_service__WEBPACK_IMPORTED_MODULE_6__["InfrastructureCommonTableService"],
+            _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClient"],
+            _angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__["DomSanitizer"]])
+    ], DonkiCmeTemplateComponent);
+    return DonkiCmeTemplateComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/template/donki-template/donki-template.component.css":
+/*!**********************************************************************!*\
+  !*** ./src/app/template/donki-template/donki-template.component.css ***!
+  \**********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL3RlbXBsYXRlL2RvbmtpLXRlbXBsYXRlL2RvbmtpLXRlbXBsYXRlLmNvbXBvbmVudC5jc3MifQ== */"
+
+/***/ }),
+
+/***/ "./src/app/template/donki-template/donki-template.component.html":
+/*!***********************************************************************!*\
+  !*** ./src/app/template/donki-template/donki-template.component.html ***!
+  \***********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"container-fluid jumbotron-fluid mx-auto d-block pr-5 pb-5 mt-2\">\n  <div [ngSwitch]=\"infrastructureApi.baseService\">\n    <app-donki-cme-template *ngSwitchCase=\"'Coronal Mass Ejection (CME)'\"></app-donki-cme-template>\n  </div>\n  <br />\n  <app-table-template></app-table-template>\n  <br />\n</div>\n"
+
+/***/ }),
+
+/***/ "./src/app/template/donki-template/donki-template.component.ts":
+/*!*********************************************************************!*\
+  !*** ./src/app/template/donki-template/donki-template.component.ts ***!
+  \*********************************************************************/
+/*! exports provided: DonkiTemplateComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DonkiTemplateComponent", function() { return DonkiTemplateComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/services/infrastructure-api.service */ "./src/app/services/infrastructure-api.service.ts");
+
+
+
+var DonkiTemplateComponent = /** @class */ (function () {
+    function DonkiTemplateComponent(infrastructureApi) {
+        this.infrastructureApi = infrastructureApi;
+        this.baseServiceList = Object.keys(this.infrastructureApi.ResponceURLDict[this.infrastructureApi.baseServiceName]);
+        this.infrastructureApi.baseService = this.baseServiceList[0];
+    }
+    DonkiTemplateComponent.prototype.ngOnInit = function () {
+    };
+    DonkiTemplateComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-donki-template',
+            template: __webpack_require__(/*! ./donki-template.component.html */ "./src/app/template/donki-template/donki-template.component.html"),
+            styles: [__webpack_require__(/*! ./donki-template.component.css */ "./src/app/template/donki-template/donki-template.component.css")]
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_2__["InfrastructureApiService"]])
+    ], DonkiTemplateComponent);
+    return DonkiTemplateComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/template/filters-template/filters-template.component.css":
 /*!**************************************************************************!*\
   !*** ./src/app/template/filters-template/filters-template.component.css ***!
@@ -626,7 +820,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar navbar-expand-lg navbar-light bg-light y-padding-0rem mt-5 px-5\">\r\n  <span class=\"navbar-brand align-self-center\">\r\n      <img src=\"https://raw.githubusercontent.com/pru-namikaze/Nastro/master/src/assets/Nastro_logo.jpg\" width=\"150\" height=\"150\" class=\"d-inline-block align-top\" alt=\"\">\r\n    </span>\r\n\r\n  <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarSupportedContent\" aria-controls=\"navbarSupportedContent\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\r\n    <span class=\"navbar-toggler-icon\"></span>\r\n  </button>\r\n\r\n  <div class=\"collapse navbar-collapse\" id=\"navbarSupportedContent\">\r\n    <ul class=\"navbar-nav mr-auto\">\r\n      <li class=\"nav-item dropdown\" *ngFor=\"let baseServiceName of baseServiceNameList\" attr.id=\"{{'navbar-list-' + baseServiceName}}\" (mouseover)=\"toggleNavDropDown(baseServiceName, true)\" (mouseout)=\"toggleNavDropDown(baseServiceName, false)\">\r\n        <span class=\"nav-link dropdown-toggle\" attr.id=\"{{'navbarDropdown' + baseServiceName}}\" role=\"button\" data-toggle=\"dropdown\">\r\n          {{baseServiceName}}\r\n        </span>\r\n        <div class=\"dropdown-menu\" attr.id=\"{{'navbar-dropdown-list-' + baseServiceName}}\">\r\n          <a class=\"dropdown-item\" *ngFor=\"let baseService of getNavbaseServiceList(baseServiceName)\" (click)=\"Visit(baseServiceName, baseService)\">{{baseService}}</a>\r\n        </div>\r\n      </li>\r\n    </ul>\r\n  </div>\r\n</nav>\r\n<div class=\"ml-5\">\r\n  <div class=\"container-fluid jumbotron-fluid mx-auto d-block\">\r\n    <h1 class=\"display-1 w-100\"><b>{{infrastructureApi.baseServiceName}}</b></h1>\r\n    <p>{{DescDict.baseServiceName[infrastructureApi.baseServiceName]}}</p>\r\n    <h1 class=\"display-4 w-100 mb-4\">{{infrastructureApi.baseService}}</h1>\r\n    <p>{{DescDict.baseService[infrastructureApi.baseService]}}</p>\r\n  </div>\r\n</div>\r\n\r\n<div class=\"ml-5\">\r\n  <div class=\"container-fluid jumbotron-fluid mx-auto d-block\" [ngSwitch]=\"infrastructureApi.baseServiceName\">\r\n    <app-apod-template *ngSwitchCase=\"'APoD'\"></app-apod-template>\r\n    <app-neows-template *ngSwitchCase=\"'NeoWs'\"></app-neows-template>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<nav class=\"navbar navbar-expand-lg navbar-light bg-light y-padding-0rem mt-5 px-5\">\r\n  <span class=\"navbar-brand align-self-center\">\r\n      <img src=\"https://raw.githubusercontent.com/pru-namikaze/Nastro/master/src/assets/Nastro_logo.jpg\" width=\"150\" height=\"150\" class=\"d-inline-block align-top\" alt=\"\">\r\n    </span>\r\n\r\n  <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarSupportedContent\" aria-controls=\"navbarSupportedContent\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\r\n    <span class=\"navbar-toggler-icon\"></span>\r\n  </button>\r\n\r\n  <div class=\"collapse navbar-collapse\" id=\"navbarSupportedContent\">\r\n    <ul class=\"navbar-nav mr-auto\">\r\n      <li class=\"nav-item dropdown\" *ngFor=\"let baseServiceName of baseServiceNameList\" attr.id=\"{{'navbar-list-' + baseServiceName}}\" (mouseover)=\"toggleNavDropDown(baseServiceName, true)\" (mouseout)=\"toggleNavDropDown(baseServiceName, false)\">\r\n        <span class=\"nav-link dropdown-toggle\" attr.id=\"{{'navbarDropdown' + baseServiceName}}\" role=\"button\" data-toggle=\"dropdown\">\r\n          {{baseServiceName}}\r\n        </span>\r\n        <div class=\"dropdown-menu\" attr.id=\"{{'navbar-dropdown-list-' + baseServiceName}}\">\r\n          <a class=\"dropdown-item\" *ngFor=\"let baseService of getNavbaseServiceList(baseServiceName)\" (click)=\"Visit(baseServiceName, baseService)\">{{baseService}}</a>\r\n        </div>\r\n      </li>\r\n    </ul>\r\n  </div>\r\n</nav>\r\n<div class=\"ml-5\">\r\n  <div class=\"container-fluid jumbotron-fluid mx-auto d-block\">\r\n    <h1 class=\"display-1 w-100\"><b>{{infrastructureApi.baseServiceName}}</b></h1>\r\n    <p>{{DescDict.baseServiceName[infrastructureApi.baseServiceName]}}</p>\r\n    <h1 class=\"display-4 w-100 mb-4\">{{infrastructureApi.baseService}}</h1>\r\n    <p>{{DescDict.baseService[infrastructureApi.baseService]}}</p>\r\n  </div>\r\n</div>\r\n\r\n<div class=\"mx-5\">\r\n  <div class=\"container-fluid jumbotron-fluid mx-auto d-block\" [ngSwitch]=\"infrastructureApi.baseServiceName\">\r\n    <app-apod-template *ngSwitchCase=\"'APoD'\"></app-apod-template>\r\n    <app-neows-template *ngSwitchCase=\"'NeoWs'\"></app-neows-template>\r\n    <app-donki-template *ngSwitchCase=\"'DONKI'\"></app-donki-template>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -742,13 +936,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
-/* harmony import */ var _services_domainUrlDict_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../../services/domainUrlDict.json */ "./src/app/services/domainUrlDict.json");
-var _services_domainUrlDict_json__WEBPACK_IMPORTED_MODULE_4___namespace = /*#__PURE__*/__webpack_require__.t(/*! ./../../services/domainUrlDict.json */ "./src/app/services/domainUrlDict.json", 1);
-/* harmony import */ var _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../services/domainDescDict.json */ "./src/app/services/domainDescDict.json");
-var _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_5___namespace = /*#__PURE__*/__webpack_require__.t(/*! ../../services/domainDescDict.json */ "./src/app/services/domainDescDict.json", 1);
-/* harmony import */ var src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/services/infrastructure-api.service */ "./src/app/services/infrastructure-api.service.ts");
-/* harmony import */ var src_app_services_infrastructure_common_table_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! src/app/services/infrastructure-common-table.service */ "./src/app/services/infrastructure-common-table.service.ts");
-
+/* harmony import */ var _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../services/domainDescDict.json */ "./src/app/services/domainDescDict.json");
+var _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_4___namespace = /*#__PURE__*/__webpack_require__.t(/*! ../../services/domainDescDict.json */ "./src/app/services/domainDescDict.json", 1);
+/* harmony import */ var src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/services/infrastructure-api.service */ "./src/app/services/infrastructure-api.service.ts");
+/* harmony import */ var src_app_services_infrastructure_common_table_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/services/infrastructure-common-table.service */ "./src/app/services/infrastructure-common-table.service.ts");
 
 
 
@@ -763,35 +954,32 @@ var NeowsBrowseByAsteroidIdTemplateComponent = /** @class */ (function () {
         this.http = http;
         this.sanitizer = sanitizer;
         this.serviceResponseBodyList = {};
-        this.baseServiceName = 'NeoWs';
-        this.baseServiceNameList = Object.keys(_services_domainUrlDict_json__WEBPACK_IMPORTED_MODULE_4__);
-        this.baseServiceList = Object.keys(this.infrastructureApi.ResponceURLDict[this.baseServiceName]);
-        this.baseService = 'Neo - Browse by Asteroid ID';
         this.estimatedDiameterTypes = [];
         this.closeApproachDataRelativeVelocityTypes = [];
         this.closeApproachDataMissDistanceTypes = [];
         this.selectEstimatedDiameterType = '';
         this.selectcloseApproachDataRelativeVelocityType = '';
         this.selectCloseApproachDataMissDistanceType = '';
-        this.DescDict = _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_5__;
+        this.DescDict = _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_4__;
         this.reloadNeoWsBrowseByAsteroidId();
     }
     NeowsBrowseByAsteroidIdTemplateComponent.prototype.reloadNeoWsBrowseByAsteroidId = function () {
         var _this = this;
         this.infrastructureApi.GenerateResponseUrl();
-        this.http.get(this.infrastructureApi.ResponceURLDict[this.baseServiceName][this.baseService]).subscribe(function (body) {
-            _this.serviceResponseBodyList[_this.baseService] = {};
-            _this.serviceResponseBodyList[_this.baseService] = body;
+        // tslint:disable-next-line: max-line-length
+        this.http.get(this.infrastructureApi.ResponceURLDict[this.infrastructureApi.baseServiceName][this.infrastructureApi.baseService]).subscribe(function (body) {
+            _this.serviceResponseBodyList[_this.infrastructureApi.baseService] = {};
+            _this.serviceResponseBodyList[_this.infrastructureApi.baseService] = body;
             // tslint:disable-next-line: max-line-length
-            _this.serviceResponseBodyList[_this.baseService].links.self = _this.sanitizer.bypassSecurityTrustResourceUrl(_this.serviceResponseBodyList[_this.baseService].links.self);
+            _this.serviceResponseBodyList[_this.infrastructureApi.baseService].links.self = _this.sanitizer.bypassSecurityTrustResourceUrl(_this.serviceResponseBodyList[_this.infrastructureApi.baseService].links.self);
             // tslint:disable-next-line: max-line-length
-            _this.serviceResponseBodyList[_this.baseService].links = _this.serviceResponseBodyList[_this.baseService].links.self.changingThisBreaksApplicationSecurity;
-            console.table({ 'responseObjectDictionary': _this.serviceResponseBodyList[_this.baseService] });
-            _this.estimatedDiameterTypes = Object.keys(_this.serviceResponseBodyList[_this.baseService].estimated_diameter);
+            _this.serviceResponseBodyList[_this.infrastructureApi.baseService].links = _this.serviceResponseBodyList[_this.infrastructureApi.baseService].links.self.changingThisBreaksApplicationSecurity;
+            console.table({ 'responseObjectDictionary': _this.serviceResponseBodyList[_this.infrastructureApi.baseService] });
+            _this.estimatedDiameterTypes = Object.keys(_this.serviceResponseBodyList[_this.infrastructureApi.baseService].estimated_diameter);
             // tslint:disable-next-line: max-line-length
-            _this.closeApproachDataRelativeVelocityTypes = Object.keys(_this.serviceResponseBodyList[_this.baseService].close_approach_data[0].relative_velocity);
+            _this.closeApproachDataRelativeVelocityTypes = Object.keys(_this.serviceResponseBodyList[_this.infrastructureApi.baseService].close_approach_data[0].relative_velocity);
             // tslint:disable-next-line: max-line-length
-            _this.closeApproachDataMissDistanceTypes = Object.keys(_this.serviceResponseBodyList[_this.baseService].close_approach_data[0].miss_distance);
+            _this.closeApproachDataMissDistanceTypes = Object.keys(_this.serviceResponseBodyList[_this.infrastructureApi.baseService].close_approach_data[0].miss_distance);
             // tslint:disable-next-line: max-line-length
             _this.selectEstimatedDiameterType = (_this.selectEstimatedDiameterType === '') ? _this.estimatedDiameterTypes[0] : _this.selectEstimatedDiameterType;
             // tslint:disable-next-line: max-line-length
@@ -799,16 +987,16 @@ var NeowsBrowseByAsteroidIdTemplateComponent = /** @class */ (function () {
             // tslint:disable-next-line: max-line-length
             _this.selectCloseApproachDataMissDistanceType = (_this.selectCloseApproachDataMissDistanceType === '') ? _this.closeApproachDataMissDistanceTypes[0] : _this.selectCloseApproachDataMissDistanceType;
             // tslint:disable-next-line: max-line-length
-            _this.serviceResponseBodyList[_this.baseService].estimated_diameter = _this.serviceResponseBodyList[_this.baseService].estimated_diameter[_this.selectEstimatedDiameterType];
-            for (var _i = 0, _a = _this.serviceResponseBodyList[_this.baseService].close_approach_data; _i < _a.length; _i++) {
+            _this.serviceResponseBodyList[_this.infrastructureApi.baseService].estimated_diameter = _this.serviceResponseBodyList[_this.infrastructureApi.baseService].estimated_diameter[_this.selectEstimatedDiameterType];
+            for (var _i = 0, _a = _this.serviceResponseBodyList[_this.infrastructureApi.baseService].close_approach_data; _i < _a.length; _i++) {
                 var row = _a[_i];
                 row.miss_distance = row.miss_distance[_this.selectCloseApproachDataMissDistanceType];
                 row.relative_velocity = row.relative_velocity[_this.selectcloseApproachDataRelativeVelocityType];
             }
             // tslint:disable-next-line: max-line-length
-            _this.serviceResponseBodyList[_this.baseService].orbital_data = tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({}, _this.serviceResponseBodyList[_this.baseService].orbital_data, _this.serviceResponseBodyList[_this.baseService].orbital_data.orbit_class);
-            delete _this.serviceResponseBodyList[_this.baseService].orbital_data.orbit_class;
-            _this.infrastructureCommonTable.makeTableDef(_this.serviceResponseBodyList, _this.baseService);
+            _this.serviceResponseBodyList[_this.infrastructureApi.baseService].orbital_data = tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({}, _this.serviceResponseBodyList[_this.infrastructureApi.baseService].orbital_data, _this.serviceResponseBodyList[_this.infrastructureApi.baseService].orbital_data.orbit_class);
+            delete _this.serviceResponseBodyList[_this.infrastructureApi.baseService].orbital_data.orbit_class;
+            _this.infrastructureCommonTable.makeTableDef(_this.serviceResponseBodyList, _this.infrastructureApi.baseService);
         }, function (error) {
             console.log(error);
         }, function () { });
@@ -821,8 +1009,8 @@ var NeowsBrowseByAsteroidIdTemplateComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./neows-browse-by-asteroid-id-template.component.html */ "./src/app/template/neows-browse-by-asteroid-id-template/neows-browse-by-asteroid-id-template.component.html"),
             styles: [__webpack_require__(/*! ./neows-browse-by-asteroid-id-template.component.css */ "./src/app/template/neows-browse-by-asteroid-id-template/neows-browse-by-asteroid-id-template.component.css")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_6__["InfrastructureApiService"],
-            src_app_services_infrastructure_common_table_service__WEBPACK_IMPORTED_MODULE_7__["InfrastructureCommonTableService"],
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_5__["InfrastructureApiService"],
+            src_app_services_infrastructure_common_table_service__WEBPACK_IMPORTED_MODULE_6__["InfrastructureCommonTableService"],
             _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClient"],
             _angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__["DomSanitizer"]])
     ], NeowsBrowseByAsteroidIdTemplateComponent);
@@ -867,16 +1055,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NeowsBrowseTemplateComponent", function() { return NeowsBrowseTemplateComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
-/* harmony import */ var _services_domainUrlDict_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../../services/domainUrlDict.json */ "./src/app/services/domainUrlDict.json");
-var _services_domainUrlDict_json__WEBPACK_IMPORTED_MODULE_4___namespace = /*#__PURE__*/__webpack_require__.t(/*! ./../../services/domainUrlDict.json */ "./src/app/services/domainUrlDict.json", 1);
-/* harmony import */ var _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../services/domainDescDict.json */ "./src/app/services/domainDescDict.json");
-var _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_5___namespace = /*#__PURE__*/__webpack_require__.t(/*! ../../services/domainDescDict.json */ "./src/app/services/domainDescDict.json", 1);
-/* harmony import */ var src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/services/infrastructure-api.service */ "./src/app/services/infrastructure-api.service.ts");
-/* harmony import */ var src_app_services_infrastructure_common_table_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! src/app/services/infrastructure-common-table.service */ "./src/app/services/infrastructure-common-table.service.ts");
-
-
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../services/domainDescDict.json */ "./src/app/services/domainDescDict.json");
+var _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_3___namespace = /*#__PURE__*/__webpack_require__.t(/*! ../../services/domainDescDict.json */ "./src/app/services/domainDescDict.json", 1);
+/* harmony import */ var src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/services/infrastructure-api.service */ "./src/app/services/infrastructure-api.service.ts");
+/* harmony import */ var src_app_services_infrastructure_common_table_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/services/infrastructure-common-table.service */ "./src/app/services/infrastructure-common-table.service.ts");
 
 
 
@@ -884,20 +1067,14 @@ var _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_5___namespace = /*#__
 
 
 var NeowsBrowseTemplateComponent = /** @class */ (function () {
-    function NeowsBrowseTemplateComponent(infrastructureApi, infrastructureCommonTable, http, sanitizer) {
+    function NeowsBrowseTemplateComponent(infrastructureApi, infrastructureCommonTable, http) {
         this.infrastructureApi = infrastructureApi;
         this.infrastructureCommonTable = infrastructureCommonTable;
         this.http = http;
-        this.sanitizer = sanitizer;
-        this.columnDef = [];
-        this.baseServiceName = 'NeoWs';
         this.serviceResponseBodyList = {};
-        this.baseServiceNameList = Object.keys(_services_domainUrlDict_json__WEBPACK_IMPORTED_MODULE_4__);
-        this.baseServiceList = Object.keys(this.infrastructureApi.ResponceURLDict[this.baseServiceName]);
-        this.baseService = 'Neo - Browse';
         this.maxPageNo = '';
         this.totalNoOfElements = '';
-        this.DescDict = _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_5__;
+        this.DescDict = _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_3__;
         this.reloadNeoWsBrowse();
     }
     NeowsBrowseTemplateComponent.prototype.ngOnInit = function () {
@@ -909,38 +1086,21 @@ var NeowsBrowseTemplateComponent = /** @class */ (function () {
     };
     NeowsBrowseTemplateComponent.prototype.reloadNeoWsBrowseNext = function () {
         // tslint:disable-next-line: max-line-length
-        this.infrastructureApi.QueryPrameters.page = (parseInt(this.infrastructureApi.QueryPrameters.page) >= (parseInt(this.serviceResponseBodyList[this.baseService].page.total_pages) - 1)) ? (parseInt(this.serviceResponseBodyList[this.baseService].page.total_pages) - 1).toString() : (parseInt(this.infrastructureApi.QueryPrameters.page) + 1).toString();
+        this.infrastructureApi.QueryPrameters.page = (parseInt(this.infrastructureApi.QueryPrameters.page) >= (parseInt(this.maxPageNo) - 1)) ? (parseInt(this.maxPageNo) - 1).toString() : (parseInt(this.infrastructureApi.QueryPrameters.page) + 1).toString();
         this.reloadNeoWsBrowse();
     };
     NeowsBrowseTemplateComponent.prototype.reloadNeoWsBrowse = function () {
         var _this = this;
-        console.log('/*-+');
-        console.log(typeof (this.infrastructureApi.QueryPrameters.page));
         this.infrastructureApi.GenerateResponseUrl();
-        console.log(this.serviceResponseBodyList[this.baseService]);
-        console.log(this.infrastructureApi.ResponceURLDict[this.baseServiceName][this.baseService]);
-        this.http.get(this.infrastructureApi.ResponceURLDict[this.baseServiceName][this.baseService]).subscribe(function (body) {
-            _this.serviceResponseBodyList[_this.baseService] = {};
-            _this.serviceResponseBodyList[_this.baseService] = body;
+        // tslint:disable-next-line: max-line-length
+        this.http.get(this.infrastructureApi.ResponceURLDict[this.infrastructureApi.baseServiceName][this.infrastructureApi.baseService]).subscribe(function (body) {
+            _this.serviceResponseBodyList[_this.infrastructureApi.baseService] = {};
+            _this.serviceResponseBodyList[_this.infrastructureApi.baseService] = body;
+            console.table({ 'responseObjectDictionary': _this.serviceResponseBodyList[_this.infrastructureApi.baseService] });
+            _this.maxPageNo = (parseInt(_this.serviceResponseBodyList[_this.infrastructureApi.baseService].page.total_pages) - 1).toString();
+            _this.totalNoOfElements = _this.serviceResponseBodyList[_this.infrastructureApi.baseService].page.total_elements.toString();
             // tslint:disable-next-line: max-line-length
-            _this.serviceResponseBodyList[_this.baseService].url = _this.sanitizer.bypassSecurityTrustResourceUrl(_this.serviceResponseBodyList[_this.baseService].url);
-            console.table({ 'responseObjectDictionary': _this.serviceResponseBodyList[_this.baseService] });
-            console.log(Object.keys(_this.serviceResponseBodyList[_this.baseService].near_earth_objects[0]));
-            for (var _i = 0, _a = Object.keys(_this.serviceResponseBodyList[_this.baseService].near_earth_objects[0]); _i < _a.length; _i++) {
-                var key = _a[_i];
-                // tslint:disable-next-line: max-line-length
-                if ((typeof (_this.serviceResponseBodyList[_this.baseService].near_earth_objects[0][key]) !== 'object') && (_this.columnDef.indexOf(key) < 0)) {
-                    _this.columnDef.push(key);
-                }
-            }
-            console.log(_this.columnDef);
-            _this.maxPageNo = (parseInt(_this.serviceResponseBodyList[_this.baseService].page.total_pages) - 1).toString();
-            _this.totalNoOfElements = _this.serviceResponseBodyList[_this.baseService].page.total_elements.toString();
-            var tableDef = {};
-            tableDef[_this.baseService] = {};
-            tableDef[_this.baseService].near_earth_objects = {};
-            tableDef[_this.baseService].near_earth_objects = _this.serviceResponseBodyList[_this.baseService].near_earth_objects;
-            _this.infrastructureCommonTable.makeTableDef(tableDef, _this.baseService, "Total Element: " + _this.totalNoOfElements);
+            _this.infrastructureCommonTable.makeTableDef(_this.serviceResponseBodyList, _this.infrastructureApi.baseService, "Total Element: " + _this.totalNoOfElements, 2, 'near_earth_objects');
         }, function (error) {
             console.log(error);
         }, function () { });
@@ -951,10 +1111,9 @@ var NeowsBrowseTemplateComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./neows-browse-template.component.html */ "./src/app/template/neows-browse-template/neows-browse-template.component.html"),
             styles: [__webpack_require__(/*! ./neows-browse-template.component.css */ "./src/app/template/neows-browse-template/neows-browse-template.component.css")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_6__["InfrastructureApiService"],
-            src_app_services_infrastructure_common_table_service__WEBPACK_IMPORTED_MODULE_7__["InfrastructureCommonTableService"],
-            _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClient"],
-            _angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__["DomSanitizer"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_4__["InfrastructureApiService"],
+            src_app_services_infrastructure_common_table_service__WEBPACK_IMPORTED_MODULE_5__["InfrastructureCommonTableService"],
+            _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]])
     ], NeowsBrowseTemplateComponent);
     return NeowsBrowseTemplateComponent;
 }());
@@ -981,7 +1140,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container-fluid col-xl-4 col-lg-5 col-md-7 col-sm-9 col-12 no-gutters\">\n  <div class=\"input-group my-2\" tabindex=\"0\" data-toggle=\"tooltip\" attr.title=\"{{DescDict.Parameters['start_date']}}\">\n    <div class=\"input-group-prepend\">\n      <label class=\"input-group-text\">start_date:&nbsp;</label>\n    </div>\n    <input type=\"date\" [(ngModel)]=\"infrastructureApi.QueryPrameters.start_date\">\n  </div>\n  <div class=\"input-group my-2\" tabindex=\"0\" data-toggle=\"tooltip\" attr.title=\"{{DescDict.Parameters['end_date']}}\">\n    <div class=\"input-group-prepend\">\n      <label class=\"input-group-text\">end_date:&nbsp;</label>\n    </div>\n    <input type=\"date\" [(ngModel)]=\"infrastructureApi.QueryPrameters.end_date\">\n  </div>\n  <div class=\"w-100\">\n    <button type=\"button\" class=\"btn btn-info mr-4\" (click)=\"reloadNeoWsFeed()\">Show</button>\n    <button type=\"button\" class=\"btn btn-info ml-4\" (click)=\"reloadNeoWsFeedForToday()\">Show Today's\n      Feed</button><br /><br />\n  </div>\n</div>\n<span class=\"w-100 font-size-2rem\">\n  <span class=\"font-size-h2\">Element Count:</span>&nbsp;{{serviceResponseBodyList[baseService].element_count}}\n</span>\n<br />\n"
+module.exports = "<div class=\"container-fluid col-xl-4 col-lg-5 col-md-7 col-sm-9 col-12 no-gutters\">\n  <div class=\"input-group my-2\" tabindex=\"0\" data-toggle=\"tooltip\" attr.title=\"{{DescDict.Parameters['start_date']}}\">\n    <div class=\"input-group-prepend\">\n      <label class=\"input-group-text\">start_date:&nbsp;</label>\n    </div>\n    <input type=\"date\" [(ngModel)]=\"infrastructureApi.QueryPrameters.start_date\">\n  </div>\n  <div class=\"input-group my-2\" tabindex=\"0\" data-toggle=\"tooltip\" attr.title=\"{{DescDict.Parameters['end_date']}}\">\n    <div class=\"input-group-prepend\">\n      <label class=\"input-group-text\">end_date:&nbsp;</label>\n    </div>\n    <input type=\"date\" [(ngModel)]=\"infrastructureApi.QueryPrameters.end_date\">\n  </div>\n  <div class=\"w-100\">\n    <button type=\"button\" class=\"btn btn-info mr-4\" (click)=\"reloadNeoWsFeed()\">Show</button>\n    <button type=\"button\" class=\"btn btn-info ml-4\" (click)=\"reloadNeoWsFeedForToday()\">Show Today's Feed</button><br /><br />\n  </div>\n</div><br />\n"
 
 /***/ }),
 
@@ -997,16 +1156,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NeowsFeedTemplateComponent", function() { return NeowsFeedTemplateComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
-/* harmony import */ var _services_domainUrlDict_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../../services/domainUrlDict.json */ "./src/app/services/domainUrlDict.json");
-var _services_domainUrlDict_json__WEBPACK_IMPORTED_MODULE_4___namespace = /*#__PURE__*/__webpack_require__.t(/*! ./../../services/domainUrlDict.json */ "./src/app/services/domainUrlDict.json", 1);
-/* harmony import */ var _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../services/domainDescDict.json */ "./src/app/services/domainDescDict.json");
-var _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_5___namespace = /*#__PURE__*/__webpack_require__.t(/*! ../../services/domainDescDict.json */ "./src/app/services/domainDescDict.json", 1);
-/* harmony import */ var src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/services/infrastructure-api.service */ "./src/app/services/infrastructure-api.service.ts");
-/* harmony import */ var src_app_services_infrastructure_common_table_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! src/app/services/infrastructure-common-table.service */ "./src/app/services/infrastructure-common-table.service.ts");
-
-
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../services/domainDescDict.json */ "./src/app/services/domainDescDict.json");
+var _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_3___namespace = /*#__PURE__*/__webpack_require__.t(/*! ../../services/domainDescDict.json */ "./src/app/services/domainDescDict.json", 1);
+/* harmony import */ var src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/services/infrastructure-api.service */ "./src/app/services/infrastructure-api.service.ts");
+/* harmony import */ var src_app_services_infrastructure_common_table_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/services/infrastructure-common-table.service */ "./src/app/services/infrastructure-common-table.service.ts");
 
 
 
@@ -1014,20 +1168,12 @@ var _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_5___namespace = /*#__
 
 
 var NeowsFeedTemplateComponent = /** @class */ (function () {
-    function NeowsFeedTemplateComponent(infrastructureApi, infrastructureCommonTable, http, sanitizer) {
+    function NeowsFeedTemplateComponent(infrastructureApi, infrastructureCommonTable, http) {
         this.infrastructureApi = infrastructureApi;
         this.infrastructureCommonTable = infrastructureCommonTable;
         this.http = http;
-        this.sanitizer = sanitizer;
-        this.GetDetailedBody = false;
-        this.NearEarthObjectsDatesList = [];
-        this.columnDef = [];
-        this.baseServiceName = 'NeoWs';
         this.serviceResponseBodyList = {};
-        this.baseServiceNameList = Object.keys(_services_domainUrlDict_json__WEBPACK_IMPORTED_MODULE_4__);
-        this.baseServiceList = Object.keys(this.infrastructureApi.ResponceURLDict[this.baseServiceName]);
-        this.baseService = 'Neo - Feed';
-        this.DescDict = _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_5__;
+        this.DescDict = _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_3__;
         this.reloadNeoWsFeed();
     }
     NeowsFeedTemplateComponent.prototype.ngOnInit = function () {
@@ -1043,13 +1189,13 @@ var NeowsFeedTemplateComponent = /** @class */ (function () {
     NeowsFeedTemplateComponent.prototype.reloadNeoWsFeed = function () {
         var _this = this;
         this.infrastructureApi.GenerateResponseUrl();
-        this.http.get(this.infrastructureApi.ResponceURLDict[this.baseServiceName][this.baseService]).subscribe(function (body) {
-            _this.serviceResponseBodyList[_this.baseService] = {};
-            _this.serviceResponseBodyList[_this.baseService] = body;
+        // tslint:disable-next-line: max-line-length
+        this.http.get(this.infrastructureApi.ResponceURLDict[this.infrastructureApi.baseServiceName][this.infrastructureApi.baseService]).subscribe(function (body) {
+            _this.serviceResponseBodyList[_this.infrastructureApi.baseService] = {};
+            _this.serviceResponseBodyList[_this.infrastructureApi.baseService] = body;
+            console.table({ 'responseObjectDictionary': _this.serviceResponseBodyList[_this.infrastructureApi.baseService] });
             // tslint:disable-next-line: max-line-length
-            _this.serviceResponseBodyList[_this.baseService].url = _this.sanitizer.bypassSecurityTrustResourceUrl(_this.serviceResponseBodyList[_this.baseService].url);
-            console.table({ 'responseObjectDictionary': _this.serviceResponseBodyList[_this.baseService] });
-            _this.infrastructureCommonTable.makeTableDef(_this.serviceResponseBodyList[_this.baseService], 'near_earth_objects');
+            _this.infrastructureCommonTable.makeTableDef(_this.serviceResponseBodyList[_this.infrastructureApi.baseService], 'near_earth_objects', null, null, null, "Element Count: " + _this.serviceResponseBodyList[_this.infrastructureApi.baseService].element_count);
         }, function (error) {
             console.log(error);
         }, function () { });
@@ -1060,10 +1206,9 @@ var NeowsFeedTemplateComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./neows-feed-template.component.html */ "./src/app/template/neows-feed-template/neows-feed-template.component.html"),
             styles: [__webpack_require__(/*! ./neows-feed-template.component.css */ "./src/app/template/neows-feed-template/neows-feed-template.component.css")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_6__["InfrastructureApiService"],
-            src_app_services_infrastructure_common_table_service__WEBPACK_IMPORTED_MODULE_7__["InfrastructureCommonTableService"],
-            _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClient"],
-            _angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__["DomSanitizer"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_4__["InfrastructureApiService"],
+            src_app_services_infrastructure_common_table_service__WEBPACK_IMPORTED_MODULE_5__["InfrastructureCommonTableService"],
+            _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]])
     ], NeowsFeedTemplateComponent);
     return NeowsFeedTemplateComponent;
 }());
@@ -1106,16 +1251,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NeowsNeoSentryTemplateComponent", function() { return NeowsNeoSentryTemplateComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
-/* harmony import */ var _services_domainUrlDict_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../../services/domainUrlDict.json */ "./src/app/services/domainUrlDict.json");
-var _services_domainUrlDict_json__WEBPACK_IMPORTED_MODULE_4___namespace = /*#__PURE__*/__webpack_require__.t(/*! ./../../services/domainUrlDict.json */ "./src/app/services/domainUrlDict.json", 1);
-/* harmony import */ var _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../services/domainDescDict.json */ "./src/app/services/domainDescDict.json");
-var _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_5___namespace = /*#__PURE__*/__webpack_require__.t(/*! ../../services/domainDescDict.json */ "./src/app/services/domainDescDict.json", 1);
-/* harmony import */ var src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/services/infrastructure-api.service */ "./src/app/services/infrastructure-api.service.ts");
-/* harmony import */ var src_app_services_infrastructure_common_table_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! src/app/services/infrastructure-common-table.service */ "./src/app/services/infrastructure-common-table.service.ts");
-
-
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../services/domainDescDict.json */ "./src/app/services/domainDescDict.json");
+var _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_3___namespace = /*#__PURE__*/__webpack_require__.t(/*! ../../services/domainDescDict.json */ "./src/app/services/domainDescDict.json", 1);
+/* harmony import */ var src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/services/infrastructure-api.service */ "./src/app/services/infrastructure-api.service.ts");
+/* harmony import */ var src_app_services_infrastructure_common_table_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/services/infrastructure-common-table.service */ "./src/app/services/infrastructure-common-table.service.ts");
 
 
 
@@ -1123,20 +1263,14 @@ var _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_5___namespace = /*#__
 
 
 var NeowsNeoSentryTemplateComponent = /** @class */ (function () {
-    function NeowsNeoSentryTemplateComponent(infrastructureApi, infrastructureCommonTable, http, sanitizer) {
+    function NeowsNeoSentryTemplateComponent(infrastructureApi, infrastructureCommonTable, http) {
         this.infrastructureApi = infrastructureApi;
         this.infrastructureCommonTable = infrastructureCommonTable;
         this.http = http;
-        this.sanitizer = sanitizer;
-        this.columnDef = [];
-        this.baseServiceName = 'NeoWs';
         this.serviceResponseBodyList = {};
-        this.baseServiceNameList = Object.keys(_services_domainUrlDict_json__WEBPACK_IMPORTED_MODULE_4__);
-        this.baseServiceList = Object.keys(this.infrastructureApi.ResponceURLDict[this.baseServiceName]);
-        this.baseService = 'Neo - Sentry';
         this.maxPageNo = '';
         this.totalNoOfElements = '';
-        this.DescDict = _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_5__;
+        this.DescDict = _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_3__;
         this.reloadNeoWsBrowse();
     }
     NeowsNeoSentryTemplateComponent.prototype.ngOnInit = function () {
@@ -1148,36 +1282,21 @@ var NeowsNeoSentryTemplateComponent = /** @class */ (function () {
     };
     NeowsNeoSentryTemplateComponent.prototype.reloadNeoWsBrowseNext = function () {
         // tslint:disable-next-line: max-line-length
-        this.infrastructureApi.QueryPrameters.page = (parseInt(this.infrastructureApi.QueryPrameters.page) >= (parseInt(this.serviceResponseBodyList[this.baseService].page.total_pages) - 1)) ? (parseInt(this.serviceResponseBodyList[this.baseService].page.total_pages) - 1).toString() : (parseInt(this.infrastructureApi.QueryPrameters.page) + 1).toString();
+        this.infrastructureApi.QueryPrameters.page = (parseInt(this.infrastructureApi.QueryPrameters.page) >= (parseInt(this.maxPageNo) - 1)) ? (parseInt(this.maxPageNo) - 1).toString() : (parseInt(this.infrastructureApi.QueryPrameters.page) + 1).toString();
         this.reloadNeoWsBrowse();
     };
     NeowsNeoSentryTemplateComponent.prototype.reloadNeoWsBrowse = function () {
         var _this = this;
         this.infrastructureApi.GenerateResponseUrl();
-        this.http.get(this.infrastructureApi.ResponceURLDict[this.baseServiceName][this.baseService]).subscribe(function (body) {
-            _this.serviceResponseBodyList[_this.baseService] = {};
-            _this.serviceResponseBodyList[_this.baseService] = body;
+        // tslint:disable-next-line: max-line-length
+        this.http.get(this.infrastructureApi.ResponceURLDict[this.infrastructureApi.baseServiceName][this.infrastructureApi.baseService]).subscribe(function (body) {
+            _this.serviceResponseBodyList[_this.infrastructureApi.baseService] = {};
+            _this.serviceResponseBodyList[_this.infrastructureApi.baseService] = body;
+            console.table({ 'responseObjectDictionary': _this.serviceResponseBodyList[_this.infrastructureApi.baseService] });
+            _this.maxPageNo = (parseInt(_this.serviceResponseBodyList[_this.infrastructureApi.baseService].page.total_pages) - 1).toString();
+            _this.totalNoOfElements = _this.serviceResponseBodyList[_this.infrastructureApi.baseService].page.total_elements.toString();
             // tslint:disable-next-line: max-line-length
-            _this.serviceResponseBodyList[_this.baseService].url = _this.sanitizer.bypassSecurityTrustResourceUrl(_this.serviceResponseBodyList[_this.baseService].url);
-            console.table({ 'responseObjectDictionary': _this.serviceResponseBodyList[_this.baseService] });
-            console.log(Object.keys(_this.serviceResponseBodyList[_this.baseService].sentry_objects[0]));
-            for (var _i = 0, _a = Object.keys(_this.serviceResponseBodyList[_this.baseService].sentry_objects[0]); _i < _a.length; _i++) {
-                var key = _a[_i];
-                // tslint:disable-next-line: max-line-length
-                if ((typeof (_this.serviceResponseBodyList[_this.baseService].sentry_objects[0][key]) !== 'object') && (_this.columnDef.indexOf(key) < 0)) {
-                    _this.columnDef.push(key);
-                }
-            }
-            console.log(_this.columnDef);
-            _this.maxPageNo = (parseInt(_this.serviceResponseBodyList[_this.baseService].page.total_pages) - 1).toString();
-            _this.totalNoOfElements = _this.serviceResponseBodyList[_this.baseService].page.total_elements.toString();
-            console.log('maxPage');
-            console.log(_this.maxPageNo);
-            var tableDef = {};
-            tableDef[_this.baseService] = {};
-            tableDef[_this.baseService].sentry_objects = {};
-            tableDef[_this.baseService].sentry_objects = _this.serviceResponseBodyList[_this.baseService].sentry_objects;
-            _this.infrastructureCommonTable.makeTableDef(tableDef, _this.baseService, "Total Element: " + _this.totalNoOfElements);
+            _this.infrastructureCommonTable.makeTableDef(_this.serviceResponseBodyList, _this.infrastructureApi.baseService, "Total Element: " + _this.totalNoOfElements, 2, 'sentry_objects');
         }, function (error) {
             console.log(error);
         }, function () { });
@@ -1191,10 +1310,9 @@ var NeowsNeoSentryTemplateComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./neows-neo-sentry-template.component.html */ "./src/app/template/neows-neo-sentry-template/neows-neo-sentry-template.component.html"),
             styles: [__webpack_require__(/*! ./neows-neo-sentry-template.component.css */ "./src/app/template/neows-neo-sentry-template/neows-neo-sentry-template.component.css")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_6__["InfrastructureApiService"],
-            src_app_services_infrastructure_common_table_service__WEBPACK_IMPORTED_MODULE_7__["InfrastructureCommonTableService"],
-            _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClient"],
-            _angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__["DomSanitizer"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_4__["InfrastructureApiService"],
+            src_app_services_infrastructure_common_table_service__WEBPACK_IMPORTED_MODULE_5__["InfrastructureCommonTableService"],
+            _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]])
     ], NeowsNeoSentryTemplateComponent);
     return NeowsNeoSentryTemplateComponent;
 }());
@@ -1239,11 +1357,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
-/* harmony import */ var _services_domainUrlDict_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../../services/domainUrlDict.json */ "./src/app/services/domainUrlDict.json");
-var _services_domainUrlDict_json__WEBPACK_IMPORTED_MODULE_4___namespace = /*#__PURE__*/__webpack_require__.t(/*! ./../../services/domainUrlDict.json */ "./src/app/services/domainUrlDict.json", 1);
-/* harmony import */ var src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/services/infrastructure-api.service */ "./src/app/services/infrastructure-api.service.ts");
-/* harmony import */ var src_app_services_infrastructure_common_table_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/services/infrastructure-common-table.service */ "./src/app/services/infrastructure-common-table.service.ts");
-
+/* harmony import */ var src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/services/infrastructure-api.service */ "./src/app/services/infrastructure-api.service.ts");
+/* harmony import */ var src_app_services_infrastructure_common_table_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/services/infrastructure-common-table.service */ "./src/app/services/infrastructure-common-table.service.ts");
 
 
 
@@ -1256,25 +1371,22 @@ var NeowsStatsTemplateComponent = /** @class */ (function () {
         this.infrastructureCommonTable = infrastructureCommonTable;
         this.http = http;
         this.sanitizer = sanitizer;
-        this.baseServiceName = 'NeoWs';
         this.serviceResponseBodyList = {};
-        this.baseServiceNameList = Object.keys(_services_domainUrlDict_json__WEBPACK_IMPORTED_MODULE_4__);
-        this.baseServiceList = Object.keys(this.infrastructureApi.ResponceURLDict[this.baseServiceName]);
-        this.baseService = 'Neo - Stats';
         this.reloadNeoWsStats();
     }
     NeowsStatsTemplateComponent.prototype.reloadNeoWsStats = function () {
         var _this = this;
         this.infrastructureApi.GenerateResponseUrl();
-        this.http.get(this.infrastructureApi.ResponceURLDict[this.baseServiceName][this.baseService]).subscribe(function (body) {
-            _this.serviceResponseBodyList[_this.baseService] = {};
-            _this.serviceResponseBodyList[_this.baseService] = body;
-            console.table({ 'responseObjectDictionary': _this.serviceResponseBodyList[_this.baseService] });
+        // tslint:disable-next-line: max-line-length
+        this.http.get(this.infrastructureApi.ResponceURLDict[this.infrastructureApi.baseServiceName][this.infrastructureApi.baseService]).subscribe(function (body) {
+            _this.serviceResponseBodyList[_this.infrastructureApi.baseService] = {};
+            _this.serviceResponseBodyList[_this.infrastructureApi.baseService] = body;
+            console.table({ 'responseObjectDictionary': _this.serviceResponseBodyList[_this.infrastructureApi.baseService] });
             // tslint:disable-next-line: max-line-length
-            _this.serviceResponseBodyList[_this.baseService].nasa_jpl_url = _this.sanitizer.bypassSecurityTrustResourceUrl(_this.serviceResponseBodyList[_this.baseService].nasa_jpl_url);
+            _this.serviceResponseBodyList[_this.infrastructureApi.baseService].nasa_jpl_url = _this.sanitizer.bypassSecurityTrustResourceUrl(_this.serviceResponseBodyList[_this.infrastructureApi.baseService].nasa_jpl_url);
             // tslint:disable-next-line: max-line-length
-            _this.serviceResponseBodyList[_this.baseService].nasa_jpl_url = _this.serviceResponseBodyList[_this.baseService].nasa_jpl_url.changingThisBreaksApplicationSecurity;
-            _this.infrastructureCommonTable.makeTableDef(_this.serviceResponseBodyList, _this.baseService);
+            _this.serviceResponseBodyList[_this.infrastructureApi.baseService].nasa_jpl_url = _this.serviceResponseBodyList[_this.infrastructureApi.baseService].nasa_jpl_url.changingThisBreaksApplicationSecurity;
+            _this.infrastructureCommonTable.makeTableDef(_this.serviceResponseBodyList, _this.infrastructureApi.baseService);
         }, function (error) {
             console.log(error);
         }, function () { });
@@ -1287,8 +1399,8 @@ var NeowsStatsTemplateComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./neows-stats-template.component.html */ "./src/app/template/neows-stats-template/neows-stats-template.component.html"),
             styles: [__webpack_require__(/*! ./neows-stats-template.component.css */ "./src/app/template/neows-stats-template/neows-stats-template.component.css")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_5__["InfrastructureApiService"],
-            src_app_services_infrastructure_common_table_service__WEBPACK_IMPORTED_MODULE_6__["InfrastructureCommonTableService"],
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_4__["InfrastructureApiService"],
+            src_app_services_infrastructure_common_table_service__WEBPACK_IMPORTED_MODULE_5__["InfrastructureCommonTableService"],
             _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClient"],
             _angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__["DomSanitizer"]])
     ], NeowsStatsTemplateComponent);
@@ -1378,7 +1490,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngIf=\"infrastructureCommonTable.tupleList\">\n  <span class=\"w-100 font-size-2rem\" *ngFor=\"let tuple of infrastructureCommonTable.tupleList\">\n    <span class=\"font-size-h2\">{{tuple[0]}}:</span>&nbsp;{{tuple[1]}}<br />\n  </span>\n</div>\n<br />\n<div *ngIf=\"infrastructureCommonTable.tableDef\">\n  <div *ngFor=\"let table of infrastructureCommonTable.tableDef\">\n    <div attr.id=\"{{'accordion-' + table}}\">\n      <div attr.id=\"{{'card-' + table}}\" class=\"card\">\n        <div class=\"card-header\" attr.id=\"{{'card-header' + table}}\">\n          <h3 class=\"mb-0\">\n            <button class=\"btn btn-link\" data-toggle=\"collapse\" attr.data-target=\"{{'#collapse' + table}}\" aria-expanded=\"false\" attr.aria-controls=\"{{'#collapse' + table}}\" (click)=\"infrastructureCommonTable.cardPress(table)\">\n              <span class=\"w-100 font-size-2rem\">\n                <span class=\"font-size-h2\" attr.id=\"{{'card-header-' + table}}\">\n                  {{infrastructureCommonTable.cardTitle? infrastructureCommonTable.cardTitle : table}}&nbsp;\n                </span>\n                <span class=\"fas fa-angle-right\" attr.id=\"{{'arrow' + table}}\"></span>\n                <br />\n              </span>\n            </button>\n          </h3>\n        </div>\n        <div attr.id=\"{{'collapse' + table}}\" class=\"collapse\" attr.data-parent=\"{{'#accordion-' + table}}\">\n          <div class=\"card-body\">\n            <div class=\"table-responsive\">\n              <table class=\"table table-bordered\">\n                <thead class=\"table-info\">\n                  <tr>\n                    <th scope=\"col\" *ngFor=\"let column of infrastructureCommonTable.tableTupleList[infrastructureCommonTable.findIndexInColumnDef(table)][1]\">\n                      {{column}}\n                    </th>\n                  </tr>\n                </thead>\n                <tbody *ngFor=\"let row of infrastructureCommonTable.tableTupleList[infrastructureCommonTable.findIndexInColumnDef(table)][2]\">\n                  <tr>\n                    <td *ngFor=\"let column of infrastructureCommonTable.tableTupleList[infrastructureCommonTable.findIndexInColumnDef(table)][1]\">\n                      {{row[column]}}\n                    </td>\n                  </tr>\n                </tbody>\n              </table>\n            </div>\n          </div>\n        </div>\n      </div>\n      <br />\n    </div>\n  </div>\n</div>\n"
+module.exports = "<span class=\"w-100 font-size-2rem\" *ngIf=\"infrastructureCommonTable.additionalInformationText\">\n  {{infrastructureCommonTable.additionalInformationText}}\n</span>\n<br />\n<div *ngIf=\"infrastructureCommonTable.tupleList\">\n  <span class=\"w-100 font-size-2rem\" *ngFor=\"let tuple of infrastructureCommonTable.tupleList\">\n    <span class=\"font-size-h2\">{{tuple[0]}}:</span>&nbsp;{{tuple[1]}}<br />\n  </span>\n</div>\n<br />\n<div *ngIf=\"infrastructureCommonTable.tableDef\">\n  <div *ngFor=\"let table of infrastructureCommonTable.tableDef\">\n    <div attr.id=\"{{'accordion-' + table}}\">\n      <div attr.id=\"{{'card-' + table}}\" class=\"card\">\n        <div class=\"card-header\" attr.id=\"{{'card-header' + table}}\">\n          <h3 class=\"mb-0\">\n            <button class=\"btn btn-link\" data-toggle=\"collapse\" attr.data-target=\"{{'#collapse' + table}}\" aria-expanded=\"false\" attr.aria-controls=\"{{'#collapse' + table}}\" (click)=\"infrastructureCommonTable.cardPress(table)\">\n              <span class=\"w-100 font-size-2rem\">\n                <span class=\"font-size-h2\" attr.id=\"{{'card-header-' + table}}\">\n                  {{infrastructureCommonTable.cardTitle? infrastructureCommonTable.cardTitle : table}}&nbsp;\n                </span>\n                <span class=\"fas fa-angle-right\" attr.id=\"{{'arrow' + table}}\"></span>\n                <br />\n              </span>\n            </button>\n          </h3>\n        </div>\n        <div attr.id=\"{{'collapse' + table}}\" class=\"collapse\" attr.data-parent=\"{{'#accordion-' + table}}\">\n          <div class=\"card-body\">\n            <div class=\"table-responsive\">\n              <table class=\"table table-bordered\">\n                <thead class=\"table-info\">\n                  <tr>\n                    <th scope=\"col\" *ngFor=\"let column of infrastructureCommonTable.tableTupleList[infrastructureCommonTable.findIndexInColumnDef(table)][1]\">\n                      {{column}}\n                    </th>\n                  </tr>\n                </thead>\n                <tbody *ngFor=\"let row of infrastructureCommonTable.tableTupleList[infrastructureCommonTable.findIndexInColumnDef(table)][2]\">\n                  <tr>\n                    <td *ngFor=\"let column of infrastructureCommonTable.tableTupleList[infrastructureCommonTable.findIndexInColumnDef(table)][1]\">\n                      {{row[column]}}\n                    </td>\n                  </tr>\n                </tbody>\n              </table>\n            </div>\n          </div>\n        </div>\n      </div>\n      <br />\n    </div>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -1445,6 +1557,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _neows_browse_by_asteroid_id_template_neows_browse_by_asteroid_id_template_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./neows-browse-by-asteroid-id-template/neows-browse-by-asteroid-id-template.component */ "./src/app/template/neows-browse-by-asteroid-id-template/neows-browse-by-asteroid-id-template.component.ts");
 /* harmony import */ var _filters_template_filters_template_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./filters-template/filters-template.component */ "./src/app/template/filters-template/filters-template.component.ts");
 /* harmony import */ var _table_template_table_template_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./table-template/table-template.component */ "./src/app/template/table-template/table-template.component.ts");
+/* harmony import */ var _donki_template_donki_template_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./donki-template/donki-template.component */ "./src/app/template/donki-template/donki-template.component.ts");
+/* harmony import */ var _donki_cme_template_donki_cme_template_component__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./donki-cme-template/donki-cme-template.component */ "./src/app/template/donki-cme-template/donki-cme-template.component.ts");
+
+
 
 
 
@@ -1476,7 +1592,9 @@ var TemplateModule = /** @class */ (function () {
                 _neows_stats_template_neows_stats_template_component__WEBPACK_IMPORTED_MODULE_12__["NeowsStatsTemplateComponent"],
                 _neows_browse_by_asteroid_id_template_neows_browse_by_asteroid_id_template_component__WEBPACK_IMPORTED_MODULE_13__["NeowsBrowseByAsteroidIdTemplateComponent"],
                 _filters_template_filters_template_component__WEBPACK_IMPORTED_MODULE_14__["FiltersTemplateComponent"],
-                _table_template_table_template_component__WEBPACK_IMPORTED_MODULE_15__["TableTemplateComponent"]
+                _table_template_table_template_component__WEBPACK_IMPORTED_MODULE_15__["TableTemplateComponent"],
+                _donki_template_donki_template_component__WEBPACK_IMPORTED_MODULE_16__["DonkiTemplateComponent"],
+                _donki_cme_template_donki_cme_template_component__WEBPACK_IMPORTED_MODULE_17__["DonkiCmeTemplateComponent"]
             ],
             imports: [
                 _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_4__["BrowserAnimationsModule"],
