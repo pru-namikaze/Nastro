@@ -413,8 +413,7 @@ var InfrastructureCommonTableService = /** @class */ (function () {
             if (level === 1) {
                 var table = {};
                 table[baseService] = {};
-                table[baseService][cardTitle] = serviceResponseBodyList[baseService];
-                serviceResponseBodyList = {};
+                table[baseService].data = serviceResponseBodyList[baseService];
                 serviceResponseBodyList = table;
             }
             else if (level === 2 && !Object(util__WEBPACK_IMPORTED_MODULE_2__["isNullOrUndefined"])(accessKey)) {
@@ -426,7 +425,7 @@ var InfrastructureCommonTableService = /** @class */ (function () {
                 }
             }
         }
-        console.table(['serviceResponseBodyList', serviceResponseBodyList, Object.keys(serviceResponseBodyList[baseService])]);
+        console.table(['serviceResponseBodyList', serviceResponseBodyList, baseService, Object.keys(serviceResponseBodyList[baseService])]);
         for (var _b = 0, _c = Object.keys(serviceResponseBodyList[baseService]); _b < _c.length; _b++) {
             var key = _c[_b];
             if (typeof (serviceResponseBodyList[baseService][key]) === 'object') {
@@ -444,7 +443,7 @@ var InfrastructureCommonTableService = /** @class */ (function () {
                 this.tupleList.push([key, serviceResponseBodyList[baseService][key]]);
             }
         }
-        console.table(this.tupleList);
+        console.table([this.tupleList, this.tableTupleList]);
     };
     InfrastructureCommonTableService.prototype.findIndexInColumnDef = function (tableName) {
         for (var _i = 0, _a = this.tableTupleList; _i < _a.length; _i++) {
@@ -607,13 +606,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DonkiCmeTemplateComponent", function() { return DonkiCmeTemplateComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
-/* harmony import */ var _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../services/domainDescDict.json */ "./src/app/services/domainDescDict.json");
-var _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_4___namespace = /*#__PURE__*/__webpack_require__.t(/*! ../../services/domainDescDict.json */ "./src/app/services/domainDescDict.json", 1);
-/* harmony import */ var src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/services/infrastructure-api.service */ "./src/app/services/infrastructure-api.service.ts");
-/* harmony import */ var src_app_services_infrastructure_common_table_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/services/infrastructure-common-table.service */ "./src/app/services/infrastructure-common-table.service.ts");
-
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../services/domainDescDict.json */ "./src/app/services/domainDescDict.json");
+var _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_3___namespace = /*#__PURE__*/__webpack_require__.t(/*! ../../services/domainDescDict.json */ "./src/app/services/domainDescDict.json", 1);
+/* harmony import */ var src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/services/infrastructure-api.service */ "./src/app/services/infrastructure-api.service.ts");
+/* harmony import */ var src_app_services_infrastructure_common_table_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/services/infrastructure-common-table.service */ "./src/app/services/infrastructure-common-table.service.ts");
 
 
 
@@ -621,13 +618,12 @@ var _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_4___namespace = /*#__
 
 
 var DonkiCmeTemplateComponent = /** @class */ (function () {
-    function DonkiCmeTemplateComponent(infrastructureApi, infrastructureCommonTable, http, sanitizer) {
+    function DonkiCmeTemplateComponent(infrastructureApi, infrastructureCommonTable, http) {
         this.infrastructureApi = infrastructureApi;
         this.infrastructureCommonTable = infrastructureCommonTable;
         this.http = http;
-        this.sanitizer = sanitizer;
         this.serviceResponseBodyList = {};
-        this.DescDict = _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_4__;
+        this.DescDict = _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_3__;
         this.reloadDONKICoronalMassEjection();
     }
     DonkiCmeTemplateComponent.prototype.ngOnInit = function () {
@@ -639,6 +635,7 @@ var DonkiCmeTemplateComponent = /** @class */ (function () {
         this.http.get(this.infrastructureApi.ResponceURLDict[this.infrastructureApi.baseServiceName][this.infrastructureApi.baseService]).subscribe(function (body) {
             _this.serviceResponseBodyList[_this.infrastructureApi.baseService] = {};
             _this.serviceResponseBodyList[_this.infrastructureApi.baseService] = body;
+            console.table({ 'responseObjectDictionary': _this.serviceResponseBodyList[_this.infrastructureApi.baseService] });
             for (var _i = 0, _a = _this.serviceResponseBodyList[_this.infrastructureApi.baseService]; _i < _a.length; _i++) {
                 var element = _a[_i];
                 var tempInstumentString = '';
@@ -648,10 +645,6 @@ var DonkiCmeTemplateComponent = /** @class */ (function () {
                 }
                 element.instruments = tempInstumentString.slice(2);
             }
-            console.table({ 'responseObjectDictionary': _this.serviceResponseBodyList[_this.infrastructureApi.baseService] });
-            var table = {};
-            table[_this.infrastructureApi.baseService] = {};
-            table[_this.infrastructureApi.baseService].CoronalMassEjection = _this.serviceResponseBodyList[_this.infrastructureApi.baseService];
             // tslint:disable-next-line: max-line-length
             var cardTitle = "CoronalMassEjection in Timeframe " + _this.infrastructureApi.QueryPrameters.startDate + " to " + _this.infrastructureApi.QueryPrameters.endDate;
             // tslint:disable-next-line: max-line-length
@@ -666,10 +659,9 @@ var DonkiCmeTemplateComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./donki-cme-template.component.html */ "./src/app/template/donki-cme-template/donki-cme-template.component.html"),
             styles: [__webpack_require__(/*! ./donki-cme-template.component.css */ "./src/app/template/donki-cme-template/donki-cme-template.component.css")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_5__["InfrastructureApiService"],
-            src_app_services_infrastructure_common_table_service__WEBPACK_IMPORTED_MODULE_6__["InfrastructureCommonTableService"],
-            _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClient"],
-            _angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__["DomSanitizer"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_4__["InfrastructureApiService"],
+            src_app_services_infrastructure_common_table_service__WEBPACK_IMPORTED_MODULE_5__["InfrastructureCommonTableService"],
+            _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]])
     ], DonkiCmeTemplateComponent);
     return DonkiCmeTemplateComponent;
 }());
@@ -1490,7 +1482,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<span class=\"w-100 font-size-2rem\" *ngIf=\"infrastructureCommonTable.additionalInformationText\">\n  {{infrastructureCommonTable.additionalInformationText}}\n</span>\n<br />\n<div *ngIf=\"infrastructureCommonTable.tupleList\">\n  <span class=\"w-100 font-size-2rem\" *ngFor=\"let tuple of infrastructureCommonTable.tupleList\">\n    <span class=\"font-size-h2\">{{tuple[0]}}:</span>&nbsp;{{tuple[1]}}<br />\n  </span>\n</div>\n<br />\n<div *ngIf=\"infrastructureCommonTable.tableDef\">\n  <div *ngFor=\"let table of infrastructureCommonTable.tableDef\">\n    <div attr.id=\"{{'accordion-' + table}}\">\n      <div attr.id=\"{{'card-' + table}}\" class=\"card\">\n        <div class=\"card-header\" attr.id=\"{{'card-header' + table}}\">\n          <h3 class=\"mb-0\">\n            <button class=\"btn btn-link\" data-toggle=\"collapse\" attr.data-target=\"{{'#collapse' + table}}\" aria-expanded=\"false\" attr.aria-controls=\"{{'#collapse' + table}}\" (click)=\"infrastructureCommonTable.cardPress(table)\">\n              <span class=\"w-100 font-size-2rem\">\n                <span class=\"font-size-h2\" attr.id=\"{{'card-header-' + table}}\">\n                  {{infrastructureCommonTable.cardTitle? infrastructureCommonTable.cardTitle : table}}&nbsp;\n                </span>\n                <span class=\"fas fa-angle-right\" attr.id=\"{{'arrow' + table}}\"></span>\n                <br />\n              </span>\n            </button>\n          </h3>\n        </div>\n        <div attr.id=\"{{'collapse' + table}}\" class=\"collapse\" attr.data-parent=\"{{'#accordion-' + table}}\">\n          <div class=\"card-body\">\n            <div class=\"table-responsive\">\n              <table class=\"table table-bordered\">\n                <thead class=\"table-info\">\n                  <tr>\n                    <th scope=\"col\" *ngFor=\"let column of infrastructureCommonTable.tableTupleList[infrastructureCommonTable.findIndexInColumnDef(table)][1]\">\n                      {{column}}\n                    </th>\n                  </tr>\n                </thead>\n                <tbody *ngFor=\"let row of infrastructureCommonTable.tableTupleList[infrastructureCommonTable.findIndexInColumnDef(table)][2]\">\n                  <tr>\n                    <td *ngFor=\"let column of infrastructureCommonTable.tableTupleList[infrastructureCommonTable.findIndexInColumnDef(table)][1]\">\n                      {{row[column]}}\n                    </td>\n                  </tr>\n                </tbody>\n              </table>\n            </div>\n          </div>\n        </div>\n      </div>\n      <br />\n    </div>\n  </div>\n</div>\n"
+module.exports = "<div id=\"data-display\">\n  <span class=\"w-100 font-size-2rem\" *ngIf=\"infrastructureCommonTable.additionalInformationText\">\n    {{infrastructureCommonTable.additionalInformationText}}\n  </span>\n  <br />\n  <div *ngIf=\"infrastructureCommonTable.tupleList\">\n    <span class=\"w-100 font-size-2rem\" *ngFor=\"let tuple of infrastructureCommonTable.tupleList\">\n      <span class=\"font-size-h2\">{{tuple[0]}}:</span>&nbsp;{{tuple[1]}}<br />\n    </span>\n  </div>\n  <br />\n  <div *ngIf=\"infrastructureCommonTable.tableDef\">\n    <div *ngFor=\"let table of infrastructureCommonTable.tableDef\">\n      <div attr.id=\"{{'accordion-' + table}}\">\n        <div attr.id=\"{{'card-' + table}}\" class=\"card\">\n          <div class=\"card-header\" attr.id=\"{{'card-header' + table}}\">\n            <h3 class=\"mb-0\">\n              <button class=\"btn btn-link\" data-toggle=\"collapse\" attr.data-target=\"{{'#collapse' + table}}\" aria-expanded=\"false\" attr.aria-controls=\"{{'#collapse' + table}}\" (click)=\"infrastructureCommonTable.cardPress(table)\">\n                <span class=\"w-100 font-size-2rem\">\n                  <span class=\"font-size-h2\" attr.id=\"{{'card-header-' + table}}\">\n                    {{infrastructureCommonTable.cardTitle? infrastructureCommonTable.cardTitle : table}}&nbsp;\n                  </span>\n                  <span class=\"fas fa-angle-right\" attr.id=\"{{'arrow' + table}}\"></span>\n                  <br />\n                </span>\n              </button>\n            </h3>\n          </div>\n          <div attr.id=\"{{'collapse' + table}}\" class=\"collapse\" attr.data-parent=\"{{'#accordion-' + table}}\">\n            <div class=\"card-body\">\n              <div class=\"table-responsive\">\n                <table class=\"table table-bordered\">\n                  <thead class=\"table-info\">\n                    <tr>\n                      <th scope=\"col\" *ngFor=\"let column of infrastructureCommonTable.tableTupleList[infrastructureCommonTable.findIndexInColumnDef(table)][1]\">\n                        {{column}}\n                      </th>\n                    </tr>\n                  </thead>\n                  <tbody *ngFor=\"let row of infrastructureCommonTable.tableTupleList[infrastructureCommonTable.findIndexInColumnDef(table)][2]\">\n                    <tr>\n                      <td *ngFor=\"let column of infrastructureCommonTable.tableTupleList[infrastructureCommonTable.findIndexInColumnDef(table)][1]\">\n                        {{row[column]}}\n                      </td>\n                    </tr>\n                  </tbody>\n                </table>\n              </div>\n            </div>\n          </div>\n        </div>\n        <br />\n      </div>\n    </div>\n  </div>\n</div>\n"
 
 /***/ }),
 

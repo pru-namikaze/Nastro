@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
 import { HttpClient } from '@angular/common/http';
 
 
@@ -23,7 +22,6 @@ export class DonkiCmeTemplateComponent implements OnInit {
     public infrastructureApi: InfrastructureApiService,
     public infrastructureCommonTable: InfrastructureCommonTableService,
     private http: HttpClient,
-    private sanitizer: DomSanitizer
     ) {
     this.serviceResponseBodyList = {};
     this.DescDict = DescDict;
@@ -43,6 +41,8 @@ export class DonkiCmeTemplateComponent implements OnInit {
         this.serviceResponseBodyList[this.infrastructureApi.baseService] = {};
         this.serviceResponseBodyList[this.infrastructureApi.baseService] = body;
 
+        console.table({ 'responseObjectDictionary': this.serviceResponseBodyList[this.infrastructureApi.baseService] });
+
         for ( const element of this.serviceResponseBodyList[this.infrastructureApi.baseService]) {
           let tempInstumentString = '';
           for (const instument of element.instruments) {
@@ -50,12 +50,6 @@ export class DonkiCmeTemplateComponent implements OnInit {
           }
           element.instruments = tempInstumentString.slice(2);
         }
-
-        console.table({ 'responseObjectDictionary': this.serviceResponseBodyList[this.infrastructureApi.baseService] });
-
-        const table: any = {};
-        table[this.infrastructureApi.baseService] = {};
-        table[this.infrastructureApi.baseService].CoronalMassEjection = this.serviceResponseBodyList[this.infrastructureApi.baseService];
 
         // tslint:disable-next-line: max-line-length
         const cardTitle = `CoronalMassEjection in Timeframe ${this.infrastructureApi.QueryPrameters.startDate} to ${this.infrastructureApi.QueryPrameters.endDate}`;

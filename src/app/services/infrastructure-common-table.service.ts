@@ -49,8 +49,7 @@ export class InfrastructureCommonTableService {
       if (level === 1) {
         const table: any = {};
         table[baseService] = {};
-        table[baseService][cardTitle] = serviceResponseBodyList[baseService];
-        serviceResponseBodyList = {};
+        table[baseService].data = serviceResponseBodyList[baseService];
         serviceResponseBodyList = table;
       } else if (level === 2 && !isNullOrUndefined(accessKey)) {
         for (const key of Object.keys(serviceResponseBodyList[baseService])) {
@@ -61,7 +60,7 @@ export class InfrastructureCommonTableService {
       }
     }
 
-    console.table(['serviceResponseBodyList', serviceResponseBodyList, Object.keys(serviceResponseBodyList[baseService])]);
+    console.table(['serviceResponseBodyList', serviceResponseBodyList, baseService, Object.keys(serviceResponseBodyList[baseService])]);
     for (const key of Object.keys(serviceResponseBodyList[baseService])) {
       if (typeof (serviceResponseBodyList[baseService][key]) === 'object') {
         if (isArray(serviceResponseBodyList[baseService][key])) {
@@ -76,7 +75,7 @@ export class InfrastructureCommonTableService {
         this.tupleList.push([key, serviceResponseBodyList[baseService][key]]);
       }
     }
-    console.table(this.tupleList);
+    console.table([this.tupleList, this.tableTupleList]);
   }
 
   findIndexInColumnDef(tableName: string): number {
