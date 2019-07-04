@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 import { InfrastructureApiService } from '../services/infrastructure-api.service';
+import { GetReloadDataService } from '../services/get-reload-data.service';
 import UrlDict from './../services/domainUrlDict.json';
-import DescDict from './../services/domainDescDict.json';
 
 @Component({
   selector: 'app-main-template-component',
@@ -13,13 +13,11 @@ export class MainTemplateComponentComponent implements OnInit {
 
   baseServiceNameList: Array<string>;
   baseServiceList: Array<string>;
-  DescDict: any;
 
-  constructor(public infrastructureApi: InfrastructureApiService) {
+  constructor(public infrastructureApi: InfrastructureApiService, public getReloadData: GetReloadDataService) {
     this.baseServiceNameList = Object.keys(UrlDict);
     this.baseServiceList = Object.keys(this.infrastructureApi.ResponceURLDict[this.infrastructureApi.baseServiceName]);
     infrastructureApi.baseService = this.baseServiceList[0];
-    this.DescDict = DescDict;
   }
 
   getbaseServiceList() {
@@ -41,6 +39,15 @@ export class MainTemplateComponentComponent implements OnInit {
     this.infrastructureApi.baseServiceName = baseServiceName;
     console.table(this.infrastructureApi);
     this.infrastructureApi.baseService = baseService;
+
+    this.getReloadData.resetTable();
+
+    this.getReloadData.reloadGetDataGiveToTableMaker(
+      (this.infrastructureApi.GenerateResponseUrl(), this.infrastructureApi.ResponceURLDict),
+      this.infrastructureApi.baseServiceName,
+      this.infrastructureApi.baseService,
+      this.infrastructureApi.QueryPrameters
+    );
   }
 
   toggleNavDropDown(baseServiceName: string, showDropDownFlag: boolean): void {

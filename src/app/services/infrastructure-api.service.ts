@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import UrlDict from './domainUrlDict.json';
+import DescDict from './domainDescDict.json';
+
 
 import { isNullOrUndefined } from 'util';
 
@@ -22,6 +24,8 @@ export class InfrastructureApiService {
   baseServiceName: string;
   baseService: string;
 
+  DescDict: any;
+
   constructor(private http: HttpClient) {
     this.DataDict = UrlDict;
     this.ResponceURLDict = {};
@@ -30,6 +34,8 @@ export class InfrastructureApiService {
 
     this.baseServiceName = '';
     this.baseService = '';
+
+    this.DescDict = DescDict;
 
     this.GenerateResponseUrl();
 

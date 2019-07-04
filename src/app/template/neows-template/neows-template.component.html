@@ -6,7 +6,39 @@
     <app-neows-stats-template *ngSwitchCase="'Neo - Stats'"></app-neows-stats-template>
     <app-neows-browse-by-asteroid-id-template *ngSwitchCase="'Neo - Browse by Asteroid ID'">Neo - Browse by Asteroid ID</app-neows-browse-by-asteroid-id-template>
   </div>
-  <br />
+
+  <div class="container-fluid col-xl-4 col-lg-5 col-md-7 col-sm-9 col-12 no-gutters" [ngSwitch]="infrastructureApi.baseService">
+    <div class="w-100" *ngSwitchCase="'Neo - Feed'">
+      <div class="w-100">
+        <button type="button" class="btn btn-info mr-4" (click)="reloadTable()">Show</button>
+        <button type="button" class="btn btn-info ml-4" (click)="reloadTable(['start_date'])">Show Today's Feed</button><br /><br />
+      </div>
+    </div>
+    <div class="w-100" *ngSwitchCase="'Neo - Browse'">
+      <div class="my-2">
+        <button type="button" class="btn btn-info mr-4" (click)="reloadTable(['pagePrevious'])">Previous</button>
+        <button type="button" class="btn btn-info mr-4" (click)="reloadTable()">Show</button>
+        <button type="button" class="btn btn-info mr-4" (click)="reloadTable(['pageNext'])">Next</button>
+      </div>
+    </div>
+    <div class="w-100" *ngSwitchCase="'Neo - Sentry'">
+      <div class="my-2">
+        <div class="w-100 my-2 row">
+          <input type="checkbox" class="align-self-center offset-1" [(ngModel)]="infrastructureApi.QueryPrameters.is_active" (click)="reloadTable(['pageReset','return'])">
+          <span class="col-1 align-self-center">&nbsp;is_active</span>
+        </div>
+        <button type="button" class="btn btn-info mr-4" (click)="reloadTable(['pagePrevious'])">Previous</button>
+        <button type="button" class="btn btn-info mr-4" (click)="reloadTable()">Show</button>
+        <button type="button" class="btn btn-info mr-4" (click)="reloadTable(['pageNext'])">Next</button>
+      </div>
+    </div>
+    <div *ngSwitchCase="'Neo - Stats'">
+    </div>
+    <div class="w-100" *ngSwitchCase="'Neo - Browse by Asteroid ID'">
+      <button type="button" class="btn btn-info mr-4" (click)="reloadNeoWsBrowseByAsteroidId()">Show</button>
+    </div>
+  </div>
+
   <app-table-template></app-table-template>
   <br />
 </div>

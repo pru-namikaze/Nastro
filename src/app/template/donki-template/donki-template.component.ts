@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+
+import { GetReloadDataService } from 'src/app/services/get-reload-data.service';
 import { InfrastructureApiService } from 'src/app/services/infrastructure-api.service';
 
 @Component({
@@ -8,12 +10,22 @@ import { InfrastructureApiService } from 'src/app/services/infrastructure-api.se
 })
 export class DonkiTemplateComponent implements OnInit {
 
-  baseServiceList: Array<string>;
-
-  constructor(public infrastructureApi: InfrastructureApiService) {
-    this.baseServiceList = Object.keys(this.infrastructureApi.ResponceURLDict[this.infrastructureApi.baseServiceName]);
-    this.infrastructureApi.baseService = this.baseServiceList[0];
+  constructor(public getReloadData: GetReloadDataService, public infrastructureApi: InfrastructureApiService) {
+    this.reloadTable();
   }
+
+  reloadTable(): void {
+
+    this.getReloadData.resetTable();
+
+    this.getReloadData.reloadGetDataGiveToTableMaker(
+      (this.infrastructureApi.GenerateResponseUrl(), this.infrastructureApi.ResponceURLDict),
+      this.infrastructureApi.baseServiceName,
+      this.infrastructureApi.baseService,
+      this.infrastructureApi.QueryPrameters
+    );
+  }
+
   ngOnInit() {
   }
 

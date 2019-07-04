@@ -190,6 +190,177 @@ module.exports = {"APoD":{"0":{"Name":"Astronomy Picture of the Day","Properties
 
 /***/ }),
 
+/***/ "./src/app/services/get-reload-data.service.ts":
+/*!*****************************************************!*\
+  !*** ./src/app/services/get-reload-data.service.ts ***!
+  \*****************************************************/
+/*! exports provided: GetReloadDataService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GetReloadDataService", function() { return GetReloadDataService; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
+/* harmony import */ var util__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! util */ "./node_modules/util/util.js");
+/* harmony import */ var util__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(util__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var src_app_services_infrastructure_common_table_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/services/infrastructure-common-table.service */ "./src/app/services/infrastructure-common-table.service.ts");
+
+
+
+
+
+
+var GetReloadDataService = /** @class */ (function () {
+    function GetReloadDataService(infrastructureCommonTable, http, sanitizer) {
+        this.infrastructureCommonTable = infrastructureCommonTable;
+        this.http = http;
+        this.sanitizer = sanitizer;
+        this.serviceResponseBodyList = {};
+    }
+    GetReloadDataService.prototype.resetTable = function () {
+        this.infrastructureCommonTable.tableDef = [];
+        this.infrastructureCommonTable.tableTupleList = [];
+        this.infrastructureCommonTable.tupleList = [];
+        this.infrastructureCommonTable.additionalInformationText = '';
+    };
+    // tslint:disable-next-line: max-line-length
+    GetReloadDataService.prototype.DataRestructuring = function (baseServiceName, baseService, QueryPrameters, serviceResponseBodyList) {
+        var returnObj;
+        switch (baseServiceName) {
+            case 'APoD':
+                switch (baseService) {
+                    case 'Astronomy Picture of the Day':
+                        returnObj = this.APoDAstronomyPictureOfTheDay(serviceResponseBodyList, baseService, QueryPrameters);
+                        break;
+                }
+                break;
+            case 'NeoWs':
+                switch (baseService) {
+                    case 'Neo - Feed':
+                        returnObj = this.NeoWsFeed(serviceResponseBodyList, baseService);
+                        break;
+                    case 'Neo - Browse':
+                        returnObj = this.NeoWsBrowse(serviceResponseBodyList, baseService, QueryPrameters);
+                        break;
+                    case 'Neo - Sentry':
+                        returnObj = this.NeoWsSentry(serviceResponseBodyList, baseService, QueryPrameters);
+                        break;
+                    case 'Neo - Stats':
+                        returnObj = this.NeoWsStats(serviceResponseBodyList, baseService);
+                        break;
+                    case 'Neo - Browse by Asteroid ID':
+                        returnObj = this.NeoWsBrowseByAsteroidId(serviceResponseBodyList, baseService, QueryPrameters);
+                        break;
+                }
+                break;
+            case 'DONKI':
+                switch (baseService) {
+                    case 'Coronal Mass Ejection (CME)':
+                        returnObj = this.DONKICME(serviceResponseBodyList, baseService, QueryPrameters);
+                        break;
+                }
+                break;
+        }
+        return returnObj;
+    };
+    GetReloadDataService.prototype.APoDAstronomyPictureOfTheDay = function (serviceResponseBodyList, baseService, QueryPrameters) {
+        serviceResponseBodyList[baseService].url = this.sanitizer.bypassSecurityTrustResourceUrl(serviceResponseBodyList[baseService].url);
+        QueryPrameters.hd = false;
+        return null;
+    };
+    GetReloadDataService.prototype.NeoWsBrowseByAsteroidId = function (serviceResponseBodyList, baseService, QueryPrameters) {
+        var body = serviceResponseBodyList[baseService];
+        var selfLink = this.sanitizer.bypassSecurityTrustResourceUrl(body.links.self);
+        body.links = selfLink.changingThisBreaksApplicationSecurity;
+        QueryPrameters.estimatedDiameterTypes = Object.keys(body.estimated_diameter);
+        QueryPrameters.closeApproachDataRelativeVelocityTypes = Object.keys(body.close_approach_data[0].relative_velocity);
+        QueryPrameters.closeApproachDataMissDistanceTypes = Object.keys(body.close_approach_data[0].miss_distance);
+        // tslint:disable-next-line: max-line-length
+        QueryPrameters.selectEstimatedDiameterType = (QueryPrameters.selectEstimatedDiameterType === '') ? QueryPrameters.estimatedDiameterTypes[0] : QueryPrameters.selectEstimatedDiameterType;
+        // tslint:disable-next-line: max-line-length
+        QueryPrameters.selectcloseApproachDataRelativeVelocityType = (QueryPrameters.selectcloseApproachDataRelativeVelocityType === '') ? QueryPrameters.closeApproachDataRelativeVelocityTypes[0] : QueryPrameters.selectcloseApproachDataRelativeVelocityType;
+        // tslint:disable-next-line: max-line-length
+        QueryPrameters.selectCloseApproachDataMissDistanceType = (QueryPrameters.selectCloseApproachDataMissDistanceType === '') ? QueryPrameters.closeApproachDataMissDistanceTypes[0] : QueryPrameters.selectCloseApproachDataMissDistanceType;
+        body.estimated_diameter = body.estimated_diameter[QueryPrameters.selectEstimatedDiameterType];
+        for (var _i = 0, _a = body.close_approach_data; _i < _a.length; _i++) {
+            var row = _a[_i];
+            row.miss_distance = row.miss_distance[QueryPrameters.selectCloseApproachDataMissDistanceType];
+            row.relative_velocity = row.relative_velocity[QueryPrameters.selectcloseApproachDataRelativeVelocityType];
+        }
+        body.orbital_data = tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({}, body.orbital_data, body.orbital_data.orbit_class);
+        delete body.orbital_data.orbit_class;
+        return [serviceResponseBodyList, baseService];
+    };
+    GetReloadDataService.prototype.NeoWsStats = function (serviceResponseBodyList, baseService) {
+        var nasaJplUrl = this.sanitizer.bypassSecurityTrustResourceUrl(serviceResponseBodyList[baseService].nasa_jpl_url);
+        serviceResponseBodyList[baseService].nasa_jpl_url = nasaJplUrl.changingThisBreaksApplicationSecurity;
+        return [serviceResponseBodyList, baseService];
+    };
+    GetReloadDataService.prototype.NeoWsBrowse = function (serviceResponseBodyList, baseService, QueryPrameters) {
+        QueryPrameters.maxPageNo = (parseInt(serviceResponseBodyList[baseService].page.total_pages, 10) - 1).toString();
+        QueryPrameters.totalNoOfElements = serviceResponseBodyList[baseService].page.total_elements.toString();
+        var cardTitle = "Total Element: " + QueryPrameters.totalNoOfElements;
+        return [serviceResponseBodyList, baseService, cardTitle, 2, 'near_earth_objects'];
+    };
+    GetReloadDataService.prototype.NeoWsSentry = function (serviceResponseBodyList, baseService, QueryPrameters) {
+        QueryPrameters.maxPageNo = (parseInt(serviceResponseBodyList[baseService].page.total_pages, 10) - 1).toString();
+        QueryPrameters.totalNoOfElements = serviceResponseBodyList[baseService].page.total_elements.toString();
+        var cardTitle = "Total Element: " + QueryPrameters.totalNoOfElements;
+        console.table([serviceResponseBodyList, baseService, cardTitle, 2, 'sentry_objects', QueryPrameters.totalNoOfElements]);
+        return [serviceResponseBodyList, baseService, cardTitle, 2, 'sentry_objects'];
+    };
+    GetReloadDataService.prototype.NeoWsFeed = function (serviceResponseBodyList, baseService) {
+        // tslint:disable-next-line: max-line-length
+        return [serviceResponseBodyList[baseService], 'near_earth_objects', null, null, null, "Element Count: " + serviceResponseBodyList[baseService].element_count];
+    };
+    GetReloadDataService.prototype.DONKICME = function (serviceResponseBodyList, baseService, QueryPrameters) {
+        for (var _i = 0, _a = serviceResponseBodyList[baseService]; _i < _a.length; _i++) {
+            var element = _a[_i];
+            var tempInstumentString = '';
+            for (var _b = 0, _c = element.instruments; _b < _c.length; _b++) {
+                var instument = _c[_b];
+                tempInstumentString = tempInstumentString.concat(", " + instument.displayName);
+            }
+            element.instruments = tempInstumentString.slice(2);
+        }
+        var cardTitle = "CoronalMassEjection in Timeframe " + QueryPrameters.startDate + " to " + QueryPrameters.endDate;
+        return [serviceResponseBodyList, baseService, cardTitle, 1];
+    };
+    GetReloadDataService.prototype.reloadGetDataGiveToTableMaker = function (ResponceURLDict, baseServiceName, baseService, QueryPrameters) {
+        var _this = this;
+        this.http.get(ResponceURLDict[baseServiceName][baseService]).subscribe(function (body) {
+            var _a;
+            _this.serviceResponseBodyList[baseService] = body;
+            console.table({ responseObjectDictionary: _this.serviceResponseBodyList[baseService] });
+            // tslint:disable-next-line: max-line-length
+            var tablePrameter = _this.DataRestructuring(baseServiceName, baseService, QueryPrameters, _this.serviceResponseBodyList);
+            if (!Object(util__WEBPACK_IMPORTED_MODULE_4__["isNullOrUndefined"])(tablePrameter)) {
+                (_a = _this.infrastructureCommonTable).makeTableDef.apply(_a, tablePrameter);
+            }
+        }, function (error) {
+            // TODO: Add Error Handeling for various services.
+            alert(error);
+            console.table(error);
+        }, function () { });
+    };
+    GetReloadDataService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
+            providedIn: 'root'
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [src_app_services_infrastructure_common_table_service__WEBPACK_IMPORTED_MODULE_5__["InfrastructureCommonTableService"],
+            _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"],
+            _angular_platform_browser__WEBPACK_IMPORTED_MODULE_3__["DomSanitizer"]])
+    ], GetReloadDataService);
+    return GetReloadDataService;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/services/infrastructure-api.service.ts":
 /*!********************************************************!*\
   !*** ./src/app/services/infrastructure-api.service.ts ***!
@@ -205,8 +376,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
 /* harmony import */ var _domainUrlDict_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./domainUrlDict.json */ "./src/app/services/domainUrlDict.json");
 var _domainUrlDict_json__WEBPACK_IMPORTED_MODULE_3___namespace = /*#__PURE__*/__webpack_require__.t(/*! ./domainUrlDict.json */ "./src/app/services/domainUrlDict.json", 1);
-/* harmony import */ var util__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! util */ "./node_modules/util/util.js");
-/* harmony import */ var util__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(util__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _domainDescDict_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./domainDescDict.json */ "./src/app/services/domainDescDict.json");
+var _domainDescDict_json__WEBPACK_IMPORTED_MODULE_4___namespace = /*#__PURE__*/__webpack_require__.t(/*! ./domainDescDict.json */ "./src/app/services/domainDescDict.json", 1);
+/* harmony import */ var util__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! util */ "./node_modules/util/util.js");
+/* harmony import */ var util__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(util__WEBPACK_IMPORTED_MODULE_5__);
+
 
 
 
@@ -221,6 +395,7 @@ var InfrastructureApiService = /** @class */ (function () {
         this.UrlAdderPrameters = {};
         this.baseServiceName = '';
         this.baseService = '';
+        this.DescDict = _domainDescDict_json__WEBPACK_IMPORTED_MODULE_4__;
         this.GenerateResponseUrl();
         this.baseServiceName = Object.keys(_domainUrlDict_json__WEBPACK_IMPORTED_MODULE_3__)[0];
         this.baseService = _domainUrlDict_json__WEBPACK_IMPORTED_MODULE_3__[Object.keys(_domainUrlDict_json__WEBPACK_IMPORTED_MODULE_3__)[0]][Object.keys(_domainUrlDict_json__WEBPACK_IMPORTED_MODULE_3__[Object.keys(_domainUrlDict_json__WEBPACK_IMPORTED_MODULE_3__)[0]])[0]].Name;
@@ -253,7 +428,7 @@ var InfrastructureApiService = /** @class */ (function () {
             var date = new Date(new Date().getTime() - 45000000);
             var startDate = new Date(new Date().getTime() - 131400000);
             var endDate = new Date(new Date().getTime() - 45000000);
-            if (!Object(util__WEBPACK_IMPORTED_MODULE_4__["isNullOrUndefined"])(URLAddder)) {
+            if (!Object(util__WEBPACK_IMPORTED_MODULE_5__["isNullOrUndefined"])(URLAddder)) {
                 var i = 0;
                 for (var _b = 0, _c = Object.keys(URLAddder); _b < _c.length; _b++) {
                     var URLAddNumName = _c[_b];
@@ -262,13 +437,13 @@ var InfrastructureApiService = /** @class */ (function () {
                     this.UrlAdderPrameters[URLAddder[URLAddNumName].VariableName] = URLAddder[URLAddNumName];
                     // tslint:disable-next-line: max-line-length
                     responseURL = responseURL.concat("" + ((adder.IncludeVariableName === 'true') ? adder.VariableName + '/' : '') + ((true) ? adder.DefaultValue : undefined) + "?");
-                    if (!Object(util__WEBPACK_IMPORTED_MODULE_4__["isNullOrUndefined"])(QueryPram)) {
+                    if (!Object(util__WEBPACK_IMPORTED_MODULE_5__["isNullOrUndefined"])(QueryPram)) {
                         for (var _d = 0, _e = Object.keys(QueryPram); _d < _e.length; _d++) {
                             var propertyName = _e[_d];
                             var property = QueryPram[propertyName];
                             // tslint:disable-next-line: max-line-length
-                            this.QueryPrameters[property.VariableName] = (Object(util__WEBPACK_IMPORTED_MODULE_4__["isNullOrUndefined"])(this.QueryPrameters[property.VariableName])) ? property.DefaultValue : this.QueryPrameters[property.VariableName];
-                            if (Object(util__WEBPACK_IMPORTED_MODULE_4__["isNullOrUndefined"])(this.QueryPrameters[property.VariableName])) {
+                            this.QueryPrameters[property.VariableName] = (Object(util__WEBPACK_IMPORTED_MODULE_5__["isNullOrUndefined"])(this.QueryPrameters[property.VariableName])) ? property.DefaultValue : this.QueryPrameters[property.VariableName];
+                            if (Object(util__WEBPACK_IMPORTED_MODULE_5__["isNullOrUndefined"])(this.QueryPrameters[property.VariableName])) {
                                 switch (property.VariableName) {
                                     case 'date': {
                                         // tslint:disable-next-line: max-line-length
@@ -300,11 +475,11 @@ var InfrastructureApiService = /** @class */ (function () {
                 responseURLList[serviceName] = (Object.keys(URLAddder).length === 1) ? responseURLwithAdderList[0] : responseURLwithAdderList;
             }
             else {
-                if (!Object(util__WEBPACK_IMPORTED_MODULE_4__["isNullOrUndefined"])(QueryPram)) {
+                if (!Object(util__WEBPACK_IMPORTED_MODULE_5__["isNullOrUndefined"])(QueryPram)) {
                     for (var _f = 0, _g = Object.keys(QueryPram); _f < _g.length; _f++) {
                         var propertyName = _g[_f];
                         var property = QueryPram[propertyName];
-                        if (Object(util__WEBPACK_IMPORTED_MODULE_4__["isNullOrUndefined"])(this.QueryPrameters[property.VariableName])) {
+                        if (Object(util__WEBPACK_IMPORTED_MODULE_5__["isNullOrUndefined"])(this.QueryPrameters[property.VariableName])) {
                             switch (property.VariableName) {
                                 case 'date': {
                                     // tslint:disable-next-line: max-line-length
@@ -497,7 +672,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container-fluid jumbotron-fluid mx-auto d-block px-5 pb-5 m-5\">\n  <div class=\"row\" *ngFor=\"let baseService of baseServiceList\">\n    <div class=\"input-group my-2\" tabindex=\"0\" data-toggle=\"tooltip\" attr.title=\"{{DescDict.Parameters['date']}}\">\n      <div class=\"input-group-prepend\">\n        <label class=\"input-group-text\">date:&nbsp;</label>\n      </div>\n      <input type=\"date\" id='date' [(ngModel)]=\"infrastructureApi.QueryPrameters.date\">\n    </div>\n    <button type=\"button\" class=\"btn btn-info\" (click)=\"reloadAPoD()\">Show</button>\n    <span class=\"w-100\"></span>\n    <h2 class=\"w-100 mt-3 mb-5\">{{serviceResponseBodyList[baseService].title}}</h2>\n    <div class=\"row\">\n      <img id=\"APoD-img\" [src]=\"serviceResponseBodyList[baseService].url\" class=\"img-fluid border rounded-lg col-auto p-3 d-block col-sm shadow\" *ngIf=\"serviceResponseBodyList[baseService].media_type === 'image' && !infrastructureApi.QueryPrameters.hd\" (click)=\"toggleHdPic()\">\n      <img id=\"APoD-hd-img\" class=\"p-3 rounded-lg shadow\" [src]=\"serviceResponseBodyList[baseService].hdurl\" *ngIf=\"serviceResponseBodyList[baseService].media_type === 'image' && infrastructureApi.QueryPrameters.hd\" (click)=\"toggleHdPic()\">\n      <iframe type=\"text/html\" width=\"750\" height=\"500 \" class=\"col-sm mx-auto\" [src]=\"serviceResponseBodyList[baseService].url\" frameborder=\"0\" *ngIf=\"serviceResponseBodyList[baseService].media_type === 'video'\"></iframe>\n      <span class=\"col-sm mx-auto my-auto p-5\">\n        <p class=\"text-justify\">{{serviceResponseBodyList[baseService].explanation}}</p>\n        <span class=\"w-100\" *ngIf=\"serviceResponseBodyList[baseService].copyright\">\n          <b>Copyright:</b>&nbsp;{{serviceResponseBodyList[baseService].copyright}}\n        </span>\n      </span>\n    </div>\n  </div>\n</div>\n"
+module.exports = "<div class=\"container-fluid jumbotron-fluid mx-auto d-block px-5 pb-5 m-5\">\n    <div class=\"input-group my-2\" tabindex=\"0\" data-toggle=\"tooltip\" attr.title=\"{{infrastructureApi.DescDict.Parameters['date']}}\">\n      <div class=\"input-group-prepend\">\n        <label class=\"input-group-text\">date:&nbsp;</label>\n      </div>\n      <input type=\"date\" id='date' [(ngModel)]=\"infrastructureApi.QueryPrameters.date\">\n    </div>\n    <button type=\"button\" class=\"btn btn-info\" (click)=\"reloadTable()\">Show</button>\n    <span class=\"w-100\"></span>\n    <h2 class=\"w-100 mt-3 mb-5\">{{getReloadData.serviceResponseBodyList[infrastructureApi.baseService].title}}</h2>\n    <div class=\"row\">\n      <img id=\"APoD-img\" [src]=\"getReloadData.serviceResponseBodyList[infrastructureApi.baseService].url\" class=\"img-fluid border rounded-lg col-auto p-3 d-block col-sm shadow\" *ngIf=\"getReloadData.serviceResponseBodyList[infrastructureApi.baseService].media_type === 'image' && !infrastructureApi.QueryPrameters.hd\" (click)=\"reloadTable(['togleHD'])\">\n      <img id=\"APoD-hd-img\" class=\"p-3 rounded-lg shadow\" [src]=\"getReloadData.serviceResponseBodyList[infrastructureApi.baseService].hdurl\" *ngIf=\"getReloadData.serviceResponseBodyList[infrastructureApi.baseService].media_type === 'image' && infrastructureApi.QueryPrameters.hd\" (click)=\"reloadTable(['togleHD'])\">\n      <iframe type=\"text/html\" width=\"750\" height=\"500 \" class=\"col-sm mx-auto\" [src]=\"getReloadData.serviceResponseBodyList[infrastructureApi.baseService].url\" frameborder=\"0\" *ngIf=\"getReloadData.serviceResponseBodyList[infrastructureApi.baseService].media_type === 'video'\"></iframe>\n      <span class=\"col-sm mx-auto my-auto p-5\">\n        <p class=\"text-justify\">{{getReloadData.serviceResponseBodyList[infrastructureApi.baseService].explanation}}</p>\n        <span class=\"w-100\" *ngIf=\"getReloadData.serviceResponseBodyList[infrastructureApi.baseService].copyright\">\n          <b>Copyright:</b>&nbsp;{{getReloadData.serviceResponseBodyList[infrastructureApi.baseService].copyright}}\n        </span>\n      </span>\n    </div>\n</div>\n"
 
 /***/ }),
 
@@ -513,47 +688,28 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ApodTemplateComponent", function() { return ApodTemplateComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
-/* harmony import */ var _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../services/domainDescDict.json */ "./src/app/services/domainDescDict.json");
-var _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_4___namespace = /*#__PURE__*/__webpack_require__.t(/*! ../../services/domainDescDict.json */ "./src/app/services/domainDescDict.json", 1);
-/* harmony import */ var src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/services/infrastructure-api.service */ "./src/app/services/infrastructure-api.service.ts");
-
+/* harmony import */ var util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! util */ "./node_modules/util/util.js");
+/* harmony import */ var util__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(util__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var src_app_services_get_reload_data_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/services/get-reload-data.service */ "./src/app/services/get-reload-data.service.ts");
+/* harmony import */ var src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/services/infrastructure-api.service */ "./src/app/services/infrastructure-api.service.ts");
 
 
 
 
 
 var ApodTemplateComponent = /** @class */ (function () {
-    function ApodTemplateComponent(infrastructureApi, http, sanitizer) {
+    function ApodTemplateComponent(infrastructureApi, getReloadData) {
         this.infrastructureApi = infrastructureApi;
-        this.http = http;
-        this.sanitizer = sanitizer;
-        this.serviceResponseBodyList = {};
-        this.baseServiceList = Object.keys(this.infrastructureApi.ResponceURLDict[this.infrastructureApi.baseServiceName]);
-        this.infrastructureApi.baseService = this.baseServiceList[0];
-        this.DescDict = _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_4__;
-        this.reloadAPoD();
-        this.infrastructureApi.QueryPrameters.hd = false;
+        this.getReloadData = getReloadData;
+        this.reloadTable();
     }
-    ApodTemplateComponent.prototype.reloadAPoD = function () {
-        var _this = this;
-        this.infrastructureApi.GenerateResponseUrl();
-        console.log(this.infrastructureApi.ResponceURLDict[this.infrastructureApi.baseServiceName][this.infrastructureApi.baseService]);
-        // tslint:disable-next-line: max-line-length
-        this.http.get(this.infrastructureApi.ResponceURLDict[this.infrastructureApi.baseServiceName][this.infrastructureApi.baseService]).subscribe(function (body) {
-            _this.serviceResponseBodyList[_this.infrastructureApi.baseService] = {};
-            _this.serviceResponseBodyList[_this.infrastructureApi.baseService] = body;
-            // tslint:disable-next-line: max-line-length
-            _this.serviceResponseBodyList[_this.infrastructureApi.baseService].url = _this.sanitizer.bypassSecurityTrustResourceUrl(_this.serviceResponseBodyList[_this.infrastructureApi.baseService].url);
-            // tslint:disable-next-line: object-literal-key-quotes
-            console.table({ 'responseObjectDictionary': _this.serviceResponseBodyList[_this.infrastructureApi.baseService] });
-        }, function (error) {
-            console.log(error);
-        }, function () { });
-    };
-    ApodTemplateComponent.prototype.toggleHdPic = function () {
-        this.infrastructureApi.QueryPrameters.hd = !this.infrastructureApi.QueryPrameters.hd;
+    ApodTemplateComponent.prototype.reloadTable = function (commands) {
+        this.getReloadData.resetTable();
+        if (!Object(util__WEBPACK_IMPORTED_MODULE_2__["isNullOrUndefined"])(commands) && commands.includes('togleHD')) {
+            this.infrastructureApi.QueryPrameters.hd = !this.infrastructureApi.QueryPrameters.hd;
+            return;
+        }
+        this.getReloadData.reloadGetDataGiveToTableMaker((this.infrastructureApi.GenerateResponseUrl(), this.infrastructureApi.ResponceURLDict), this.infrastructureApi.baseServiceName, this.infrastructureApi.baseService, this.infrastructureApi.QueryPrameters);
     };
     ApodTemplateComponent.prototype.ngOnInit = function () {
     };
@@ -563,7 +719,7 @@ var ApodTemplateComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./apod-template.component.html */ "./src/app/template/apod-template/apod-template.component.html"),
             styles: [__webpack_require__(/*! ./apod-template.component.css */ "./src/app/template/apod-template/apod-template.component.css")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_5__["InfrastructureApiService"], _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClient"], _angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__["DomSanitizer"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_4__["InfrastructureApiService"], src_app_services_get_reload_data_service__WEBPACK_IMPORTED_MODULE_3__["GetReloadDataService"]])
     ], ApodTemplateComponent);
     return ApodTemplateComponent;
 }());
@@ -590,7 +746,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container-fluid col-xl-4 col-lg-5 col-md-7 col-sm-9 col-12 no-gutters\">\n  <div class=\"input-group my-2\" tabindex=\"0\" data-toggle=\"tooltip\" attr.title=\"{{DescDict.Parameters['startDate']}}\">\n    <div class=\"input-group-prepend\">\n      <label class=\"input-group-text\">startDate:&nbsp;</label>\n    </div>\n    <input type=\"date\" [(ngModel)]=\"infrastructureApi.QueryPrameters.startDate\">\n  </div>\n  <div class=\"input-group my-2\" tabindex=\"0\" data-toggle=\"tooltip\" attr.title=\"{{DescDict.Parameters['endDate']}}\">\n    <div class=\"input-group-prepend\">\n      <label class=\"input-group-text\">endDate:&nbsp;</label>\n    </div>\n    <input type=\"date\" [(ngModel)]=\"infrastructureApi.QueryPrameters.endDate\">\n  </div>\n  <div class=\"w-100\">\n    <button type=\"button\" class=\"btn btn-info mr-4\" (click)=\"reloadDONKICoronalMassEjection()\">Show</button>\n  </div>\n</div>\n"
+module.exports = "<div class=\"container-fluid col-xl-4 col-lg-5 col-md-7 col-sm-9 col-12 no-gutters\">\n  <div class=\"input-group my-2\" tabindex=\"0\" data-toggle=\"tooltip\" attr.title=\"{{infrastructureApi.DescDict.Parameters['startDate']}}\">\n    <div class=\"input-group-prepend\">\n      <label class=\"input-group-text\">startDate:&nbsp;</label>\n    </div>\n    <input type=\"date\" [(ngModel)]=\"infrastructureApi.QueryPrameters.startDate\">\n  </div>\n  <div class=\"input-group my-2\" tabindex=\"0\" data-toggle=\"tooltip\" attr.title=\"{{infrastructureApi.DescDict.Parameters['endDate']}}\">\n    <div class=\"input-group-prepend\">\n      <label class=\"input-group-text\">endDate:&nbsp;</label>\n    </div>\n    <input type=\"date\" [(ngModel)]=\"infrastructureApi.QueryPrameters.endDate\">\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -606,52 +762,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DonkiCmeTemplateComponent", function() { return DonkiCmeTemplateComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
-/* harmony import */ var _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../services/domainDescDict.json */ "./src/app/services/domainDescDict.json");
-var _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_3___namespace = /*#__PURE__*/__webpack_require__.t(/*! ../../services/domainDescDict.json */ "./src/app/services/domainDescDict.json", 1);
-/* harmony import */ var src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/services/infrastructure-api.service */ "./src/app/services/infrastructure-api.service.ts");
-/* harmony import */ var src_app_services_infrastructure_common_table_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/services/infrastructure-common-table.service */ "./src/app/services/infrastructure-common-table.service.ts");
-
-
+/* harmony import */ var src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/services/infrastructure-api.service */ "./src/app/services/infrastructure-api.service.ts");
+/* harmony import */ var src_app_services_get_reload_data_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/services/get-reload-data.service */ "./src/app/services/get-reload-data.service.ts");
 
 
 
 
 var DonkiCmeTemplateComponent = /** @class */ (function () {
-    function DonkiCmeTemplateComponent(infrastructureApi, infrastructureCommonTable, http) {
+    function DonkiCmeTemplateComponent(getReloadData, infrastructureApi) {
+        this.getReloadData = getReloadData;
         this.infrastructureApi = infrastructureApi;
-        this.infrastructureCommonTable = infrastructureCommonTable;
-        this.http = http;
-        this.serviceResponseBodyList = {};
-        this.DescDict = _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_3__;
-        this.reloadDONKICoronalMassEjection();
     }
     DonkiCmeTemplateComponent.prototype.ngOnInit = function () {
-    };
-    DonkiCmeTemplateComponent.prototype.reloadDONKICoronalMassEjection = function () {
-        var _this = this;
-        this.infrastructureApi.GenerateResponseUrl();
-        // tslint:disable-next-line: max-line-length
-        this.http.get(this.infrastructureApi.ResponceURLDict[this.infrastructureApi.baseServiceName][this.infrastructureApi.baseService]).subscribe(function (body) {
-            _this.serviceResponseBodyList[_this.infrastructureApi.baseService] = {};
-            _this.serviceResponseBodyList[_this.infrastructureApi.baseService] = body;
-            console.table({ 'responseObjectDictionary': _this.serviceResponseBodyList[_this.infrastructureApi.baseService] });
-            for (var _i = 0, _a = _this.serviceResponseBodyList[_this.infrastructureApi.baseService]; _i < _a.length; _i++) {
-                var element = _a[_i];
-                var tempInstumentString = '';
-                for (var _b = 0, _c = element.instruments; _b < _c.length; _b++) {
-                    var instument = _c[_b];
-                    tempInstumentString = tempInstumentString.concat(", " + instument.displayName);
-                }
-                element.instruments = tempInstumentString.slice(2);
-            }
-            // tslint:disable-next-line: max-line-length
-            var cardTitle = "CoronalMassEjection in Timeframe " + _this.infrastructureApi.QueryPrameters.startDate + " to " + _this.infrastructureApi.QueryPrameters.endDate;
-            // tslint:disable-next-line: max-line-length
-            _this.infrastructureCommonTable.makeTableDef(_this.serviceResponseBodyList, _this.infrastructureApi.baseService, cardTitle, 1);
-        }, function (error) {
-            console.log(error);
-        }, function () { });
     };
     DonkiCmeTemplateComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -659,9 +781,7 @@ var DonkiCmeTemplateComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./donki-cme-template.component.html */ "./src/app/template/donki-cme-template/donki-cme-template.component.html"),
             styles: [__webpack_require__(/*! ./donki-cme-template.component.css */ "./src/app/template/donki-cme-template/donki-cme-template.component.css")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_4__["InfrastructureApiService"],
-            src_app_services_infrastructure_common_table_service__WEBPACK_IMPORTED_MODULE_5__["InfrastructureCommonTableService"],
-            _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [src_app_services_get_reload_data_service__WEBPACK_IMPORTED_MODULE_3__["GetReloadDataService"], src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_2__["InfrastructureApiService"]])
     ], DonkiCmeTemplateComponent);
     return DonkiCmeTemplateComponent;
 }());
@@ -688,7 +808,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container-fluid jumbotron-fluid mx-auto d-block pr-5 pb-5 mt-2\">\n  <div [ngSwitch]=\"infrastructureApi.baseService\">\n    <app-donki-cme-template *ngSwitchCase=\"'Coronal Mass Ejection (CME)'\"></app-donki-cme-template>\n  </div>\n  <br />\n  <app-table-template></app-table-template>\n  <br />\n</div>\n"
+module.exports = "<div class=\"container-fluid jumbotron-fluid mx-auto d-block pr-5 pb-5 mt-2\">\n\n\n  <div [ngSwitch]=\"infrastructureApi.baseService\">\n    <app-donki-cme-template *ngSwitchCase=\"'Coronal Mass Ejection (CME)'\"></app-donki-cme-template>\n  </div>\n\n\n  <div class=\"container-fluid col-xl-4 col-lg-5 col-md-7 col-sm-9 col-12 no-gutters\" [ngSwitch]=\"infrastructureApi.baseService\">\n    <div class=\"w-100\" *ngSwitchCase=\"'Coronal Mass Ejection (CME)'\">\n      <button type=\"button\" class=\"btn btn-info mr-4\" (click)=\"reloadTable()\">Show</button>\n    </div>\n  </div>\n\n  <br />\n  <app-table-template></app-table-template>\n  <br />\n</div>\n"
 
 /***/ }),
 
@@ -704,16 +824,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DonkiTemplateComponent", function() { return DonkiTemplateComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/services/infrastructure-api.service */ "./src/app/services/infrastructure-api.service.ts");
+/* harmony import */ var src_app_services_get_reload_data_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/services/get-reload-data.service */ "./src/app/services/get-reload-data.service.ts");
+/* harmony import */ var src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/services/infrastructure-api.service */ "./src/app/services/infrastructure-api.service.ts");
+
 
 
 
 var DonkiTemplateComponent = /** @class */ (function () {
-    function DonkiTemplateComponent(infrastructureApi) {
+    function DonkiTemplateComponent(getReloadData, infrastructureApi) {
+        this.getReloadData = getReloadData;
         this.infrastructureApi = infrastructureApi;
-        this.baseServiceList = Object.keys(this.infrastructureApi.ResponceURLDict[this.infrastructureApi.baseServiceName]);
-        this.infrastructureApi.baseService = this.baseServiceList[0];
+        this.reloadTable();
     }
+    DonkiTemplateComponent.prototype.reloadTable = function () {
+        this.getReloadData.resetTable();
+        this.getReloadData.reloadGetDataGiveToTableMaker((this.infrastructureApi.GenerateResponseUrl(), this.infrastructureApi.ResponceURLDict), this.infrastructureApi.baseServiceName, this.infrastructureApi.baseService, this.infrastructureApi.QueryPrameters);
+    };
     DonkiTemplateComponent.prototype.ngOnInit = function () {
     };
     DonkiTemplateComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
@@ -722,7 +848,7 @@ var DonkiTemplateComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./donki-template.component.html */ "./src/app/template/donki-template/donki-template.component.html"),
             styles: [__webpack_require__(/*! ./donki-template.component.css */ "./src/app/template/donki-template/donki-template.component.css")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_2__["InfrastructureApiService"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [src_app_services_get_reload_data_service__WEBPACK_IMPORTED_MODULE_2__["GetReloadDataService"], src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_3__["InfrastructureApiService"]])
     ], DonkiTemplateComponent);
     return DonkiTemplateComponent;
 }());
@@ -812,7 +938,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar navbar-expand-lg navbar-light bg-light y-padding-0rem mt-5 px-5\">\r\n  <span class=\"navbar-brand align-self-center\">\r\n      <img src=\"https://raw.githubusercontent.com/pru-namikaze/Nastro/master/src/assets/Nastro_logo.jpg\" width=\"150\" height=\"150\" class=\"d-inline-block align-top\" alt=\"\">\r\n    </span>\r\n\r\n  <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarSupportedContent\" aria-controls=\"navbarSupportedContent\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\r\n    <span class=\"navbar-toggler-icon\"></span>\r\n  </button>\r\n\r\n  <div class=\"collapse navbar-collapse\" id=\"navbarSupportedContent\">\r\n    <ul class=\"navbar-nav mr-auto\">\r\n      <li class=\"nav-item dropdown\" *ngFor=\"let baseServiceName of baseServiceNameList\" attr.id=\"{{'navbar-list-' + baseServiceName}}\" (mouseover)=\"toggleNavDropDown(baseServiceName, true)\" (mouseout)=\"toggleNavDropDown(baseServiceName, false)\">\r\n        <span class=\"nav-link dropdown-toggle\" attr.id=\"{{'navbarDropdown' + baseServiceName}}\" role=\"button\" data-toggle=\"dropdown\">\r\n          {{baseServiceName}}\r\n        </span>\r\n        <div class=\"dropdown-menu\" attr.id=\"{{'navbar-dropdown-list-' + baseServiceName}}\">\r\n          <a class=\"dropdown-item\" *ngFor=\"let baseService of getNavbaseServiceList(baseServiceName)\" (click)=\"Visit(baseServiceName, baseService)\">{{baseService}}</a>\r\n        </div>\r\n      </li>\r\n    </ul>\r\n  </div>\r\n</nav>\r\n<div class=\"ml-5\">\r\n  <div class=\"container-fluid jumbotron-fluid mx-auto d-block\">\r\n    <h1 class=\"display-1 w-100\"><b>{{infrastructureApi.baseServiceName}}</b></h1>\r\n    <p>{{DescDict.baseServiceName[infrastructureApi.baseServiceName]}}</p>\r\n    <h1 class=\"display-4 w-100 mb-4\">{{infrastructureApi.baseService}}</h1>\r\n    <p>{{DescDict.baseService[infrastructureApi.baseService]}}</p>\r\n  </div>\r\n</div>\r\n\r\n<div class=\"mx-5\">\r\n  <div class=\"container-fluid jumbotron-fluid mx-auto d-block\" [ngSwitch]=\"infrastructureApi.baseServiceName\">\r\n    <app-apod-template *ngSwitchCase=\"'APoD'\"></app-apod-template>\r\n    <app-neows-template *ngSwitchCase=\"'NeoWs'\"></app-neows-template>\r\n    <app-donki-template *ngSwitchCase=\"'DONKI'\"></app-donki-template>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<nav class=\"navbar navbar-expand-lg navbar-light bg-light y-padding-0rem mt-5 px-5\">\r\n  <span class=\"navbar-brand align-self-center\">\r\n      <img src=\"https://raw.githubusercontent.com/pru-namikaze/Nastro/master/src/assets/Nastro_logo.jpg\" width=\"150\" height=\"150\" class=\"d-inline-block align-top\" alt=\"\">\r\n    </span>\r\n\r\n  <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarSupportedContent\" aria-controls=\"navbarSupportedContent\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\r\n    <span class=\"navbar-toggler-icon\"></span>\r\n  </button>\r\n\r\n  <div class=\"collapse navbar-collapse\" id=\"navbarSupportedContent\">\r\n    <ul class=\"navbar-nav mr-auto\">\r\n      <li class=\"nav-item dropdown\" *ngFor=\"let baseServiceName of baseServiceNameList\" attr.id=\"{{'navbar-list-' + baseServiceName}}\" (mouseover)=\"toggleNavDropDown(baseServiceName, true)\" (mouseout)=\"toggleNavDropDown(baseServiceName, false)\">\r\n        <span class=\"nav-link dropdown-toggle\" attr.id=\"{{'navbarDropdown' + baseServiceName}}\" role=\"button\" data-toggle=\"dropdown\">\r\n          {{baseServiceName}}\r\n        </span>\r\n        <div class=\"dropdown-menu\" attr.id=\"{{'navbar-dropdown-list-' + baseServiceName}}\">\r\n          <a class=\"dropdown-item\" *ngFor=\"let baseService of getNavbaseServiceList(baseServiceName)\" (click)=\"Visit(baseServiceName, baseService)\">{{baseService}}</a>\r\n        </div>\r\n      </li>\r\n    </ul>\r\n  </div>\r\n</nav>\r\n<div class=\"ml-5\">\r\n  <div class=\"container-fluid jumbotron-fluid mx-auto d-block\">\r\n    <h1 class=\"display-1 w-100\"><b>{{infrastructureApi.baseServiceName}}</b></h1>\r\n    <p>{{infrastructureApi.DescDict.baseServiceName[infrastructureApi.baseServiceName]}}</p>\r\n    <h1 class=\"display-4 w-100 mb-4\">{{infrastructureApi.baseService}}</h1>\r\n    <p>{{infrastructureApi.DescDict.baseService[infrastructureApi.baseService]}}</p>\r\n  </div>\r\n</div>\r\n\r\n<div class=\"mx-5\">\r\n  <div class=\"container-fluid jumbotron-fluid mx-auto d-block\" [ngSwitch]=\"infrastructureApi.baseServiceName\">\r\n    <app-apod-template *ngSwitchCase=\"'APoD'\"></app-apod-template>\r\n    <app-neows-template *ngSwitchCase=\"'NeoWs'\"></app-neows-template>\r\n    <app-donki-template *ngSwitchCase=\"'DONKI'\"></app-donki-template>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -829,22 +955,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../services/infrastructure-api.service */ "./src/app/services/infrastructure-api.service.ts");
-/* harmony import */ var _services_domainUrlDict_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../services/domainUrlDict.json */ "./src/app/services/domainUrlDict.json");
-var _services_domainUrlDict_json__WEBPACK_IMPORTED_MODULE_3___namespace = /*#__PURE__*/__webpack_require__.t(/*! ./../services/domainUrlDict.json */ "./src/app/services/domainUrlDict.json", 1);
-/* harmony import */ var _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../services/domainDescDict.json */ "./src/app/services/domainDescDict.json");
-var _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_4___namespace = /*#__PURE__*/__webpack_require__.t(/*! ./../services/domainDescDict.json */ "./src/app/services/domainDescDict.json", 1);
+/* harmony import */ var _services_get_reload_data_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../services/get-reload-data.service */ "./src/app/services/get-reload-data.service.ts");
+/* harmony import */ var _services_domainUrlDict_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../services/domainUrlDict.json */ "./src/app/services/domainUrlDict.json");
+var _services_domainUrlDict_json__WEBPACK_IMPORTED_MODULE_4___namespace = /*#__PURE__*/__webpack_require__.t(/*! ./../services/domainUrlDict.json */ "./src/app/services/domainUrlDict.json", 1);
 
 
 
 
 
 var MainTemplateComponentComponent = /** @class */ (function () {
-    function MainTemplateComponentComponent(infrastructureApi) {
+    function MainTemplateComponentComponent(infrastructureApi, getReloadData) {
         this.infrastructureApi = infrastructureApi;
-        this.baseServiceNameList = Object.keys(_services_domainUrlDict_json__WEBPACK_IMPORTED_MODULE_3__);
+        this.getReloadData = getReloadData;
+        this.baseServiceNameList = Object.keys(_services_domainUrlDict_json__WEBPACK_IMPORTED_MODULE_4__);
         this.baseServiceList = Object.keys(this.infrastructureApi.ResponceURLDict[this.infrastructureApi.baseServiceName]);
         infrastructureApi.baseService = this.baseServiceList[0];
-        this.DescDict = _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_4__;
     }
     MainTemplateComponentComponent.prototype.getbaseServiceList = function () {
         // tslint:disable-next-line: max-line-length
@@ -853,9 +978,9 @@ var MainTemplateComponentComponent = /** @class */ (function () {
     };
     MainTemplateComponentComponent.prototype.getNavbaseServiceList = function (baseServiceName) {
         var baseService = [];
-        for (var _i = 0, _a = Object.keys(_services_domainUrlDict_json__WEBPACK_IMPORTED_MODULE_3__[baseServiceName]); _i < _a.length; _i++) {
+        for (var _i = 0, _a = Object.keys(_services_domainUrlDict_json__WEBPACK_IMPORTED_MODULE_4__[baseServiceName]); _i < _a.length; _i++) {
             var index = _a[_i];
-            baseService = baseService.concat([_services_domainUrlDict_json__WEBPACK_IMPORTED_MODULE_3__[baseServiceName][index].Name]);
+            baseService = baseService.concat([_services_domainUrlDict_json__WEBPACK_IMPORTED_MODULE_4__[baseServiceName][index].Name]);
         }
         return baseService;
     };
@@ -864,6 +989,8 @@ var MainTemplateComponentComponent = /** @class */ (function () {
         this.infrastructureApi.baseServiceName = baseServiceName;
         console.table(this.infrastructureApi);
         this.infrastructureApi.baseService = baseService;
+        this.getReloadData.resetTable();
+        this.getReloadData.reloadGetDataGiveToTableMaker((this.infrastructureApi.GenerateResponseUrl(), this.infrastructureApi.ResponceURLDict), this.infrastructureApi.baseServiceName, this.infrastructureApi.baseService, this.infrastructureApi.QueryPrameters);
     };
     MainTemplateComponentComponent.prototype.toggleNavDropDown = function (baseServiceName, showDropDownFlag) {
         if (showDropDownFlag) {
@@ -883,7 +1010,7 @@ var MainTemplateComponentComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./main-template-component.component.html */ "./src/app/template/main-template-component.component.html"),
             styles: [__webpack_require__(/*! ./main-template-component.component.css */ "./src/app/template/main-template-component.component.css")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_2__["InfrastructureApiService"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_2__["InfrastructureApiService"], _services_get_reload_data_service__WEBPACK_IMPORTED_MODULE_3__["GetReloadDataService"]])
     ], MainTemplateComponentComponent);
     return MainTemplateComponentComponent;
 }());
@@ -910,7 +1037,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container-fluid row my-2\">\n  <div class=\"container-fluid col-xl-4 col-lg-5 col-md-7 col-sm-9 col-12 no-gutters\">\n    <div class=\"w-100 input-group\" tabindex=\"0\" data-toggle=\"tooltip\" attr.title=\"{{DescDict.Parameters['asteroid_id']}}\">\n      <div class=\"input-group-prepend\">\n        <label class=\"input-group-text\" for=\"inputGroupSelect01\">Asteroid Id</label>\n      </div>\n      <input type=\"text\" class=\"form-control\" [(ngModel)]=\"infrastructureApi.UrlAdderPrameters.asteroid_id.DefaultValue\">\n    </div><br />\n    <div class=\"w-100 input-group\" tabindex=\"0\" data-toggle=\"tooltip\" attr.title=\"{{DescDict.Parameters['estimated_diameter']}}\">\n      <div class=\"input-group-prepend\">\n        <label class=\"input-group-text\">estimated_diameterType</label>\n      </div>\n      <select class=\"custom-select\" [(ngModel)]=\"selectEstimatedDiameterType\">\n        <option *ngFor=\"let estimated_diameterType of estimatedDiameterTypes\">{{estimated_diameterType}}</option>\n      </select>\n    </div><br />\n    <div class=\"w-100 input-group\" tabindex=\"0\" data-toggle=\"tooltip\" attr.title=\"{{DescDict.Parameters['asteroid_relative_velocity']}}\">\n      <div class=\"input-group-prepend\">\n        <label class=\"input-group-text\">asteroidRelativeVelocityType</label>\n      </div>\n      <select class=\"custom-select\" [(ngModel)]=\"selectcloseApproachDataRelativeVelocityType\">\n        <option *ngFor=\"let asteroidRelativeVelocityType of closeApproachDataRelativeVelocityTypes\">\n          {{asteroidRelativeVelocityType}}</option>\n      </select>\n    </div><br />\n    <div class=\"w-100 input-group\" tabindex=\"0\" data-toggle=\"tooltip\" attr.title=\"{{DescDict.Parameters['asteroid_miss_distance']}}\">\n      <div class=\"input-group-prepend\">\n        <label class=\"input-group-text\">asteroidMissDistanceType</label>\n      </div>\n      <select class=\"custom-select\" [(ngModel)]=\"selectCloseApproachDataMissDistanceType\">\n        <option *ngFor=\"let asteroidMissDistanceType of closeApproachDataMissDistanceTypes\">{{asteroidMissDistanceType}}\n        </option>\n      </select>\n    </div><br />\n\n    <button type=\"button\" class=\"btn btn-info mr-4\" (click)=\"reloadNeoWsBrowseByAsteroidId()\">Show</button>\n  </div>\n</div>\n"
+module.exports = "<div class=\"container-fluid row my-2\">\n  <div class=\"container-fluid col-xl-4 col-lg-5 col-md-7 col-sm-9 col-12 no-gutters\">\n    <div class=\"w-100 input-group\" tabindex=\"0\" data-toggle=\"tooltip\" attr.title=\"{{infrastructureApi.DescDict.Parameters['asteroid_id']}}\">\n      <div class=\"input-group-prepend\">\n        <label class=\"input-group-text\" for=\"inputGroupSelect01\">Asteroid Id</label>\n      </div>\n      <input type=\"text\" class=\"form-control\" [(ngModel)]=\"infrastructureApi.UrlAdderPrameters.asteroid_id.DefaultValue\">\n    </div><br />\n\n    <div class=\"w-100 input-group\" tabindex=\"0\" data-toggle=\"tooltip\" attr.title=\"{{infrastructureApi.DescDict.Parameters['estimated_diameter']}}\">\n      <div class=\"input-group-prepend\">\n        <label class=\"input-group-text\">estimated_diameterType</label>\n      </div>\n      <select class=\"custom-select\" [(ngModel)]=\"infrastructureApi.QueryPrameters.selectEstimatedDiameterType\">\n        <option *ngFor=\"let estimated_diameterType of infrastructureApi.QueryPrameters.estimatedDiameterTypes\">{{estimated_diameterType}}</option>\n      </select>\n    </div><br />\n\n    <div class=\"w-100 input-group\" tabindex=\"0\" data-toggle=\"tooltip\" attr.title=\"{{infrastructureApi.DescDict.Parameters['asteroid_relative_velocity']}}\">\n      <div class=\"input-group-prepend\">\n        <label class=\"input-group-text\">asteroidRelativeVelocityType</label>\n      </div>\n      <select class=\"custom-select\" [(ngModel)]=\"infrastructureApi.QueryPrameters.selectcloseApproachDataRelativeVelocityType\">\n        <option *ngFor=\"let asteroidRelativeVelocityType of infrastructureApi.QueryPrameters.closeApproachDataRelativeVelocityTypes\">\n          {{asteroidRelativeVelocityType}}</option>\n      </select>\n    </div><br />\n\n    <div class=\"w-100 input-group\" tabindex=\"0\" data-toggle=\"tooltip\" attr.title=\"{{infrastructureApi.DescDict.Parameters['asteroid_miss_distance']}}\">\n      <div class=\"input-group-prepend\">\n        <label class=\"input-group-text\">asteroidMissDistanceType</label>\n      </div>\n      <select class=\"custom-select\" [(ngModel)]=\"infrastructureApi.QueryPrameters.selectCloseApproachDataMissDistanceType\">\n        <option *ngFor=\"let asteroidMissDistanceType of infrastructureApi.QueryPrameters.closeApproachDataMissDistanceTypes\">{{asteroidMissDistanceType}}\n        </option>\n      </select>\n    </div>\n\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -926,73 +1053,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NeowsBrowseByAsteroidIdTemplateComponent", function() { return NeowsBrowseByAsteroidIdTemplateComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
-/* harmony import */ var _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../services/domainDescDict.json */ "./src/app/services/domainDescDict.json");
-var _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_4___namespace = /*#__PURE__*/__webpack_require__.t(/*! ../../services/domainDescDict.json */ "./src/app/services/domainDescDict.json", 1);
-/* harmony import */ var src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/services/infrastructure-api.service */ "./src/app/services/infrastructure-api.service.ts");
-/* harmony import */ var src_app_services_infrastructure_common_table_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/services/infrastructure-common-table.service */ "./src/app/services/infrastructure-common-table.service.ts");
-
-
-
-
+/* harmony import */ var src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/services/infrastructure-api.service */ "./src/app/services/infrastructure-api.service.ts");
 
 
 
 var NeowsBrowseByAsteroidIdTemplateComponent = /** @class */ (function () {
-    function NeowsBrowseByAsteroidIdTemplateComponent(infrastructureApi, infrastructureCommonTable, http, sanitizer) {
+    function NeowsBrowseByAsteroidIdTemplateComponent(infrastructureApi) {
         this.infrastructureApi = infrastructureApi;
-        this.infrastructureCommonTable = infrastructureCommonTable;
-        this.http = http;
-        this.sanitizer = sanitizer;
-        this.serviceResponseBodyList = {};
-        this.estimatedDiameterTypes = [];
-        this.closeApproachDataRelativeVelocityTypes = [];
-        this.closeApproachDataMissDistanceTypes = [];
-        this.selectEstimatedDiameterType = '';
-        this.selectcloseApproachDataRelativeVelocityType = '';
-        this.selectCloseApproachDataMissDistanceType = '';
-        this.DescDict = _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_4__;
-        this.reloadNeoWsBrowseByAsteroidId();
     }
-    NeowsBrowseByAsteroidIdTemplateComponent.prototype.reloadNeoWsBrowseByAsteroidId = function () {
-        var _this = this;
-        this.infrastructureApi.GenerateResponseUrl();
-        // tslint:disable-next-line: max-line-length
-        this.http.get(this.infrastructureApi.ResponceURLDict[this.infrastructureApi.baseServiceName][this.infrastructureApi.baseService]).subscribe(function (body) {
-            _this.serviceResponseBodyList[_this.infrastructureApi.baseService] = {};
-            _this.serviceResponseBodyList[_this.infrastructureApi.baseService] = body;
-            // tslint:disable-next-line: max-line-length
-            _this.serviceResponseBodyList[_this.infrastructureApi.baseService].links.self = _this.sanitizer.bypassSecurityTrustResourceUrl(_this.serviceResponseBodyList[_this.infrastructureApi.baseService].links.self);
-            // tslint:disable-next-line: max-line-length
-            _this.serviceResponseBodyList[_this.infrastructureApi.baseService].links = _this.serviceResponseBodyList[_this.infrastructureApi.baseService].links.self.changingThisBreaksApplicationSecurity;
-            console.table({ 'responseObjectDictionary': _this.serviceResponseBodyList[_this.infrastructureApi.baseService] });
-            _this.estimatedDiameterTypes = Object.keys(_this.serviceResponseBodyList[_this.infrastructureApi.baseService].estimated_diameter);
-            // tslint:disable-next-line: max-line-length
-            _this.closeApproachDataRelativeVelocityTypes = Object.keys(_this.serviceResponseBodyList[_this.infrastructureApi.baseService].close_approach_data[0].relative_velocity);
-            // tslint:disable-next-line: max-line-length
-            _this.closeApproachDataMissDistanceTypes = Object.keys(_this.serviceResponseBodyList[_this.infrastructureApi.baseService].close_approach_data[0].miss_distance);
-            // tslint:disable-next-line: max-line-length
-            _this.selectEstimatedDiameterType = (_this.selectEstimatedDiameterType === '') ? _this.estimatedDiameterTypes[0] : _this.selectEstimatedDiameterType;
-            // tslint:disable-next-line: max-line-length
-            _this.selectcloseApproachDataRelativeVelocityType = (_this.selectcloseApproachDataRelativeVelocityType === '') ? _this.closeApproachDataRelativeVelocityTypes[0] : _this.selectcloseApproachDataRelativeVelocityType;
-            // tslint:disable-next-line: max-line-length
-            _this.selectCloseApproachDataMissDistanceType = (_this.selectCloseApproachDataMissDistanceType === '') ? _this.closeApproachDataMissDistanceTypes[0] : _this.selectCloseApproachDataMissDistanceType;
-            // tslint:disable-next-line: max-line-length
-            _this.serviceResponseBodyList[_this.infrastructureApi.baseService].estimated_diameter = _this.serviceResponseBodyList[_this.infrastructureApi.baseService].estimated_diameter[_this.selectEstimatedDiameterType];
-            for (var _i = 0, _a = _this.serviceResponseBodyList[_this.infrastructureApi.baseService].close_approach_data; _i < _a.length; _i++) {
-                var row = _a[_i];
-                row.miss_distance = row.miss_distance[_this.selectCloseApproachDataMissDistanceType];
-                row.relative_velocity = row.relative_velocity[_this.selectcloseApproachDataRelativeVelocityType];
-            }
-            // tslint:disable-next-line: max-line-length
-            _this.serviceResponseBodyList[_this.infrastructureApi.baseService].orbital_data = tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({}, _this.serviceResponseBodyList[_this.infrastructureApi.baseService].orbital_data, _this.serviceResponseBodyList[_this.infrastructureApi.baseService].orbital_data.orbit_class);
-            delete _this.serviceResponseBodyList[_this.infrastructureApi.baseService].orbital_data.orbit_class;
-            _this.infrastructureCommonTable.makeTableDef(_this.serviceResponseBodyList, _this.infrastructureApi.baseService);
-        }, function (error) {
-            console.log(error);
-        }, function () { });
-    };
     NeowsBrowseByAsteroidIdTemplateComponent.prototype.ngOnInit = function () {
     };
     NeowsBrowseByAsteroidIdTemplateComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
@@ -1001,10 +1069,7 @@ var NeowsBrowseByAsteroidIdTemplateComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./neows-browse-by-asteroid-id-template.component.html */ "./src/app/template/neows-browse-by-asteroid-id-template/neows-browse-by-asteroid-id-template.component.html"),
             styles: [__webpack_require__(/*! ./neows-browse-by-asteroid-id-template.component.css */ "./src/app/template/neows-browse-by-asteroid-id-template/neows-browse-by-asteroid-id-template.component.css")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_5__["InfrastructureApiService"],
-            src_app_services_infrastructure_common_table_service__WEBPACK_IMPORTED_MODULE_6__["InfrastructureCommonTableService"],
-            _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClient"],
-            _angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__["DomSanitizer"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_2__["InfrastructureApiService"]])
     ], NeowsBrowseByAsteroidIdTemplateComponent);
     return NeowsBrowseByAsteroidIdTemplateComponent;
 }());
@@ -1031,7 +1096,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container-fluid row\">\n  <div class=\"container-fluid col-xl-4 col-lg-5 col-md-7 col-sm-9 col-12 no-gutters\">\n    <div class=\"w-100 input-group my-2\" tabindex=\"0\" data-toggle=\"tooltip\" attr.title=\"{{DescDict.Parameters['page']}}\">\n      <div class=\"input-group-prepend\">\n        <label class=\"input-group-text\">Page:&nbsp;</label>\n      </div>\n      <input type=\"text\" [(ngModel)]=\"infrastructureApi.QueryPrameters.page\">\n      <div class=\"input-group-append\">\n        <label class=\"input-group-text\">&nbsp;/&nbsp;{{maxPageNo}}</label>\n      </div>\n    </div>\n    <div class=\"w-100 input-group my-2\" tabindex=\"0\" data-toggle=\"tooltip\" attr.title=\"{{DescDict.Parameters['size']}}\">\n      <div class=\"input-group-prepend\">\n        <label class=\"input-group-text\">Size:&nbsp;</label>\n      </div>\n      <input type=\"text\" [(ngModel)]=\"infrastructureApi.QueryPrameters.size\">\n    </div><br />\n    <div class=\"my-2\">\n      <button type=\"button\" class=\"btn btn-info mr-4\" (click)=\"reloadNeoWsBrowsePrevious()\">Previous</button>\n      <button type=\"button\" class=\"btn btn-info mr-4\" (click)=\"reloadNeoWsBrowse()\">Show</button>\n      <button type=\"button\" class=\"btn btn-info mr-4\" (click)=\"reloadNeoWsBrowseNext()\">Next</button>\n    </div>\n  </div>\n</div>\n"
+module.exports = "<div class=\"container-fluid row\">\n  <div class=\"container-fluid col-xl-4 col-lg-5 col-md-7 col-sm-9 col-12 no-gutters\">\n    <div class=\"w-100 input-group my-2\" tabindex=\"0\" data-toggle=\"tooltip\" attr.title=\"{{infrastructureApi.DescDict.Parameters['page']}}\">\n      <div class=\"input-group-prepend\">\n        <label class=\"input-group-text\">Page:&nbsp;</label>\n      </div>\n      <input type=\"text\" [(ngModel)]=\"infrastructureApi.QueryPrameters.page\">\n      <div class=\"input-group-append\">\n        <label class=\"input-group-text\">&nbsp;/&nbsp;{{infrastructureApi.QueryPrameters.maxPageNo}}</label>\n      </div>\n    </div>\n    <div class=\"w-100 input-group my-2\" tabindex=\"0\" data-toggle=\"tooltip\" attr.title=\"{{infrastructureApi.DescDict.Parameters['size']}}\">\n      <div class=\"input-group-prepend\">\n        <label class=\"input-group-text\">Size:&nbsp;</label>\n      </div>\n      <input type=\"text\" [(ngModel)]=\"infrastructureApi.QueryPrameters.size\">\n    </div><br />\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -1047,55 +1112,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NeowsBrowseTemplateComponent", function() { return NeowsBrowseTemplateComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
-/* harmony import */ var _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../services/domainDescDict.json */ "./src/app/services/domainDescDict.json");
-var _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_3___namespace = /*#__PURE__*/__webpack_require__.t(/*! ../../services/domainDescDict.json */ "./src/app/services/domainDescDict.json", 1);
-/* harmony import */ var src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/services/infrastructure-api.service */ "./src/app/services/infrastructure-api.service.ts");
-/* harmony import */ var src_app_services_infrastructure_common_table_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/services/infrastructure-common-table.service */ "./src/app/services/infrastructure-common-table.service.ts");
-
-
-
+/* harmony import */ var src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/services/infrastructure-api.service */ "./src/app/services/infrastructure-api.service.ts");
 
 
 
 var NeowsBrowseTemplateComponent = /** @class */ (function () {
-    function NeowsBrowseTemplateComponent(infrastructureApi, infrastructureCommonTable, http) {
+    function NeowsBrowseTemplateComponent(infrastructureApi) {
         this.infrastructureApi = infrastructureApi;
-        this.infrastructureCommonTable = infrastructureCommonTable;
-        this.http = http;
-        this.serviceResponseBodyList = {};
-        this.maxPageNo = '';
-        this.totalNoOfElements = '';
-        this.DescDict = _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_3__;
-        this.reloadNeoWsBrowse();
     }
     NeowsBrowseTemplateComponent.prototype.ngOnInit = function () {
-    };
-    NeowsBrowseTemplateComponent.prototype.reloadNeoWsBrowsePrevious = function () {
-        // tslint:disable-next-line: max-line-length
-        this.infrastructureApi.QueryPrameters.page = (this.infrastructureApi.QueryPrameters.page === '0') ? '0' : (parseInt(this.infrastructureApi.QueryPrameters.page) - 1).toString();
-        this.reloadNeoWsBrowse();
-    };
-    NeowsBrowseTemplateComponent.prototype.reloadNeoWsBrowseNext = function () {
-        // tslint:disable-next-line: max-line-length
-        this.infrastructureApi.QueryPrameters.page = (parseInt(this.infrastructureApi.QueryPrameters.page) >= (parseInt(this.maxPageNo) - 1)) ? (parseInt(this.maxPageNo) - 1).toString() : (parseInt(this.infrastructureApi.QueryPrameters.page) + 1).toString();
-        this.reloadNeoWsBrowse();
-    };
-    NeowsBrowseTemplateComponent.prototype.reloadNeoWsBrowse = function () {
-        var _this = this;
-        this.infrastructureApi.GenerateResponseUrl();
-        // tslint:disable-next-line: max-line-length
-        this.http.get(this.infrastructureApi.ResponceURLDict[this.infrastructureApi.baseServiceName][this.infrastructureApi.baseService]).subscribe(function (body) {
-            _this.serviceResponseBodyList[_this.infrastructureApi.baseService] = {};
-            _this.serviceResponseBodyList[_this.infrastructureApi.baseService] = body;
-            console.table({ 'responseObjectDictionary': _this.serviceResponseBodyList[_this.infrastructureApi.baseService] });
-            _this.maxPageNo = (parseInt(_this.serviceResponseBodyList[_this.infrastructureApi.baseService].page.total_pages) - 1).toString();
-            _this.totalNoOfElements = _this.serviceResponseBodyList[_this.infrastructureApi.baseService].page.total_elements.toString();
-            // tslint:disable-next-line: max-line-length
-            _this.infrastructureCommonTable.makeTableDef(_this.serviceResponseBodyList, _this.infrastructureApi.baseService, "Total Element: " + _this.totalNoOfElements, 2, 'near_earth_objects');
-        }, function (error) {
-            console.log(error);
-        }, function () { });
     };
     NeowsBrowseTemplateComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -1103,9 +1128,7 @@ var NeowsBrowseTemplateComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./neows-browse-template.component.html */ "./src/app/template/neows-browse-template/neows-browse-template.component.html"),
             styles: [__webpack_require__(/*! ./neows-browse-template.component.css */ "./src/app/template/neows-browse-template/neows-browse-template.component.css")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_4__["InfrastructureApiService"],
-            src_app_services_infrastructure_common_table_service__WEBPACK_IMPORTED_MODULE_5__["InfrastructureCommonTableService"],
-            _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_2__["InfrastructureApiService"]])
     ], NeowsBrowseTemplateComponent);
     return NeowsBrowseTemplateComponent;
 }());
@@ -1132,7 +1155,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container-fluid col-xl-4 col-lg-5 col-md-7 col-sm-9 col-12 no-gutters\">\n  <div class=\"input-group my-2\" tabindex=\"0\" data-toggle=\"tooltip\" attr.title=\"{{DescDict.Parameters['start_date']}}\">\n    <div class=\"input-group-prepend\">\n      <label class=\"input-group-text\">start_date:&nbsp;</label>\n    </div>\n    <input type=\"date\" [(ngModel)]=\"infrastructureApi.QueryPrameters.start_date\">\n  </div>\n  <div class=\"input-group my-2\" tabindex=\"0\" data-toggle=\"tooltip\" attr.title=\"{{DescDict.Parameters['end_date']}}\">\n    <div class=\"input-group-prepend\">\n      <label class=\"input-group-text\">end_date:&nbsp;</label>\n    </div>\n    <input type=\"date\" [(ngModel)]=\"infrastructureApi.QueryPrameters.end_date\">\n  </div>\n  <div class=\"w-100\">\n    <button type=\"button\" class=\"btn btn-info mr-4\" (click)=\"reloadNeoWsFeed()\">Show</button>\n    <button type=\"button\" class=\"btn btn-info ml-4\" (click)=\"reloadNeoWsFeedForToday()\">Show Today's Feed</button><br /><br />\n  </div>\n</div><br />\n"
+module.exports = "<div class=\"container-fluid col-xl-4 col-lg-5 col-md-7 col-sm-9 col-12 no-gutters\">\n  <div class=\"input-group my-2\" tabindex=\"0\" data-toggle=\"tooltip\" attr.title=\"{{infrastructureApi.DescDict.Parameters['start_date']}}\">\n    <div class=\"input-group-prepend\">\n      <label class=\"input-group-text\">start_date:&nbsp;</label>\n    </div>\n    <input type=\"date\" [(ngModel)]=\"infrastructureApi.QueryPrameters.start_date\">\n  </div>\n  <div class=\"input-group my-2\" tabindex=\"0\" data-toggle=\"tooltip\" attr.title=\"{{infrastructureApi.DescDict.Parameters['end_date']}}\">\n    <div class=\"input-group-prepend\">\n      <label class=\"input-group-text\">end_date:&nbsp;</label>\n    </div>\n    <input type=\"date\" [(ngModel)]=\"infrastructureApi.QueryPrameters.end_date\">\n  </div>\n</div><br />\n"
 
 /***/ }),
 
@@ -1148,49 +1171,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NeowsFeedTemplateComponent", function() { return NeowsFeedTemplateComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
-/* harmony import */ var _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../services/domainDescDict.json */ "./src/app/services/domainDescDict.json");
-var _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_3___namespace = /*#__PURE__*/__webpack_require__.t(/*! ../../services/domainDescDict.json */ "./src/app/services/domainDescDict.json", 1);
-/* harmony import */ var src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/services/infrastructure-api.service */ "./src/app/services/infrastructure-api.service.ts");
-/* harmony import */ var src_app_services_infrastructure_common_table_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/services/infrastructure-common-table.service */ "./src/app/services/infrastructure-common-table.service.ts");
-
-
-
+/* harmony import */ var src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/services/infrastructure-api.service */ "./src/app/services/infrastructure-api.service.ts");
 
 
 
 var NeowsFeedTemplateComponent = /** @class */ (function () {
-    function NeowsFeedTemplateComponent(infrastructureApi, infrastructureCommonTable, http) {
+    function NeowsFeedTemplateComponent(infrastructureApi) {
         this.infrastructureApi = infrastructureApi;
-        this.infrastructureCommonTable = infrastructureCommonTable;
-        this.http = http;
-        this.serviceResponseBodyList = {};
-        this.DescDict = _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_3__;
-        this.reloadNeoWsFeed();
     }
     NeowsFeedTemplateComponent.prototype.ngOnInit = function () {
-    };
-    NeowsFeedTemplateComponent.prototype.reloadNeoWsFeedForToday = function () {
-        var endDate = new Date(new Date().getTime() - 45000000);
-        // tslint:disable-next-line: max-line-length
-        this.infrastructureApi.QueryPrameters.start_date = endDate.getFullYear().toString().padStart(4, '0') + "-" + (endDate.getMonth() + 1).toString().padStart(2, '0') + "-" + endDate.getDate().toString().padStart(2, '0');
-        ;
-        this.infrastructureApi.QueryPrameters.end_date = this.infrastructureApi.QueryPrameters.start_date;
-        this.reloadNeoWsFeed();
-    };
-    NeowsFeedTemplateComponent.prototype.reloadNeoWsFeed = function () {
-        var _this = this;
-        this.infrastructureApi.GenerateResponseUrl();
-        // tslint:disable-next-line: max-line-length
-        this.http.get(this.infrastructureApi.ResponceURLDict[this.infrastructureApi.baseServiceName][this.infrastructureApi.baseService]).subscribe(function (body) {
-            _this.serviceResponseBodyList[_this.infrastructureApi.baseService] = {};
-            _this.serviceResponseBodyList[_this.infrastructureApi.baseService] = body;
-            console.table({ 'responseObjectDictionary': _this.serviceResponseBodyList[_this.infrastructureApi.baseService] });
-            // tslint:disable-next-line: max-line-length
-            _this.infrastructureCommonTable.makeTableDef(_this.serviceResponseBodyList[_this.infrastructureApi.baseService], 'near_earth_objects', null, null, null, "Element Count: " + _this.serviceResponseBodyList[_this.infrastructureApi.baseService].element_count);
-        }, function (error) {
-            console.log(error);
-        }, function () { });
     };
     NeowsFeedTemplateComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -1198,9 +1187,7 @@ var NeowsFeedTemplateComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./neows-feed-template.component.html */ "./src/app/template/neows-feed-template/neows-feed-template.component.html"),
             styles: [__webpack_require__(/*! ./neows-feed-template.component.css */ "./src/app/template/neows-feed-template/neows-feed-template.component.css")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_4__["InfrastructureApiService"],
-            src_app_services_infrastructure_common_table_service__WEBPACK_IMPORTED_MODULE_5__["InfrastructureCommonTableService"],
-            _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_2__["InfrastructureApiService"]])
     ], NeowsFeedTemplateComponent);
     return NeowsFeedTemplateComponent;
 }());
@@ -1227,7 +1214,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container-fluid row\">\n  <div class=\"container-fluid col-xl-4 col-lg-5 col-md-7 col-sm-9 col-12 no-gutters\">\n    <div class=\"w-100 input-group my-2\" tabindex=\"0\" data-toggle=\"tooltip\" attr.title=\"{{DescDict.Parameters['page']}}\">\n      <div class=\"input-group-prepend\">\n        <label class=\"input-group-text\">Page:&nbsp;</label>\n      </div>\n      <input type=\"text\" [(ngModel)]=\"infrastructureApi.QueryPrameters.page\">\n      <div class=\"input-group-append\">\n        <label class=\"input-group-text\">&nbsp;/&nbsp;{{maxPageNo}}</label>\n      </div>\n    </div>\n    <div class=\"w-100 input-group my-2\" tabindex=\"0\" data-toggle=\"tooltip\" attr.title=\"{{DescDict.Parameters['size']}}\">\n      <div class=\"input-group-prepend\">\n        <label class=\"input-group-text\">Size:&nbsp;</label>\n      </div>\n      <input type=\"text\" [(ngModel)]=\"infrastructureApi.QueryPrameters.size\">\n    </div><br />\n    <div class=\"my-2\">\n      <div class=\"w-100 my-2 row\">\n        <input type=\"checkbox\" class=\"align-self-center offset-1\" [(ngModel)]=\"infrastructureApi.QueryPrameters.is_active\" (click)=\"resetPageNumber()\">\n        <span class=\"col-1 align-self-center\">&nbsp;is_active</span>\n      </div>\n      <button type=\"button\" class=\"btn btn-info mr-4\" (click)=\"reloadNeoWsBrowsePrevious()\">Previous</button>\n      <button type=\"button\" class=\"btn btn-info mr-4\" (click)=\"reloadNeoWsBrowse()\">Show</button>\n      <button type=\"button\" class=\"btn btn-info mr-4\" (click)=\"reloadNeoWsBrowseNext()\">Next</button>\n    </div>\n  </div>\n</div>\n"
+module.exports = "<div class=\"container-fluid row\">\n  <div class=\"container-fluid col-xl-4 col-lg-5 col-md-7 col-sm-9 col-12 no-gutters\">\n    <div class=\"w-100 input-group my-2\" tabindex=\"0\" data-toggle=\"tooltip\" attr.title=\"{{infrastructureApi.DescDict.Parameters['page']}}\">\n      <div class=\"input-group-prepend\">\n        <label class=\"input-group-text\">Page:&nbsp;</label>\n      </div>\n      <input type=\"text\" [(ngModel)]=\"infrastructureApi.QueryPrameters.page\">\n      <div class=\"input-group-append\">\n        <label class=\"input-group-text\">&nbsp;/&nbsp;{{infrastructureApi.QueryPrameters.maxPageNo}}</label>\n      </div>\n    </div>\n    <div class=\"w-100 input-group my-2\" tabindex=\"0\" data-toggle=\"tooltip\" attr.title=\"{{infrastructureApi.DescDict.Parameters['size']}}\">\n      <div class=\"input-group-prepend\">\n        <label class=\"input-group-text\">Size:&nbsp;</label>\n      </div>\n      <input type=\"text\" [(ngModel)]=\"infrastructureApi.QueryPrameters.size\">\n    </div>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -1243,58 +1230,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NeowsNeoSentryTemplateComponent", function() { return NeowsNeoSentryTemplateComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
-/* harmony import */ var _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../services/domainDescDict.json */ "./src/app/services/domainDescDict.json");
-var _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_3___namespace = /*#__PURE__*/__webpack_require__.t(/*! ../../services/domainDescDict.json */ "./src/app/services/domainDescDict.json", 1);
-/* harmony import */ var src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/services/infrastructure-api.service */ "./src/app/services/infrastructure-api.service.ts");
-/* harmony import */ var src_app_services_infrastructure_common_table_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/services/infrastructure-common-table.service */ "./src/app/services/infrastructure-common-table.service.ts");
-
-
-
+/* harmony import */ var src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/services/infrastructure-api.service */ "./src/app/services/infrastructure-api.service.ts");
 
 
 
 var NeowsNeoSentryTemplateComponent = /** @class */ (function () {
-    function NeowsNeoSentryTemplateComponent(infrastructureApi, infrastructureCommonTable, http) {
+    function NeowsNeoSentryTemplateComponent(infrastructureApi) {
         this.infrastructureApi = infrastructureApi;
-        this.infrastructureCommonTable = infrastructureCommonTable;
-        this.http = http;
-        this.serviceResponseBodyList = {};
-        this.maxPageNo = '';
-        this.totalNoOfElements = '';
-        this.DescDict = _services_domainDescDict_json__WEBPACK_IMPORTED_MODULE_3__;
-        this.reloadNeoWsBrowse();
     }
     NeowsNeoSentryTemplateComponent.prototype.ngOnInit = function () {
-    };
-    NeowsNeoSentryTemplateComponent.prototype.reloadNeoWsBrowsePrevious = function () {
-        // tslint:disable-next-line: max-line-length
-        this.infrastructureApi.QueryPrameters.page = (this.infrastructureApi.QueryPrameters.page === '0') ? '0' : (parseInt(this.infrastructureApi.QueryPrameters.page) - 1).toString();
-        this.reloadNeoWsBrowse();
-    };
-    NeowsNeoSentryTemplateComponent.prototype.reloadNeoWsBrowseNext = function () {
-        // tslint:disable-next-line: max-line-length
-        this.infrastructureApi.QueryPrameters.page = (parseInt(this.infrastructureApi.QueryPrameters.page) >= (parseInt(this.maxPageNo) - 1)) ? (parseInt(this.maxPageNo) - 1).toString() : (parseInt(this.infrastructureApi.QueryPrameters.page) + 1).toString();
-        this.reloadNeoWsBrowse();
-    };
-    NeowsNeoSentryTemplateComponent.prototype.reloadNeoWsBrowse = function () {
-        var _this = this;
-        this.infrastructureApi.GenerateResponseUrl();
-        // tslint:disable-next-line: max-line-length
-        this.http.get(this.infrastructureApi.ResponceURLDict[this.infrastructureApi.baseServiceName][this.infrastructureApi.baseService]).subscribe(function (body) {
-            _this.serviceResponseBodyList[_this.infrastructureApi.baseService] = {};
-            _this.serviceResponseBodyList[_this.infrastructureApi.baseService] = body;
-            console.table({ 'responseObjectDictionary': _this.serviceResponseBodyList[_this.infrastructureApi.baseService] });
-            _this.maxPageNo = (parseInt(_this.serviceResponseBodyList[_this.infrastructureApi.baseService].page.total_pages) - 1).toString();
-            _this.totalNoOfElements = _this.serviceResponseBodyList[_this.infrastructureApi.baseService].page.total_elements.toString();
-            // tslint:disable-next-line: max-line-length
-            _this.infrastructureCommonTable.makeTableDef(_this.serviceResponseBodyList, _this.infrastructureApi.baseService, "Total Element: " + _this.totalNoOfElements, 2, 'sentry_objects');
-        }, function (error) {
-            console.log(error);
-        }, function () { });
-    };
-    NeowsNeoSentryTemplateComponent.prototype.resetPageNumber = function () {
-        this.infrastructureApi.QueryPrameters.page = '0';
     };
     NeowsNeoSentryTemplateComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -1302,9 +1246,7 @@ var NeowsNeoSentryTemplateComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./neows-neo-sentry-template.component.html */ "./src/app/template/neows-neo-sentry-template/neows-neo-sentry-template.component.html"),
             styles: [__webpack_require__(/*! ./neows-neo-sentry-template.component.css */ "./src/app/template/neows-neo-sentry-template/neows-neo-sentry-template.component.css")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_4__["InfrastructureApiService"],
-            src_app_services_infrastructure_common_table_service__WEBPACK_IMPORTED_MODULE_5__["InfrastructureCommonTableService"],
-            _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_2__["InfrastructureApiService"]])
     ], NeowsNeoSentryTemplateComponent);
     return NeowsNeoSentryTemplateComponent;
 }());
@@ -1347,42 +1289,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NeowsStatsTemplateComponent", function() { return NeowsStatsTemplateComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
-/* harmony import */ var src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/services/infrastructure-api.service */ "./src/app/services/infrastructure-api.service.ts");
-/* harmony import */ var src_app_services_infrastructure_common_table_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/services/infrastructure-common-table.service */ "./src/app/services/infrastructure-common-table.service.ts");
-
-
-
+/* harmony import */ var src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/services/infrastructure-api.service */ "./src/app/services/infrastructure-api.service.ts");
 
 
 
 var NeowsStatsTemplateComponent = /** @class */ (function () {
-    function NeowsStatsTemplateComponent(infrastructureApi, infrastructureCommonTable, http, sanitizer) {
+    function NeowsStatsTemplateComponent(infrastructureApi) {
         this.infrastructureApi = infrastructureApi;
-        this.infrastructureCommonTable = infrastructureCommonTable;
-        this.http = http;
-        this.sanitizer = sanitizer;
-        this.serviceResponseBodyList = {};
-        this.reloadNeoWsStats();
     }
-    NeowsStatsTemplateComponent.prototype.reloadNeoWsStats = function () {
-        var _this = this;
-        this.infrastructureApi.GenerateResponseUrl();
-        // tslint:disable-next-line: max-line-length
-        this.http.get(this.infrastructureApi.ResponceURLDict[this.infrastructureApi.baseServiceName][this.infrastructureApi.baseService]).subscribe(function (body) {
-            _this.serviceResponseBodyList[_this.infrastructureApi.baseService] = {};
-            _this.serviceResponseBodyList[_this.infrastructureApi.baseService] = body;
-            console.table({ 'responseObjectDictionary': _this.serviceResponseBodyList[_this.infrastructureApi.baseService] });
-            // tslint:disable-next-line: max-line-length
-            _this.serviceResponseBodyList[_this.infrastructureApi.baseService].nasa_jpl_url = _this.sanitizer.bypassSecurityTrustResourceUrl(_this.serviceResponseBodyList[_this.infrastructureApi.baseService].nasa_jpl_url);
-            // tslint:disable-next-line: max-line-length
-            _this.serviceResponseBodyList[_this.infrastructureApi.baseService].nasa_jpl_url = _this.serviceResponseBodyList[_this.infrastructureApi.baseService].nasa_jpl_url.changingThisBreaksApplicationSecurity;
-            _this.infrastructureCommonTable.makeTableDef(_this.serviceResponseBodyList, _this.infrastructureApi.baseService);
-        }, function (error) {
-            console.log(error);
-        }, function () { });
-    };
     NeowsStatsTemplateComponent.prototype.ngOnInit = function () {
     };
     NeowsStatsTemplateComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
@@ -1391,10 +1305,7 @@ var NeowsStatsTemplateComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./neows-stats-template.component.html */ "./src/app/template/neows-stats-template/neows-stats-template.component.html"),
             styles: [__webpack_require__(/*! ./neows-stats-template.component.css */ "./src/app/template/neows-stats-template/neows-stats-template.component.css")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_4__["InfrastructureApiService"],
-            src_app_services_infrastructure_common_table_service__WEBPACK_IMPORTED_MODULE_5__["InfrastructureCommonTableService"],
-            _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClient"],
-            _angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__["DomSanitizer"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_2__["InfrastructureApiService"]])
     ], NeowsStatsTemplateComponent);
     return NeowsStatsTemplateComponent;
 }());
@@ -1421,7 +1332,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container-fluid jumbotron-fluid mx-auto d-block pr-5 pb-5 mt-2\">\n  <div [ngSwitch]=\"infrastructureApi.baseService\">\n    <app-neows-feed-template *ngSwitchCase=\"'Neo - Feed'\"></app-neows-feed-template>\n    <app-neows-browse-template *ngSwitchCase=\"'Neo - Browse'\"></app-neows-browse-template>\n    <app-neows-neo-sentry-template *ngSwitchCase=\"'Neo - Sentry'\"></app-neows-neo-sentry-template>\n    <app-neows-stats-template *ngSwitchCase=\"'Neo - Stats'\"></app-neows-stats-template>\n    <app-neows-browse-by-asteroid-id-template *ngSwitchCase=\"'Neo - Browse by Asteroid ID'\">Neo - Browse by Asteroid ID</app-neows-browse-by-asteroid-id-template>\n  </div>\n  <br />\n  <app-table-template></app-table-template>\n  <br />\n</div>\n"
+module.exports = "<div class=\"container-fluid jumbotron-fluid mx-auto d-block pr-5 pb-5 mt-2\">\n  <div [ngSwitch]=\"infrastructureApi.baseService\">\n    <app-neows-feed-template *ngSwitchCase=\"'Neo - Feed'\"></app-neows-feed-template>\n    <app-neows-browse-template *ngSwitchCase=\"'Neo - Browse'\"></app-neows-browse-template>\n    <app-neows-neo-sentry-template *ngSwitchCase=\"'Neo - Sentry'\"></app-neows-neo-sentry-template>\n    <app-neows-stats-template *ngSwitchCase=\"'Neo - Stats'\"></app-neows-stats-template>\n    <app-neows-browse-by-asteroid-id-template *ngSwitchCase=\"'Neo - Browse by Asteroid ID'\">Neo - Browse by Asteroid ID</app-neows-browse-by-asteroid-id-template>\n  </div>\n\n  <div class=\"container-fluid col-xl-4 col-lg-5 col-md-7 col-sm-9 col-12 no-gutters\" [ngSwitch]=\"infrastructureApi.baseService\">\n    <div class=\"w-100\" *ngSwitchCase=\"'Neo - Feed'\">\n      <div class=\"w-100\">\n        <button type=\"button\" class=\"btn btn-info mr-4\" (click)=\"reloadTable()\">Show</button>\n        <button type=\"button\" class=\"btn btn-info ml-4\" (click)=\"reloadTable(['start_date'])\">Show Today's Feed</button><br /><br />\n      </div>\n    </div>\n    <div class=\"w-100\" *ngSwitchCase=\"'Neo - Browse'\">\n      <div class=\"my-2\">\n        <button type=\"button\" class=\"btn btn-info mr-4\" (click)=\"reloadTable(['pagePrevious'])\">Previous</button>\n        <button type=\"button\" class=\"btn btn-info mr-4\" (click)=\"reloadTable()\">Show</button>\n        <button type=\"button\" class=\"btn btn-info mr-4\" (click)=\"reloadTable(['pageNext'])\">Next</button>\n      </div>\n    </div>\n    <div class=\"w-100\" *ngSwitchCase=\"'Neo - Sentry'\">\n      <div class=\"my-2\">\n        <div class=\"w-100 my-2 row\">\n          <input type=\"checkbox\" class=\"align-self-center offset-1\" [(ngModel)]=\"infrastructureApi.QueryPrameters.is_active\" (click)=\"reloadTable(['pageReset','return'])\">\n          <span class=\"col-1 align-self-center\">&nbsp;is_active</span>\n        </div>\n        <button type=\"button\" class=\"btn btn-info mr-4\" (click)=\"reloadTable(['pagePrevious'])\">Previous</button>\n        <button type=\"button\" class=\"btn btn-info mr-4\" (click)=\"reloadTable()\">Show</button>\n        <button type=\"button\" class=\"btn btn-info mr-4\" (click)=\"reloadTable(['pageNext'])\">Next</button>\n      </div>\n    </div>\n    <div *ngSwitchCase=\"'Neo - Stats'\">\n    </div>\n    <div class=\"w-100\" *ngSwitchCase=\"'Neo - Browse by Asteroid ID'\">\n      <button type=\"button\" class=\"btn btn-info mr-4\" (click)=\"reloadNeoWsBrowseByAsteroidId()\">Show</button>\n    </div>\n  </div>\n\n  <app-table-template></app-table-template>\n  <br />\n</div>\n"
 
 /***/ }),
 
@@ -1437,16 +1348,50 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NeowsTemplateComponent", function() { return NeowsTemplateComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/services/infrastructure-api.service */ "./src/app/services/infrastructure-api.service.ts");
+/* harmony import */ var src_app_services_get_reload_data_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/services/get-reload-data.service */ "./src/app/services/get-reload-data.service.ts");
+/* harmony import */ var src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/services/infrastructure-api.service */ "./src/app/services/infrastructure-api.service.ts");
+/* harmony import */ var util__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! util */ "./node_modules/util/util.js");
+/* harmony import */ var util__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(util__WEBPACK_IMPORTED_MODULE_4__);
+
+
 
 
 
 var NeowsTemplateComponent = /** @class */ (function () {
-    function NeowsTemplateComponent(infrastructureApi) {
+    function NeowsTemplateComponent(getReloadData, infrastructureApi) {
+        this.getReloadData = getReloadData;
         this.infrastructureApi = infrastructureApi;
-        this.baseServiceList = Object.keys(this.infrastructureApi.ResponceURLDict[this.infrastructureApi.baseServiceName]);
-        this.infrastructureApi.baseService = this.baseServiceList[0];
+        this.reloadTable();
     }
+    NeowsTemplateComponent.prototype.reloadTable = function (commands) {
+        this.getReloadData.resetTable();
+        if (!Object(util__WEBPACK_IMPORTED_MODULE_4__["isNullOrUndefined"])(commands)) {
+            if (commands.includes('start_date')) {
+                var endDate = new Date(new Date().getTime() - 45000000);
+                // tslint:disable-next-line: max-line-length
+                this.infrastructureApi.QueryPrameters.start_date = endDate.getFullYear().toString().padStart(4, '0') + "-" + (endDate.getMonth() + 1).toString().padStart(2, '0') + "-" + endDate.getDate().toString().padStart(2, '0');
+                this.infrastructureApi.QueryPrameters.end_date = this.infrastructureApi.QueryPrameters.start_date;
+            }
+            if (commands.includes('pagePrevious')) {
+                // tslint:disable-next-line: max-line-length
+                this.infrastructureApi.QueryPrameters.page = parseInt(this.infrastructureApi.QueryPrameters.page, 10) - 1;
+            }
+            if (commands.includes('pageNext')) {
+                this.infrastructureApi.QueryPrameters.page = parseInt(this.infrastructureApi.QueryPrameters.page, 10) + 1;
+            }
+            if (commands.includes('pageReset')) {
+                this.infrastructureApi.QueryPrameters.page = 0;
+            }
+            if (commands.includes('return')) {
+                return;
+            }
+        }
+        // tslint:disable-next-line: max-line-length
+        if ((parseInt(this.infrastructureApi.QueryPrameters.page, 10) < 0) || (Object(util__WEBPACK_IMPORTED_MODULE_4__["isNullOrUndefined"])(this.infrastructureApi.QueryPrameters.maxPageNo) ? true : parseInt(this.infrastructureApi.QueryPrameters.page, 10) > parseInt(this.infrastructureApi.QueryPrameters.maxPageNo, 10))) {
+            this.infrastructureApi.QueryPrameters.page = 0;
+        }
+        this.getReloadData.reloadGetDataGiveToTableMaker((this.infrastructureApi.GenerateResponseUrl(), this.infrastructureApi.ResponceURLDict), this.infrastructureApi.baseServiceName, this.infrastructureApi.baseService, this.infrastructureApi.QueryPrameters);
+    };
     NeowsTemplateComponent.prototype.ngOnInit = function () {
     };
     NeowsTemplateComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
@@ -1455,7 +1400,7 @@ var NeowsTemplateComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./neows-template.component.html */ "./src/app/template/neows-template/neows-template.component.html"),
             styles: [__webpack_require__(/*! ./neows-template.component.css */ "./src/app/template/neows-template/neows-template.component.css")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_2__["InfrastructureApiService"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [src_app_services_get_reload_data_service__WEBPACK_IMPORTED_MODULE_2__["GetReloadDataService"], src_app_services_infrastructure_api_service__WEBPACK_IMPORTED_MODULE_3__["InfrastructureApiService"]])
     ], NeowsTemplateComponent);
     return NeowsTemplateComponent;
 }());

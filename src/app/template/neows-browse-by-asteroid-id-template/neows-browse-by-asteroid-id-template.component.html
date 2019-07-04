@@ -1,38 +1,40 @@
 <div class="container-fluid row my-2">
   <div class="container-fluid col-xl-4 col-lg-5 col-md-7 col-sm-9 col-12 no-gutters">
-    <div class="w-100 input-group" tabindex="0" data-toggle="tooltip" attr.title="{{DescDict.Parameters['asteroid_id']}}">
+    <div class="w-100 input-group" tabindex="0" data-toggle="tooltip" attr.title="{{infrastructureApi.DescDict.Parameters['asteroid_id']}}">
       <div class="input-group-prepend">
         <label class="input-group-text" for="inputGroupSelect01">Asteroid Id</label>
       </div>
       <input type="text" class="form-control" [(ngModel)]="infrastructureApi.UrlAdderPrameters.asteroid_id.DefaultValue">
     </div><br />
-    <div class="w-100 input-group" tabindex="0" data-toggle="tooltip" attr.title="{{DescDict.Parameters['estimated_diameter']}}">
+
+    <div class="w-100 input-group" tabindex="0" data-toggle="tooltip" attr.title="{{infrastructureApi.DescDict.Parameters['estimated_diameter']}}">
       <div class="input-group-prepend">
         <label class="input-group-text">estimated_diameterType</label>
       </div>
-      <select class="custom-select" [(ngModel)]="selectEstimatedDiameterType">
-        <option *ngFor="let estimated_diameterType of estimatedDiameterTypes">{{estimated_diameterType}}</option>
-      </select>
-    </div><br />
-    <div class="w-100 input-group" tabindex="0" data-toggle="tooltip" attr.title="{{DescDict.Parameters['asteroid_relative_velocity']}}">
-      <div class="input-group-prepend">
-        <label class="input-group-text">asteroidRelativeVelocityType</label>
-      </div>
-      <select class="custom-select" [(ngModel)]="selectcloseApproachDataRelativeVelocityType">
-        <option *ngFor="let asteroidRelativeVelocityType of closeApproachDataRelativeVelocityTypes">
-          {{asteroidRelativeVelocityType}}</option>
-      </select>
-    </div><br />
-    <div class="w-100 input-group" tabindex="0" data-toggle="tooltip" attr.title="{{DescDict.Parameters['asteroid_miss_distance']}}">
-      <div class="input-group-prepend">
-        <label class="input-group-text">asteroidMissDistanceType</label>
-      </div>
-      <select class="custom-select" [(ngModel)]="selectCloseApproachDataMissDistanceType">
-        <option *ngFor="let asteroidMissDistanceType of closeApproachDataMissDistanceTypes">{{asteroidMissDistanceType}}
-        </option>
+      <select class="custom-select" [(ngModel)]="infrastructureApi.QueryPrameters.selectEstimatedDiameterType">
+        <option *ngFor="let estimated_diameterType of infrastructureApi.QueryPrameters.estimatedDiameterTypes">{{estimated_diameterType}}</option>
       </select>
     </div><br />
 
-    <button type="button" class="btn btn-info mr-4" (click)="reloadNeoWsBrowseByAsteroidId()">Show</button>
+    <div class="w-100 input-group" tabindex="0" data-toggle="tooltip" attr.title="{{infrastructureApi.DescDict.Parameters['asteroid_relative_velocity']}}">
+      <div class="input-group-prepend">
+        <label class="input-group-text">asteroidRelativeVelocityType</label>
+      </div>
+      <select class="custom-select" [(ngModel)]="infrastructureApi.QueryPrameters.selectcloseApproachDataRelativeVelocityType">
+        <option *ngFor="let asteroidRelativeVelocityType of infrastructureApi.QueryPrameters.closeApproachDataRelativeVelocityTypes">
+          {{asteroidRelativeVelocityType}}</option>
+      </select>
+    </div><br />
+
+    <div class="w-100 input-group" tabindex="0" data-toggle="tooltip" attr.title="{{infrastructureApi.DescDict.Parameters['asteroid_miss_distance']}}">
+      <div class="input-group-prepend">
+        <label class="input-group-text">asteroidMissDistanceType</label>
+      </div>
+      <select class="custom-select" [(ngModel)]="infrastructureApi.QueryPrameters.selectCloseApproachDataMissDistanceType">
+        <option *ngFor="let asteroidMissDistanceType of infrastructureApi.QueryPrameters.closeApproachDataMissDistanceTypes">{{asteroidMissDistanceType}}
+        </option>
+      </select>
+    </div>
+
   </div>
 </div>

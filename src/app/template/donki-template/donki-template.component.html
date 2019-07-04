@@ -1,7 +1,17 @@
 <div class="container-fluid jumbotron-fluid mx-auto d-block pr-5 pb-5 mt-2">
+
+
   <div [ngSwitch]="infrastructureApi.baseService">
     <app-donki-cme-template *ngSwitchCase="'Coronal Mass Ejection (CME)'"></app-donki-cme-template>
   </div>
+
+
+  <div class="container-fluid col-xl-4 col-lg-5 col-md-7 col-sm-9 col-12 no-gutters" [ngSwitch]="infrastructureApi.baseService">
+    <div class="w-100" *ngSwitchCase="'Coronal Mass Ejection (CME)'">
+      <button type="button" class="btn btn-info mr-4" (click)="reloadTable()">Show</button>
+    </div>
+  </div>
+
   <br />
   <app-table-template></app-table-template>
   <br />
