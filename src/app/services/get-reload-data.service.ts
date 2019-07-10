@@ -31,8 +31,9 @@ export class GetReloadDataService {
   }
 
   // tslint:disable-next-line: max-line-length
-  DataRestructuring(baseServiceName: string, baseService: string, QueryPrameters: any, serviceResponseBodyList: object): TableMakerPramList {
+  DataRestructuring(baseServiceName: string, baseService: string, QueryPrameters: any, serviceResponseBodyList: object, QueryPramChoices?: any): TableMakerPramList {
     let returnObj: TableMakerPramList;
+
     switch (baseServiceName) {
       case 'APoD':
         switch (baseService) {
@@ -65,16 +66,80 @@ export class GetReloadDataService {
           case 'Coronal Mass Ejection (CME)':
             returnObj = this.DONKICME(serviceResponseBodyList, baseService, QueryPrameters);
             break;
+          case 'Coronal Mass Ejection (CME) Analysis':
+            returnObj = this.DONKICMEAnalysis(serviceResponseBodyList, baseService, QueryPrameters, QueryPramChoices);
+            break;
+          case 'Geomagnetic Storm (GST)':
+            returnObj = this.DONKIGST(serviceResponseBodyList, baseService, QueryPrameters);
+            break;
+          case 'Interplanetary Shock (IPS)':
+            returnObj = this.DONKIIPS(serviceResponseBodyList, baseService, QueryPrameters, QueryPramChoices);
+            break;
         }
         break;
     }
     return returnObj;
   }
 
-  APoDAstronomyPictureOfTheDay(serviceResponseBodyList: object, baseService: string, QueryPrameters: any): TableMakerPramList {
-    serviceResponseBodyList[baseService].url = this.sanitizer.bypassSecurityTrustResourceUrl(serviceResponseBodyList[baseService].url);
-    QueryPrameters.hd = false;
-    return null;
+  DONKIIPS(serviceResponseBodyList: object, baseService: string, QueryPrameters: any, QueryPramChoices: any): TableMakerPramList {
+    if (isNullOrUndefined(QueryPrameters.location)) {
+      for (const choices of Object.keys(QueryPramChoices)) {
+        if (choices.includes(baseService)) {
+          QueryPrameters.location = QueryPramChoices[choices][0];
+        }
+      }
+    }
+    if (isNullOrUndefined(QueryPrameters.catalog)) {
+      for (const choices of Object.keys(QueryPramChoices)) {
+        if (choices.includes(baseService)) {
+          QueryPrameters.catalog = QueryPramChoices[choices][0];
+        }
+      }
+    }
+
+    return [serviceResponseBodyList, baseService, baseService, 1];
+  }
+
+  DONKIGST(serviceResponseBodyList: object, baseService: string, QueryPrameters: any): TableMakerPramList {
+    let linkedEventActivityID: string;
+    for (const row of Object.keys(serviceResponseBodyList[baseService])) {
+      linkedEventActivityID = '';
+      if (!isNullOrUndefined(serviceResponseBodyList[baseService][row].linkedEvents)) {
+        for (const linkedEvent of serviceResponseBodyList[baseService][row].linkedEvents) {
+          linkedEventActivityID = linkedEventActivityID.concat(`, ${linkedEvent.activityID}`);
+        }
+      }
+      serviceResponseBodyList[baseService][row].linkedEventsActivityID = linkedEventActivityID.slice(2);
+      delete serviceResponseBodyList[baseService][row].linkedEvents;
+    }
+
+    const cardTitle = `Geomagnetic Storm (GST) in Timeframe ${QueryPrameters.startDate} to ${QueryPrameters.endDate}`;
+    return [serviceResponseBodyList, baseService, cardTitle, 1];
+  }
+
+  DONKICMEAnalysis(serviceResponseBodyList: object, baseService: string, QueryPrameters: any, QueryPramChoices: any): TableMakerPramList {
+    QueryPrameters.speed = parseInt(QueryPrameters.speed.toString(), 10);
+    QueryPrameters.halfAngle = parseInt(QueryPrameters.halfAngle.toString(), 10);
+    if (isNullOrUndefined(QueryPrameters.catalog)) {
+      for (const choices of Object.keys(QueryPramChoices)) {
+        if (choices.includes(baseService)) {
+          QueryPrameters.catalog = QueryPramChoices[choices][0];
+        }
+      }
+    }
+    return [serviceResponseBodyList, baseService, baseService, 1];
+  }
+
+  DONKICME(serviceResponseBodyList: object, baseService: string, QueryPrameters: any): TableMakerPramList {
+    for ( const element of serviceResponseBodyList[baseService]) {
+      let tempInstumentString = '';
+      for (const instument of element.instruments) {
+        tempInstumentString = tempInstumentString.concat(`, ${instument.displayName}`);
+      }
+      element.instruments = tempInstumentString.slice(2);
+    }
+    const cardTitle = `CoronalMassEjection in Timeframe ${QueryPrameters.startDate} to ${QueryPrameters.endDate}`;
+    return [serviceResponseBodyList, baseService, cardTitle, 1];
   }
 
   NeoWsBrowseByAsteroidId(serviceResponseBodyList: object, baseService: string, QueryPrameters: any): TableMakerPramList {
@@ -126,7 +191,6 @@ export class GetReloadDataService {
     QueryPrameters.maxPageNo = (parseInt(serviceResponseBodyList[baseService].page.total_pages, 10) - 1).toString();
     QueryPrameters.totalNoOfElements = serviceResponseBodyList[baseService].page.total_elements.toString();
     const cardTitle = `Total Element: ${QueryPrameters.totalNoOfElements}`;
-    console.table([serviceResponseBodyList, baseService, cardTitle, 2, 'sentry_objects', QueryPrameters.totalNoOfElements]);
     return [serviceResponseBodyList, baseService, cardTitle, 2, 'sentry_objects'];
   }
 
@@ -135,29 +199,29 @@ export class GetReloadDataService {
     return [serviceResponseBodyList[baseService], 'near_earth_objects', null, null, null, `Element Count: ${serviceResponseBodyList[baseService].element_count}`];
   }
 
-  DONKICME(serviceResponseBodyList: object, baseService: string, QueryPrameters: any): TableMakerPramList {
-    for ( const element of serviceResponseBodyList[baseService]) {
-      let tempInstumentString = '';
-      for (const instument of element.instruments) {
-        tempInstumentString = tempInstumentString.concat(`, ${instument.displayName}`);
-      }
-      element.instruments = tempInstumentString.slice(2);
-    }
-    const cardTitle = `CoronalMassEjection in Timeframe ${QueryPrameters.startDate} to ${QueryPrameters.endDate}`;
-    return [serviceResponseBodyList, baseService, cardTitle, 1];
+  APoDAstronomyPictureOfTheDay(serviceResponseBodyList: object, baseService: string, QueryPrameters: any): TableMakerPramList {
+    serviceResponseBodyList[baseService].url = this.sanitizer.bypassSecurityTrustResourceUrl(serviceResponseBodyList[baseService].url);
+    QueryPrameters.hd = false;
+    return null;
   }
 
-  reloadGetDataGiveToTableMaker(ResponceURLDict: any, baseServiceName: string, baseService: string, QueryPrameters: any): void {
+  // tslint:disable-next-line: max-line-length
+  reloadGetDataGiveToTableMaker(ResponceURLDict: any, baseServiceName: string, baseService: string, QueryPrameters: any, QueryPramChoices?: any): void {
 
     this.http.get(ResponceURLDict[baseServiceName][baseService]).subscribe(
       (body) => {
         this.serviceResponseBodyList[baseService] = body;
-
+        console.log(ResponceURLDict[baseServiceName][baseService]);
         console.table({ responseObjectDictionary: this.serviceResponseBodyList[baseService] });
-
-        // tslint:disable-next-line: max-line-length
-        const tablePrameter: [object?, string?, string?, number?, string?, string?] = this.DataRestructuring(baseServiceName, baseService, QueryPrameters, this.serviceResponseBodyList);
-
+        let tablePrameter: [object?, string?, string?, number?, string?, string?];
+        if (isNullOrUndefined(QueryPrameters)) {
+          // tslint:disable-next-line: max-line-length
+          tablePrameter = this.DataRestructuring(baseServiceName, baseService, QueryPrameters, this.serviceResponseBodyList);
+        } else {
+          // tslint:disable-next-line: max-line-length
+          tablePrameter = this.DataRestructuring(baseServiceName, baseService, QueryPrameters, this.serviceResponseBodyList, QueryPramChoices);
+        }
+        console.table(tablePrameter);
         if (!isNullOrUndefined(tablePrameter)) {
           this.infrastructureCommonTable.makeTableDef(...tablePrameter);
         }

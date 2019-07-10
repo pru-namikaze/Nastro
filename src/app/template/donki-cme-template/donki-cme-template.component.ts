@@ -8,6 +8,7 @@ import { GetReloadDataService } from 'src/app/services/get-reload-data.service';
   templateUrl: './donki-cme-template.component.html',
   styleUrls: ['./donki-cme-template.component.css']
 })
+
 export class DonkiCmeTemplateComponent implements OnInit {
 
   constructor(public getReloadData: GetReloadDataService, public infrastructureApi: InfrastructureApiService) {

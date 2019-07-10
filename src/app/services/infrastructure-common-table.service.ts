@@ -30,7 +30,6 @@ export class InfrastructureCommonTableService {
 
   // tslint:disable-next-line: max-line-length
   makeTableDef(serviceResponseBodyList: object, baseService: string, cardTitle?: string, level?: number, accessKey?: string, infoText?: string): void {
-    console.table([serviceResponseBodyList, baseService]);
     this.tableTupleList = [];
     this.tableDef = [];
     this.tupleList = [];
@@ -60,7 +59,6 @@ export class InfrastructureCommonTableService {
       }
     }
 
-    console.table(['serviceResponseBodyList', serviceResponseBodyList, baseService, Object.keys(serviceResponseBodyList[baseService])]);
     for (const key of Object.keys(serviceResponseBodyList[baseService])) {
       if (typeof (serviceResponseBodyList[baseService][key]) === 'object') {
         if (isArray(serviceResponseBodyList[baseService][key])) {
@@ -75,7 +73,6 @@ export class InfrastructureCommonTableService {
         this.tupleList.push([key, serviceResponseBodyList[baseService][key]]);
       }
     }
-    console.table([this.tupleList, this.tableTupleList]);
   }
 
   findIndexInColumnDef(tableName: string): number {

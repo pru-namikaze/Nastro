@@ -18,8 +18,6 @@ export class NeowsTemplateComponent implements OnInit {
 
   reloadTable(commands?: Array<string>): void {
 
-    this.getReloadData.resetTable();
-
     if (!isNullOrUndefined(commands)) {
       if (commands.includes('start_date')) {
         const endDate = new Date(new Date().getTime() - 45000000);
@@ -41,7 +39,7 @@ export class NeowsTemplateComponent implements OnInit {
         return;
       }
     }
-    
+
     // tslint:disable-next-line: max-line-length
     if ((parseInt(this.infrastructureApi.QueryPrameters.page, 10) < 0) || (isNullOrUndefined(this.infrastructureApi.QueryPrameters.maxPageNo) ? true : parseInt(this.infrastructureApi.QueryPrameters.page, 10) > parseInt(this.infrastructureApi.QueryPrameters.maxPageNo, 10))) {
       this.infrastructureApi.QueryPrameters.page = 0;

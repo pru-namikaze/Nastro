@@ -1,0 +1,14 @@
+<div class="container-fluid col-xl-4 col-lg-5 col-md-7 col-sm-9 col-12 no-gutters">
+    <div class="input-group my-2" tabindex="0" data-toggle="tooltip" attr.title="{{infrastructureApi.DescDict.Parameters['startDate']}}">
+      <div class="input-group-prepend">
+        <label class="input-group-text">startDate:&nbsp;</label>
+      </div>
+      <input type="date" [(ngModel)]="infrastructureApi.QueryPrameters.startDate">
+    </div>
+    <div class="input-group my-2" tabindex="0" data-toggle="tooltip" attr.title="{{infrastructureApi.DescDict.Parameters['endDate']}}">
+      <div class="input-group-prepend">
+        <label class="input-group-text">endDate:&nbsp;</label>
+      </div>
+      <input type="date" [(ngModel)]="infrastructureApi.QueryPrameters.endDate">
+    </div>
+  </div>

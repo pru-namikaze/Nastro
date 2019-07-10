@@ -17,6 +17,8 @@ export class InfrastructureApiService {
   DataDict: any;
   ResponceURLDict: any;
   QueryPrameters: any;
+  InitQueryPrameters: any;
+  QueryPramChoices: any;
   UrlAdderPrameters: any;
 
   filterParameters: any;
@@ -30,7 +32,10 @@ export class InfrastructureApiService {
     this.DataDict = UrlDict;
     this.ResponceURLDict = {};
     this.QueryPrameters = {};
+    this.InitQueryPrameters = null;
+    this.QueryPramChoices = {};
     this.UrlAdderPrameters = {};
+
 
     this.baseServiceName = '';
     this.baseService = '';
@@ -48,12 +53,21 @@ export class InfrastructureApiService {
     for (const baseServiceName of baseServiceNameList) {
       this.getResponseURL(baseServiceName);
     }
-    console.log('UrlAdderPrameters');
+
+    if (isNullOrUndefined(this.InitQueryPrameters)) {
+      this.InitQueryPrameters = this.QueryPrameters;
+    }
+
+    console.log('UrlAdderPrameters:');
     console.table(this.UrlAdderPrameters);
-    console.log('QueryPrameters');
+    console.log('InitQueryPrameters:');
+    console.table(this.InitQueryPrameters);
+    console.log('QueryPrameters:');
     console.table(this.QueryPrameters);
-    console.log('ResponceURLDict');
-    console.table(this.ResponceURLDict);
+    console.log('QueryPramChoices:');
+    console.table(this.QueryPramChoices);
+    console.log(`ResponceURLDict( ${this.baseServiceName} ):`);
+    console.table(this.ResponceURLDict[this.baseServiceName]);
   }
 
   getResponseURL(baseServiceName: string): void {
@@ -110,6 +124,10 @@ export class InfrastructureApiService {
                   }
                 }
               }
+              if (!isNullOrUndefined(property.choices)) {
+                console.table(property.choices);
+                this.QueryPramChoices[`${serviceName}-${property.VariableName}`] = property.choices;
+              }
               responseURL = responseURL.concat(`${property.VariableName}=${this.QueryPrameters[property.VariableName]}&`);
             }
           }
@@ -154,11 +172,15 @@ export class InfrastructureApiService {
                 }
               }
             }
+            if (!isNullOrUndefined(property.choices)) {
+              this.QueryPramChoices[`${serviceName}-${property.VariableName}`] = property.choices;
+            }
             responseURL = responseURL.concat(`${property.VariableName}=${this.QueryPrameters[property.VariableName]}&`);
           }
         }
         responseURLList[serviceName] = responseURL;
       }
+
     }
     this.ResponceURLDict[baseServiceName] = responseURLList;
   }

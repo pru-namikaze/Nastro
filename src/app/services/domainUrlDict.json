@@ -175,7 +175,12 @@
           },
           "6": {
             "VariableName": "catalog",
-            "DefaultValue": "ALL"
+            "DefaultValue": "ALL",
+            "choices": {
+              "0": "ALL",
+              "1": "SWRC_CATALOG",
+              "2": "JANG_ET_AL_CATALOG"
+            }
           },
           "7": {
             "VariableName": "keyword",
@@ -223,11 +228,23 @@
           },
           "2": {
             "VariableName": "location",
-            "DefaultValue": "ALL"
+            "DefaultValue": "ALL",
+            "choices": {
+              "0": "ALL",
+              "1": "Earth",
+              "2": "MESSENGER",
+              "3": "STEREO A",
+              "4": "STEREO B"
+            }
           },
           "3": {
             "VariableName": "catalog",
-            "DefaultValue": "ALL"
+            "DefaultValue": "ALL",
+            "choices": {
+              "0": "ALL",
+              "1": "SWRC_CATALOG",
+              "2": "WINSLOW_MESSENGER_ICME_CATALOG"
+            }
           },
           "4": {
             "VariableName": "api_key",

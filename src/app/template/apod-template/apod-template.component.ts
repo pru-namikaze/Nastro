@@ -21,8 +21,6 @@ export class ApodTemplateComponent implements OnInit {
 
   reloadTable(commands?: Array<string>): void {
 
-    this.getReloadData.resetTable();
-
     if (!isNullOrUndefined(commands) && commands.includes('togleHD')) {
       this.infrastructureApi.QueryPrameters.hd = !this.infrastructureApi.QueryPrameters.hd;
       return;
