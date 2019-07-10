@@ -4,12 +4,12 @@ The Application can handle 1000 request per hour.
 The Application is hosted at [here](https://pru-namikaze.github.io/Nastro/).  
 
 ## Table of Contents
-  * [Introduction](##Introduction)
-  * [Technologies](##Technologies)
-  * [Illustrations](##Illustrations)
-  * [Launching](##Launching)
-  * [Project Status](##Project-Status)
-  * [Sources](##Sources)
+  * [Introduction](#Introduction)
+  * [Technologies](#Technologies)
+  * [Illustrations](#Illustrations)
+  * [Launching](#Launching)
+  * [Project Status](#Project-Status)
+  * [Sources](#Sources)
 
 ## Introduction
 NAstro is a portmanteau word made by combining "NASA" and "Astro" from "Astrology".  
