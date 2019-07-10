@@ -1,5 +1,5 @@
 # NAstro - FrontEnd Application using NASA API
-NAstro is an angular Application which display data acquired using *NASA's API* in a **Minimilist Fashion**.  
+NAstro is an angular Application which display data acquired using **NASA's API** in a *Minimilist Fashion*.  
 The Application can handle 1000 request per hour.  
 The Application is hosted at [here](https://pru-namikaze.github.io/Nastro/).  
 
