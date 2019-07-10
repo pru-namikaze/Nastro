@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
 import { InfrastructureApiService } from 'src/app/services/infrastructure-api.service';
-import { GetReloadDataService } from 'src/app/services/get-reload-data.service';
 
 @Component({
   selector: 'app-donki-gst-template',
@@ -11,7 +10,7 @@ import { GetReloadDataService } from 'src/app/services/get-reload-data.service';
 
 export class DonkiGstTemplateComponent implements OnInit {
 
-  constructor(public getReloadData: GetReloadDataService, public infrastructureApi: InfrastructureApiService) {
+  constructor(public infrastructureApi: InfrastructureApiService) {
   }
 
   ngOnInit() {
