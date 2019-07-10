@@ -32,7 +32,7 @@ The Application was created using:
 Comming Soon...
 
 ## Launching
-  * The Application can be viewed at [here](https://pru-namikaze.github.io/Nastro/).
+  * The Application can be viewed at [https://pru-namikaze.github.io/Nastro/](https://pru-namikaze.github.io/Nastro/).
   * To host this application locally,
     + Downloading the Project and all it's dependencies using npm(or any other JavaScript package manager).
     + For quick setting up the local server and hosting the application on it we will use: 
@@ -43,3 +43,4 @@ Active and In-Developement.
 
 ## Sources
 All the Data used and displayed is being requested from NASA.
+The [NAstro logo](https://commons.wikimedia.org/wiki/File:Nastro_logo.jpg) is used from commons wikimedia.
