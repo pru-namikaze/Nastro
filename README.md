@@ -42,5 +42,5 @@ Comming Soon...
 Active and In-Developement.
 
 ## Sources
-All the Data used and displayed is being requested from NASA.
+All the Data used and displayed is being requested from NASA.  
 The [NAstro logo](https://commons.wikimedia.org/wiki/File:Nastro_logo.jpg) is used from commons wikimedia.
