@@ -43,6 +43,9 @@ export class DonkiTemplateComponent implements OnInit {
       if (commands.includes('completeEntryOnly')) {
         this.infrastructureApi.QueryPrameters.completeEntryOnly = !this.infrastructureApi.QueryPrameters.completeEntryOnly;
       }
+      if (commands.includes('Solar Energetic Particle (SEP)')) {
+        this.infrastructureApi.QueryPrameters.startDate = '2015-01-01';
+      }
       if (commands.includes('catalog')) {
         const dropdownList: Array<string> = [];
         for (const key of Object.keys(this.infrastructureApi.QueryPramChoices[`${this.infrastructureApi.baseService}-catalog`])) {

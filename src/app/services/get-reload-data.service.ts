@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer } from '@angular/platform-browser';
-import { isNullOrUndefined } from 'util';
+import { isNullOrUndefined, isObject } from 'util';
 
 import { InfrastructureCommonTableService } from 'src/app/services/infrastructure-common-table.service';
 
@@ -30,9 +30,56 @@ export class GetReloadDataService {
     this.infrastructureCommonTable.additionalInformationText = '';
   }
 
+  ifNullThenSpace(serviceResponseBodyList: object, baseService: string): void {
+    for (const row of Object.keys(serviceResponseBodyList[baseService])) {
+      for (const element of Object.keys(serviceResponseBodyList[baseService][row])) {
+        if (isNullOrUndefined(serviceResponseBodyList[baseService][row][element])) {
+          serviceResponseBodyList[baseService][row][element] = ' ';
+        }
+      }
+    }
+  }
+
+  nestedToInlineJson(serviceResponseBodyList: object, baseService: string, identifier: string): void {
+    let jsonToFancyString = '';
+    let keyForIdentifier: string;
+    for (const row of Object.keys(serviceResponseBodyList[baseService])) {
+      jsonToFancyString = '';
+      const baseServiceBodyRow: any = serviceResponseBodyList[baseService][row];
+      if (!isNullOrUndefined(baseServiceBodyRow[identifier]) && (isObject(baseServiceBodyRow[identifier]))) {
+        for (const listObject of Object.keys(baseServiceBodyRow[identifier])) {
+          let listObjectKeyList: Array<string> = [];
+          const rowElement: any = baseServiceBodyRow[identifier][listObject];
+          if (isObject(rowElement)) {
+            listObjectKeyList = Object.keys(rowElement);
+          }
+          switch (listObjectKeyList.length.toString()) {
+            case '1':
+              if (isNullOrUndefined(keyForIdentifier)) {
+                keyForIdentifier = `${identifier}List`;
+              }
+              jsonToFancyString = jsonToFancyString.concat(`, ${rowElement[listObjectKeyList[0]]}`);
+              break;
+            case '2':
+              if (isNullOrUndefined(keyForIdentifier)) {
+                keyForIdentifier = `${identifier}(${listObjectKeyList[0]}⇒${listObjectKeyList[1]})`;
+              }
+              jsonToFancyString = jsonToFancyString.concat(`, (${rowElement[listObjectKeyList[0]]}⇒${rowElement[listObjectKeyList[1]]})`);
+              break;
+          }
+        }
+        baseServiceBodyRow[keyForIdentifier] = jsonToFancyString.slice(2);
+        delete baseServiceBodyRow[identifier];
+      }
+    }
+  }
+
   // tslint:disable-next-line: max-line-length
   DataRestructuring(baseServiceName: string, baseService: string, QueryPrameters: any, serviceResponseBodyList: object, QueryPramChoices?: any): TableMakerPramList {
     let returnObj: TableMakerPramList;
+
+    this.ifNullThenSpace(serviceResponseBodyList, baseService);
+    this.resetTable();
 
     switch (baseServiceName) {
       case 'APoD':
@@ -75,10 +122,29 @@ export class GetReloadDataService {
           case 'Interplanetary Shock (IPS)':
             returnObj = this.DONKIIPS(serviceResponseBodyList, baseService, QueryPrameters, QueryPramChoices);
             break;
+          case 'Solar Flare (FLR)':
+            returnObj = this.DONKIFLR(serviceResponseBodyList, baseService);
+            break;
+          case 'Solar Energetic Particle (SEP)':
+            returnObj = this.DONKISEP(serviceResponseBodyList, baseService);
+            break;
         }
         break;
     }
     return returnObj;
+  }
+
+  DONKISEP(serviceResponseBodyList: object, baseService: string): TableMakerPramList {
+    this.nestedToInlineJson(serviceResponseBodyList, baseService, 'instruments');
+    this.nestedToInlineJson(serviceResponseBodyList, baseService, 'linkedEvents');
+    return [serviceResponseBodyList, baseService, baseService, 1];
+  }
+
+  DONKIFLR(serviceResponseBodyList: object, baseService: string): TableMakerPramList {
+    this.nestedToInlineJson(serviceResponseBodyList, baseService, 'instruments');
+    this.nestedToInlineJson(serviceResponseBodyList, baseService, 'linkedEvents');
+
+    return [serviceResponseBodyList, baseService, baseService, 1];
   }
 
   DONKIIPS(serviceResponseBodyList: object, baseService: string, QueryPrameters: any, QueryPramChoices: any): TableMakerPramList {
@@ -97,22 +163,12 @@ export class GetReloadDataService {
       }
     }
 
+    this.nestedToInlineJson(serviceResponseBodyList, baseService, 'instruments');
     return [serviceResponseBodyList, baseService, baseService, 1];
   }
 
   DONKIGST(serviceResponseBodyList: object, baseService: string, QueryPrameters: any): TableMakerPramList {
-    let linkedEventActivityID: string;
-    for (const row of Object.keys(serviceResponseBodyList[baseService])) {
-      linkedEventActivityID = '';
-      if (!isNullOrUndefined(serviceResponseBodyList[baseService][row].linkedEvents)) {
-        for (const linkedEvent of serviceResponseBodyList[baseService][row].linkedEvents) {
-          linkedEventActivityID = linkedEventActivityID.concat(`, ${linkedEvent.activityID}`);
-        }
-      }
-      serviceResponseBodyList[baseService][row].linkedEventsActivityID = linkedEventActivityID.slice(2);
-      delete serviceResponseBodyList[baseService][row].linkedEvents;
-    }
-
+    this.nestedToInlineJson(serviceResponseBodyList, baseService, 'linkedEvents');
     const cardTitle = `Geomagnetic Storm (GST) in Timeframe ${QueryPrameters.startDate} to ${QueryPrameters.endDate}`;
     return [serviceResponseBodyList, baseService, cardTitle, 1];
   }
@@ -131,13 +187,8 @@ export class GetReloadDataService {
   }
 
   DONKICME(serviceResponseBodyList: object, baseService: string, QueryPrameters: any): TableMakerPramList {
-    for ( const element of serviceResponseBodyList[baseService]) {
-      let tempInstumentString = '';
-      for (const instument of element.instruments) {
-        tempInstumentString = tempInstumentString.concat(`, ${instument.displayName}`);
-      }
-      element.instruments = tempInstumentString.slice(2);
-    }
+    this.nestedToInlineJson(serviceResponseBodyList, baseService, 'instruments');
+    this.nestedToInlineJson(serviceResponseBodyList, baseService, 'linkedEvents');
     const cardTitle = `CoronalMassEjection in Timeframe ${QueryPrameters.startDate} to ${QueryPrameters.endDate}`;
     return [serviceResponseBodyList, baseService, cardTitle, 1];
   }

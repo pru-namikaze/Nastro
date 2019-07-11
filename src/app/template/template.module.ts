@@ -20,6 +20,8 @@ import { DonkiCmeTemplateComponent } from './donki-cme-template/donki-cme-templa
 import { DonkiCmeAnalysisTemplateComponent } from './donki-cme-analysis-template/donki-cme-analysis-template.component';
 import { DonkiGstTemplateComponent } from './donki-gst-template/donki-gst-template.component';
 import { DonkiIpsTemplateComponent } from './donki-ips-template/donki-ips-template.component';
+import { DonkiFlrTemplateComponent } from './donki-flr-template/donki-flr-template.component';
+import { DonkiSepTemplateComponent } from './donki-sep-template/donki-sep-template.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,9 @@ import { DonkiIpsTemplateComponent } from './donki-ips-template/donki-ips-templa
     DonkiCmeTemplateComponent,
     DonkiCmeAnalysisTemplateComponent,
     DonkiGstTemplateComponent,
-    DonkiIpsTemplateComponent
+    DonkiIpsTemplateComponent,
+    DonkiFlrTemplateComponent,
+    DonkiSepTemplateComponent
   ],
   imports: [
     BrowserAnimationsModule,

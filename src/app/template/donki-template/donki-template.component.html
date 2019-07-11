@@ -6,6 +6,8 @@
     <app-donki-cme-analysis-template *ngSwitchCase="'Coronal Mass Ejection (CME) Analysis'"></app-donki-cme-analysis-template>
     <app-donki-gst-template *ngSwitchCase="'Geomagnetic Storm (GST)'"></app-donki-gst-template>
     <app-donki-ips-template *ngSwitchCase="'Interplanetary Shock (IPS)'"></app-donki-ips-template>
+    <app-donki-flr-template *ngSwitchCase="'Solar Flare (FLR)'"></app-donki-flr-template>
+    <app-donki-sep-template *ngSwitchCase="'Solar Energetic Particle (SEP)'"></app-donki-sep-template>
   </div>
 
 
@@ -54,9 +56,13 @@
       </div><br />
       <button type="button" class="btn btn-info mr-4" (click)="reloadTable()">Show</button>
     </div>
+    <div class="w-100" *ngSwitchCase="'Solar Flare (FLR)'">
+      <button type="button" class="btn btn-info mr-4" (click)="reloadTable()">Show</button>
     </div>
-
-  <br />
+    <div class="w-100" *ngSwitchCase="'Solar Energetic Particle (SEP)'">
+      <button type="button" class="btn btn-info mr-4" (click)="reloadTable([infrastructureApi.baseService])">Show</button>
+    </div>
+  </div><br />
   <app-table-template></app-table-template>
   <br />
 </div>
