@@ -46,6 +46,7 @@ export class GetReloadDataService {
     for (const row of Object.keys(serviceResponseBodyList[baseService])) {
       jsonToFancyString = '';
       const baseServiceBodyRow: any = serviceResponseBodyList[baseService][row];
+      // tslint:disable-next-line: max-line-length
       if (!isNullOrUndefined(baseServiceBodyRow[identifier]) && (isObject(baseServiceBodyRow[identifier]))) {
         for (const listObject of Object.keys(baseServiceBodyRow[identifier])) {
           let listObjectKeyList: Array<string> = [];
@@ -69,7 +70,15 @@ export class GetReloadDataService {
           }
         }
         baseServiceBodyRow[keyForIdentifier] = jsonToFancyString.slice(2);
-        delete baseServiceBodyRow[identifier];
+      }
+    }
+
+    if (!isNullOrUndefined(keyForIdentifier)) {
+      for (const row of Object.keys(serviceResponseBodyList[baseService])) {
+        if (isNullOrUndefined(serviceResponseBodyList[baseService][row][keyForIdentifier])) {
+          serviceResponseBodyList[baseService][row][keyForIdentifier] = null;
+        }
+        delete serviceResponseBodyList[baseService][row][identifier];
       }
     }
   }
@@ -131,6 +140,10 @@ export class GetReloadDataService {
         }
         break;
     }
+
+    this.ifNullThenSpace(serviceResponseBodyList, baseService);
+    this.resetTable();
+
     return returnObj;
   }
 
