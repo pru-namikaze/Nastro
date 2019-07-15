@@ -47,28 +47,44 @@ export class GetReloadDataService {
       jsonToFancyString = '';
       const baseServiceBodyRow: any = serviceResponseBodyList[baseService][row];
       // tslint:disable-next-line: max-line-length
-      if (!isNullOrUndefined(baseServiceBodyRow[identifier]) && (isObject(baseServiceBodyRow[identifier]))) {
-        for (const listObject of Object.keys(baseServiceBodyRow[identifier])) {
-          let listObjectKeyList: Array<string> = [];
-          const rowElement: any = baseServiceBodyRow[identifier][listObject];
-          if (isObject(rowElement)) {
-            listObjectKeyList = Object.keys(rowElement);
-          }
-          switch (listObjectKeyList.length.toString()) {
-            case '1':
-              if (isNullOrUndefined(keyForIdentifier)) {
-                keyForIdentifier = `${identifier}List`;
-              }
-              jsonToFancyString = jsonToFancyString.concat(`, ${rowElement[listObjectKeyList[0]]}`);
-              break;
-            case '2':
-              if (isNullOrUndefined(keyForIdentifier)) {
-                keyForIdentifier = `${identifier}(${listObjectKeyList[0]}⇒${listObjectKeyList[1]})`;
-              }
-              jsonToFancyString = jsonToFancyString.concat(`, (${rowElement[listObjectKeyList[0]]}⇒${rowElement[listObjectKeyList[1]]})`);
-              break;
-          }
+      for (const listObject of Object.keys(baseServiceBodyRow[identifier])) {
+        let listObjectKeyList: Array<string> = [];
+        const rowElement: any = baseServiceBodyRow[identifier][listObject];
+        if (isObject(rowElement)) {
+          listObjectKeyList = Object.keys(rowElement);
         }
+        switch (listObjectKeyList.length.toString()) {
+          case '0':
+            break;
+          case '1':
+            if (isNullOrUndefined(keyForIdentifier)) {
+              keyForIdentifier = `${identifier}List`;
+            }
+            jsonToFancyString = jsonToFancyString.concat(`, ${rowElement[listObjectKeyList[0]]}`);
+            break;
+          case '2':
+            if (isNullOrUndefined(keyForIdentifier)) {
+              keyForIdentifier = `${identifier}(${listObjectKeyList[0]}⇒${listObjectKeyList[1]})`;
+            }
+            jsonToFancyString = jsonToFancyString.concat(`, (${rowElement[listObjectKeyList[0]]}⇒${rowElement[listObjectKeyList[1]]})`);
+            break;
+          default:
+            if (isNullOrUndefined(keyForIdentifier)) {
+              keyForIdentifier = `${identifier}( ${listObjectKeyList.toString().replace(/\,/gi, ', ')})`;
+            }
+            if (!isNullOrUndefined(rowElement)) {
+              jsonToFancyString = jsonToFancyString.concat(`, (`);
+              console.log(rowElement);
+              let tempstr = '';
+              for (const key of listObjectKeyList) {
+                tempstr = tempstr.concat(`, ${rowElement[key]}`);
+              }
+              jsonToFancyString = jsonToFancyString.concat(tempstr.slice(2), ')');
+            }
+            break;
+        }
+      }
+      if (!isNullOrUndefined(keyForIdentifier)) {
         baseServiceBodyRow[keyForIdentifier] = jsonToFancyString.slice(2);
       }
     }
@@ -182,6 +198,7 @@ export class GetReloadDataService {
 
   DONKIGST(serviceResponseBodyList: object, baseService: string, QueryPrameters: any): TableMakerPramList {
     this.nestedToInlineJson(serviceResponseBodyList, baseService, 'linkedEvents');
+    this.nestedToInlineJson(serviceResponseBodyList, baseService, 'allKpIndex');
     const cardTitle = `Geomagnetic Storm (GST) in Timeframe ${QueryPrameters.startDate} to ${QueryPrameters.endDate}`;
     return [serviceResponseBodyList, baseService, cardTitle, 1];
   }

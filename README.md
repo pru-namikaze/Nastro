@@ -2,7 +2,7 @@
 NAstro is an Angular Application which display data acquired using **NASA's API** in a *Minimilist Fashion*.  
 The Application can handle 1000 request per hour.  
   
-The Application is hosted at [here](https://pru-namikaze.github.io/Nastro/).  
+The Application is hosted at [https://pru-namikaze.github.io/Nastro/](https://pru-namikaze.github.io/Nastro/).  
   
 ## Table of Contents
   * [Introduction](#Introduction)
@@ -17,7 +17,7 @@ NAstro is a portmanteau word made by combining "NASA" and "Astro" from "Astrolog
 NAstro is an angular Application which display data acquired using **NASA's API** in a *Minimilist Fashion*.  
 The Application can handle 1000 request per hour.  
   
-The Application is hosted at [here](https://pru-namikaze.github.io/Nastro/).  
+The Application is hosted at [https://pru-namikaze.github.io/Nastro/](https://pru-namikaze.github.io/Nastro/).  
   
 ## Technologies
 The Application was created using:
