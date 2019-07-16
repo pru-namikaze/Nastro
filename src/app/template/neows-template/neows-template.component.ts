@@ -49,7 +49,7 @@ export class NeowsTemplateComponent implements OnInit {
       (this.infrastructureApi.GenerateResponseUrl(), this.infrastructureApi.ResponceURLDict),
       this.infrastructureApi.baseServiceName,
       this.infrastructureApi.baseService,
-      this.infrastructureApi.QueryPrameters
+      this.infrastructureApi.QueryPrameters,
     );
   }
 

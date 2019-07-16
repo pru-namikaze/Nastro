@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer } from '@angular/platform-browser';
-import { isNullOrUndefined, isObject } from 'util';
+import { isNullOrUndefined, isObject, isNull } from 'util';
 
 import { InfrastructureCommonTableService } from 'src/app/services/infrastructure-common-table.service';
+import { InfrastructureCommonFilterService } from 'src/app/services/infrastructure-common-filter.service';
 
 type TableMakerPramList = [object, string, string?, number?, string?, string?];
 
@@ -14,13 +15,17 @@ type TableMakerPramList = [object, string, string?, number?, string?, string?];
 export class GetReloadDataService {
 
   serviceResponseBodyList: object;
+  filterParameters: any;
+
 
   constructor(
-    public infrastructureCommonTable: InfrastructureCommonTableService,
     private http: HttpClient,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    public infrastructureCommonTable: InfrastructureCommonTableService,
+    public infrastructureCommonFilter: InfrastructureCommonFilterService
     ) {
     this.serviceResponseBodyList = {};
+    this.filterParameters = [];
   }
 
   resetTable(): void {
@@ -32,21 +37,24 @@ export class GetReloadDataService {
 
   ifNullThenSpace(serviceResponseBodyList: object, baseService: string): void {
     for (const row of Object.keys(serviceResponseBodyList[baseService])) {
-      for (const element of Object.keys(serviceResponseBodyList[baseService][row])) {
-        if (isNullOrUndefined(serviceResponseBodyList[baseService][row][element])) {
-          serviceResponseBodyList[baseService][row][element] = ' ';
+      if (!isNullOrUndefined(serviceResponseBodyList[baseService][row])) {
+        for (const element of Object.keys(serviceResponseBodyList[baseService][row])) {
+          if (isNullOrUndefined(serviceResponseBodyList[baseService][row][element])) {
+            serviceResponseBodyList[baseService][row][element] = ' ';
+          }
         }
       }
     }
   }
 
-  nestedToInlineJson(serviceResponseBodyList: object, baseService: string, identifier: string): void {
+  nestedToInlineJson(serviceResponseBodyList: object, baseService: string, identifier: string, subnested?: boolean): void {
     let jsonToFancyString = '';
     let keyForIdentifier: string;
+
     for (const row of Object.keys(serviceResponseBodyList[baseService])) {
       jsonToFancyString = '';
       const baseServiceBodyRow: any = serviceResponseBodyList[baseService][row];
-      // tslint:disable-next-line: max-line-length
+
       for (const listObject of Object.keys(baseServiceBodyRow[identifier])) {
         let listObjectKeyList: Array<string> = [];
         const rowElement: any = baseServiceBodyRow[identifier][listObject];
@@ -90,93 +98,94 @@ export class GetReloadDataService {
     }
 
     if (!isNullOrUndefined(keyForIdentifier)) {
-      for (const row of Object.keys(serviceResponseBodyList[baseService])) {
-        if (isNullOrUndefined(serviceResponseBodyList[baseService][row][keyForIdentifier])) {
-          serviceResponseBodyList[baseService][row][keyForIdentifier] = null;
+        for (const row of Object.keys(serviceResponseBodyList[baseService])) {
+          if (isNullOrUndefined(serviceResponseBodyList[baseService][row][keyForIdentifier])) {
+            serviceResponseBodyList[baseService][row][keyForIdentifier] = null;
+          }
+          delete serviceResponseBodyList[baseService][row][identifier];
         }
-        delete serviceResponseBodyList[baseService][row][identifier];
-      }
     }
   }
 
   // tslint:disable-next-line: max-line-length
-  DataRestructuring(baseServiceName: string, baseService: string, QueryPrameters: any, serviceResponseBodyList: object, QueryPramChoices?: any): TableMakerPramList {
-    let returnObj: TableMakerPramList;
+  DataRestructuring(baseServiceName: string, baseService: string, QueryPrameters: any, serviceResponseBodyList: object, QueryPramChoices?: any, filterParameters?: any): [TableMakerPramList, any] {
+    let returnObj: [TableMakerPramList, any];
 
     this.ifNullThenSpace(serviceResponseBodyList, baseService);
-    this.resetTable();
 
     switch (baseServiceName) {
       case 'APoD':
         switch (baseService) {
           case 'Astronomy Picture of the Day':
-            returnObj = this.APoDAstronomyPictureOfTheDay(serviceResponseBodyList, baseService, QueryPrameters);
+            returnObj = this.APoDAstronomyPictureOfTheDay(serviceResponseBodyList, baseService, QueryPrameters, filterParameters);
             break;
         }
         break;
       case 'NeoWs':
         switch (baseService) {
           case 'Neo - Feed':
-            returnObj = this.NeoWsFeed(serviceResponseBodyList, baseService);
+            returnObj = this.NeoWsFeed(serviceResponseBodyList, baseService, filterParameters);
             break;
           case 'Neo - Browse':
-            returnObj = this.NeoWsBrowse(serviceResponseBodyList, baseService, QueryPrameters);
+            returnObj = this.NeoWsBrowse(serviceResponseBodyList, baseService, QueryPrameters, filterParameters);
             break;
           case 'Neo - Sentry':
-            returnObj = this.NeoWsSentry(serviceResponseBodyList, baseService, QueryPrameters);
+            returnObj = this.NeoWsSentry(serviceResponseBodyList, baseService, QueryPrameters, filterParameters);
             break;
           case 'Neo - Stats':
-            returnObj = this.NeoWsStats(serviceResponseBodyList, baseService);
+            returnObj = this.NeoWsStats(serviceResponseBodyList, baseService, filterParameters);
             break;
           case 'Neo - Browse by Asteroid ID':
-            returnObj = this.NeoWsBrowseByAsteroidId(serviceResponseBodyList, baseService, QueryPrameters);
+            returnObj = this.NeoWsBrowseByAsteroidId(serviceResponseBodyList, baseService, QueryPrameters, filterParameters);
             break;
         }
         break;
       case 'DONKI':
         switch (baseService) {
           case 'Coronal Mass Ejection (CME)':
-            returnObj = this.DONKICME(serviceResponseBodyList, baseService, QueryPrameters);
+            returnObj = this.DONKICME(serviceResponseBodyList, baseService, QueryPrameters, filterParameters);
             break;
           case 'Coronal Mass Ejection (CME) Analysis':
-            returnObj = this.DONKICMEAnalysis(serviceResponseBodyList, baseService, QueryPrameters, QueryPramChoices);
+            returnObj = this.DONKICMEAnalysis(serviceResponseBodyList, baseService, QueryPrameters, QueryPramChoices, filterParameters);
             break;
           case 'Geomagnetic Storm (GST)':
-            returnObj = this.DONKIGST(serviceResponseBodyList, baseService, QueryPrameters);
+            returnObj = this.DONKIGST(serviceResponseBodyList, baseService, QueryPrameters, filterParameters);
             break;
           case 'Interplanetary Shock (IPS)':
-            returnObj = this.DONKIIPS(serviceResponseBodyList, baseService, QueryPrameters, QueryPramChoices);
+            returnObj = this.DONKIIPS(serviceResponseBodyList, baseService, QueryPrameters, QueryPramChoices, filterParameters);
             break;
           case 'Solar Flare (FLR)':
-            returnObj = this.DONKIFLR(serviceResponseBodyList, baseService);
+            returnObj = this.DONKIFLR(serviceResponseBodyList, baseService, filterParameters);
             break;
           case 'Solar Energetic Particle (SEP)':
-            returnObj = this.DONKISEP(serviceResponseBodyList, baseService);
+            returnObj = this.DONKISEP(serviceResponseBodyList, baseService, filterParameters);
             break;
         }
         break;
     }
 
-    this.ifNullThenSpace(serviceResponseBodyList, baseService);
-    this.resetTable();
-
     return returnObj;
   }
 
-  DONKISEP(serviceResponseBodyList: object, baseService: string): TableMakerPramList {
+  // [
+  //   {name: 'page', prepend: 'page', type: 'text', append: null, choices: null}
+  // ]
+
+  DONKISEP(serviceResponseBodyList: object, baseService: string, filterParameters?: any): [TableMakerPramList, any] {
     this.nestedToInlineJson(serviceResponseBodyList, baseService, 'instruments');
     this.nestedToInlineJson(serviceResponseBodyList, baseService, 'linkedEvents');
     return [serviceResponseBodyList, baseService, baseService, 1];
   }
 
-  DONKIFLR(serviceResponseBodyList: object, baseService: string): TableMakerPramList {
+  DONKIFLR(serviceResponseBodyList: object, baseService: string, filterParameters?: any): [TableMakerPramList, any] {
     this.nestedToInlineJson(serviceResponseBodyList, baseService, 'instruments');
     this.nestedToInlineJson(serviceResponseBodyList, baseService, 'linkedEvents');
 
     return [serviceResponseBodyList, baseService, baseService, 1];
   }
 
-  DONKIIPS(serviceResponseBodyList: object, baseService: string, QueryPrameters: any, QueryPramChoices: any): TableMakerPramList {
+  // tslint:disable-next-line: max-line-length
+  DONKIIPS(serviceResponseBodyList: object, baseService: string, QueryPrameters: any, QueryPramChoices: any, filterParameters?: any): [TableMakerPramList, any] {
     if (isNullOrUndefined(QueryPrameters.location)) {
       for (const choices of Object.keys(QueryPramChoices)) {
         if (choices.includes(baseService)) {
@@ -196,14 +205,15 @@ export class GetReloadDataService {
     return [serviceResponseBodyList, baseService, baseService, 1];
   }
 
-  DONKIGST(serviceResponseBodyList: object, baseService: string, QueryPrameters: any): TableMakerPramList {
+  DONKIGST(serviceResponseBodyList: object, baseService: string, QueryPrameters: any, filterParameters?: any): [TableMakerPramList, any] {
     this.nestedToInlineJson(serviceResponseBodyList, baseService, 'linkedEvents');
     this.nestedToInlineJson(serviceResponseBodyList, baseService, 'allKpIndex');
     const cardTitle = `Geomagnetic Storm (GST) in Timeframe ${QueryPrameters.startDate} to ${QueryPrameters.endDate}`;
     return [serviceResponseBodyList, baseService, cardTitle, 1];
   }
 
-  DONKICMEAnalysis(serviceResponseBodyList: object, baseService: string, QueryPrameters: any, QueryPramChoices: any): TableMakerPramList {
+  // tslint:disable-next-line: max-line-length
+  DONKICMEAnalysis(serviceResponseBodyList: object, baseService: string, QueryPrameters: any, QueryPramChoices: any, filterParameters?: any): [TableMakerPramList, any] {
     QueryPrameters.speed = parseInt(QueryPrameters.speed.toString(), 10);
     QueryPrameters.halfAngle = parseInt(QueryPrameters.halfAngle.toString(), 10);
     if (isNullOrUndefined(QueryPrameters.catalog)) {
@@ -216,14 +226,15 @@ export class GetReloadDataService {
     return [serviceResponseBodyList, baseService, baseService, 1];
   }
 
-  DONKICME(serviceResponseBodyList: object, baseService: string, QueryPrameters: any): TableMakerPramList {
+  DONKICME(serviceResponseBodyList: object, baseService: string, QueryPrameters: any, filterParameters?: any): [TableMakerPramList, any] {
     this.nestedToInlineJson(serviceResponseBodyList, baseService, 'instruments');
     this.nestedToInlineJson(serviceResponseBodyList, baseService, 'linkedEvents');
     const cardTitle = `CoronalMassEjection in Timeframe ${QueryPrameters.startDate} to ${QueryPrameters.endDate}`;
     return [serviceResponseBodyList, baseService, cardTitle, 1];
   }
 
-  NeoWsBrowseByAsteroidId(serviceResponseBodyList: object, baseService: string, QueryPrameters: any): TableMakerPramList {
+  // tslint:disable-next-line: max-line-length
+  NeoWsBrowseByAsteroidId(serviceResponseBodyList: object, baseService: string, QueryPrameters: any, filterParameters?: any): [TableMakerPramList, any] {
 
     const body: any = serviceResponseBodyList[baseService];
     const selfLink: any = this.sanitizer.bypassSecurityTrustResourceUrl(body.links.self);
@@ -234,12 +245,15 @@ export class GetReloadDataService {
     QueryPrameters.closeApproachDataRelativeVelocityTypes = Object.keys(body.close_approach_data[0].relative_velocity);
     QueryPrameters.closeApproachDataMissDistanceTypes = Object.keys(body.close_approach_data[0].miss_distance);
 
-    // tslint:disable-next-line: max-line-length
-    QueryPrameters.selectEstimatedDiameterType = (QueryPrameters.selectEstimatedDiameterType === '') ? QueryPrameters.estimatedDiameterTypes[0] : QueryPrameters.selectEstimatedDiameterType;
-    // tslint:disable-next-line: max-line-length
-    QueryPrameters.selectcloseApproachDataRelativeVelocityType = (QueryPrameters.selectcloseApproachDataRelativeVelocityType === '') ? QueryPrameters.closeApproachDataRelativeVelocityTypes[0] : QueryPrameters.selectcloseApproachDataRelativeVelocityType;
-    // tslint:disable-next-line: max-line-length
-    QueryPrameters.selectCloseApproachDataMissDistanceType = (QueryPrameters.selectCloseApproachDataMissDistanceType === '') ? QueryPrameters.closeApproachDataMissDistanceTypes[0] : QueryPrameters.selectCloseApproachDataMissDistanceType;
+    if (isNullOrUndefined(QueryPrameters.selectEstimatedDiameterType)) {
+      QueryPrameters.selectEstimatedDiameterType = QueryPrameters.estimatedDiameterTypes[0];
+    }
+    if (isNullOrUndefined(QueryPrameters.selectcloseApproachDataRelativeVelocityType)) {
+      QueryPrameters.selectcloseApproachDataRelativeVelocityType = QueryPrameters.closeApproachDataRelativeVelocityTypes[0];
+    }
+    if (isNullOrUndefined(QueryPrameters.selectCloseApproachDataMissDistanceType)) {
+      QueryPrameters.selectCloseApproachDataMissDistanceType = QueryPrameters.closeApproachDataMissDistanceTypes[0];
+    }
 
     body.estimated_diameter = body.estimated_diameter[QueryPrameters.selectEstimatedDiameterType];
     for (const row of body.close_approach_data) {
@@ -250,44 +264,83 @@ export class GetReloadDataService {
     body.orbital_data = { ...body.orbital_data, ...body.orbital_data.orbit_class };
     delete body.orbital_data.orbit_class;
 
-    return [serviceResponseBodyList, baseService];
+    filterParameters = [
+      {name: 'asteroid_id', prepend: 'asteroid_id', type: 'text', append: null, choices: null},
+      // tslint:disable-next-line: max-line-length
+      {name: 'selectEstimatedDiameterType', prepend: 'estimated_diameterType', type: 'dropdown', append: null, choices: QueryPrameters.estimatedDiameterTypes},
+      // tslint:disable-next-line: max-line-length
+      {name: 'selectcloseApproachDataRelativeVelocityType', prepend: 'asteroidRelativeVelocityType', type: 'dropdown', append: null, choices: QueryPrameters.closeApproachDataRelativeVelocityTypes},
+      // tslint:disable-next-line: max-line-length
+      {name: 'selectCloseApproachDataMissDistanceType', prepend: 'asteroidMissDistanceType', type: 'dropdown', append: null, choices: QueryPrameters.closeApproachDataMissDistanceTypes}
+    ];
 
+    return [[serviceResponseBodyList, baseService], filterParameters];
   }
 
-  NeoWsStats(serviceResponseBodyList: object, baseService: string): TableMakerPramList {
+  // tslint:disable-next-line: max-line-length
+  NeoWsStats(serviceResponseBodyList: object, baseService: string, filterParameters?: any): [TableMakerPramList, any] {
     const nasaJplUrl: any = this.sanitizer.bypassSecurityTrustResourceUrl(serviceResponseBodyList[baseService].nasa_jpl_url);
     serviceResponseBodyList[baseService].nasa_jpl_url = nasaJplUrl.changingThisBreaksApplicationSecurity;
 
-    return [serviceResponseBodyList, baseService];
+    return [[serviceResponseBodyList, baseService], null];
   }
 
-  NeoWsBrowse(serviceResponseBodyList: object, baseService: string, QueryPrameters: any): TableMakerPramList {
+  // tslint:disable-next-line: max-line-length
+  NeoWsBrowse(serviceResponseBodyList: object, baseService: string, QueryPrameters: any, filterParameters?: any): [TableMakerPramList, any] {
     QueryPrameters.maxPageNo = (parseInt(serviceResponseBodyList[baseService].page.total_pages, 10) - 1).toString();
     QueryPrameters.totalNoOfElements = serviceResponseBodyList[baseService].page.total_elements.toString();
+
+    filterParameters = [
+      {name: 'page', prepend: 'page', type: 'text', append: ` / ${QueryPrameters.maxPageNo}`, choices: null},
+      {name: 'size', prepend: 'size', type: 'text', append: null, choices: null}
+    ];
+
     const cardTitle = `Total Element: ${QueryPrameters.totalNoOfElements}`;
-    return [serviceResponseBodyList, baseService, cardTitle, 2, 'near_earth_objects'];
+    return [[serviceResponseBodyList, baseService, cardTitle, 2, 'near_earth_objects'], filterParameters];
   }
 
-  NeoWsSentry(serviceResponseBodyList: object, baseService: string, QueryPrameters: any): TableMakerPramList {
+  // tslint:disable-next-line: max-line-length
+  NeoWsSentry(serviceResponseBodyList: object, baseService: string, QueryPrameters: any, filterParameters?: any): [TableMakerPramList, any] {
     QueryPrameters.maxPageNo = (parseInt(serviceResponseBodyList[baseService].page.total_pages, 10) - 1).toString();
     QueryPrameters.totalNoOfElements = serviceResponseBodyList[baseService].page.total_elements.toString();
+
+    filterParameters = [
+      {name: 'page', prepend: 'page', type: 'text', append: ` / ${QueryPrameters.maxPageNo}`, choices: null},
+      {name: 'size', prepend: 'size', type: 'text', append: null, choices: null}
+    ];
+
     const cardTitle = `Total Element: ${QueryPrameters.totalNoOfElements}`;
-    return [serviceResponseBodyList, baseService, cardTitle, 2, 'sentry_objects'];
+    return [[serviceResponseBodyList, baseService, cardTitle, 2, 'sentry_objects'], filterParameters];
   }
 
-  NeoWsFeed(serviceResponseBodyList: object, baseService: string): TableMakerPramList {
+  NeoWsFeed(serviceResponseBodyList: object, baseService: string, filterParameters?: any): [TableMakerPramList, any] {
+    filterParameters = [
+      {name: 'start_date', prepend: 'start_date', type: 'date', append: null, choices: null},
+      {name: 'end_date', prepend: 'end_date', type: 'date', append: null, choices: null}
+    ];
+
     // tslint:disable-next-line: max-line-length
-    return [serviceResponseBodyList[baseService], 'near_earth_objects', null, null, null, `Element Count: ${serviceResponseBodyList[baseService].element_count}`];
+    return [[serviceResponseBodyList[baseService], 'near_earth_objects', null, null, null, `Element Count: ${serviceResponseBodyList[baseService].element_count}`], filterParameters];
   }
 
-  APoDAstronomyPictureOfTheDay(serviceResponseBodyList: object, baseService: string, QueryPrameters: any): TableMakerPramList {
+  // tslint:disable-next-line: max-line-length
+  APoDAstronomyPictureOfTheDay(serviceResponseBodyList: object, baseService: string, QueryPrameters: any, filterParameters?: any): [TableMakerPramList, any] {
+    filterParameters = [
+      {name: 'date', prepend: 'date', type: 'date', append: null, choices: null}
+    ];
+
     serviceResponseBodyList[baseService].url = this.sanitizer.bypassSecurityTrustResourceUrl(serviceResponseBodyList[baseService].url);
     QueryPrameters.hd = false;
-    return null;
+
+    return [null, filterParameters];
   }
 
   // tslint:disable-next-line: max-line-length
   reloadGetDataGiveToTableMaker(ResponceURLDict: any, baseServiceName: string, baseService: string, QueryPrameters: any, QueryPramChoices?: any): void {
+
+    this.resetTable();
+    this.filterParameters = [];
+    document.location.href = '#NAstro';
 
     this.http.get(ResponceURLDict[baseServiceName][baseService]).subscribe(
       (body) => {
@@ -295,14 +348,13 @@ export class GetReloadDataService {
         console.log(ResponceURLDict[baseServiceName][baseService]);
         console.table({ responseObjectDictionary: this.serviceResponseBodyList[baseService] });
         let tablePrameter: [object?, string?, string?, number?, string?, string?];
-        if (isNullOrUndefined(QueryPrameters)) {
-          // tslint:disable-next-line: max-line-length
-          tablePrameter = this.DataRestructuring(baseServiceName, baseService, QueryPrameters, this.serviceResponseBodyList);
-        } else {
-          // tslint:disable-next-line: max-line-length
-          tablePrameter = this.DataRestructuring(baseServiceName, baseService, QueryPrameters, this.serviceResponseBodyList, QueryPramChoices);
-        }
+        // tslint:disable-next-line: max-line-length
+        const structuredObj: [TableMakerPramList, any] = this.DataRestructuring(baseServiceName, baseService, QueryPrameters, this.serviceResponseBodyList, QueryPramChoices, this.filterParameters);
+        tablePrameter = structuredObj[0];
+        this.infrastructureCommonFilter.setFilterPrameters(structuredObj[1]);
+
         console.table(tablePrameter);
+        console.table(this.filterParameters);
         if (!isNullOrUndefined(tablePrameter)) {
           this.infrastructureCommonTable.makeTableDef(...tablePrameter);
         }

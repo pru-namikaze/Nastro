@@ -1,11 +1,6 @@
 <div class="container-fluid jumbotron-fluid mx-auto d-block pr-5 pb-5 mt-2">
-  <div [ngSwitch]="infrastructureApi.baseService">
-    <app-neows-feed-template *ngSwitchCase="'Neo - Feed'"></app-neows-feed-template>
-    <app-neows-browse-template *ngSwitchCase="'Neo - Browse'"></app-neows-browse-template>
-    <app-neows-neo-sentry-template *ngSwitchCase="'Neo - Sentry'"></app-neows-neo-sentry-template>
-    <app-neows-stats-template *ngSwitchCase="'Neo - Stats'"></app-neows-stats-template>
-    <app-neows-browse-by-asteroid-id-template *ngSwitchCase="'Neo - Browse by Asteroid ID'">Neo - Browse by Asteroid ID</app-neows-browse-by-asteroid-id-template>
-  </div>
+
+  <app-filters-template></app-filters-template>
 
   <div class="container-fluid col-xl-4 col-lg-5 col-md-7 col-sm-9 col-12 no-gutters" [ngSwitch]="infrastructureApi.baseService">
     <div class="w-100" *ngSwitchCase="'Neo - Feed'">

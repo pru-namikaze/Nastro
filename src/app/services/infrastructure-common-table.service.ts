@@ -18,6 +18,7 @@ export class InfrastructureCommonTableService {
     this.tableTupleList = [];
     this.tupleList = [];
   }
+
   getKeylist(row: any): Array<string> {
     const keyList: Array<string> = [];
     for (const key2 of Object.keys(row)) {

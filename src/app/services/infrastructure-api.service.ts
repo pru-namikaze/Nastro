@@ -21,8 +21,6 @@ export class InfrastructureApiService {
   QueryPramChoices: any;
   UrlAdderPrameters: any;
 
-  filterParameters: any;
-
   baseServiceName: string;
   baseService: string;
 

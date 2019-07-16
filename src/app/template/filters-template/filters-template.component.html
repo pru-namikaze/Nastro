@@ -1,7 +1,23 @@
-<div class="input-group my-2" tabindex="0" data-toggle="tooltip" attr.title="{{DescDict.Parameters['date']}}">
-  <div class="input-group-prepend">
-    <label class="input-group-text">date:&nbsp;</label>
+<div *ngIf="infrastructureCommonFilter.filterParameters">
+  <!-- parameterName -->
+  <div *ngFor="let parameterName of getPrameterNameList()">
+    <div class="input-group my-2" attr.title="{{infrastructureApi.DescDict.Parameters[parameterName]}}" *ngIf="!isCheckbox(parameterName)">
+      <!-- Preapend -->
+      <div class="input-group-prepend" *ngIf="getPramLabelText(parameterName, 'prepend')">
+        <label class="input-group-text">{{getPramLabelText(parameterName, 'prepend')}}</label>
+      </div>
+
+      <!-- Element -->
+      <input attr.type="{{getPramType(parameterName)}}" attr.id="{{parameterName}}" [(ngModel)]="infrastructureApi.QueryPrameters[parameterName]" *ngIf="isNormalQueryPramElement(parameterName)">
+      <input attr.type="{{getPramType(parameterName)}}" attr.id="{{parameterName}}" [(ngModel)]="infrastructureApi.UrlAdderPrameters[parameterName].DefaultValue" *ngIf="!isQueryStringPram(parameterName)">
+      <select class="custom-select" [(ngModel)]="infrastructureApi.QueryPrameters[parameterName]" *ngIf="isSelect(parameterName)">
+        <option *ngFor="let option of getChoices(parameterName)">{{option}}</option>
+      </select>
+
+      <!-- Append -->
+      <div class="input-group-append" *ngIf="getPramLabelText(parameterName, 'append')">
+        <label class="input-group-text">{{getPramLabelText(parameterName, 'append')}}</label>
+      </div>
+    </div>
   </div>
-  <input type="date" id='date' [(ngModel)]="infrastructureApi.QueryPrameters.date">
 </div>
-<!-- <button type="button" class="btn btn-info" (click)="reloadAPoD()">Show</button> -->

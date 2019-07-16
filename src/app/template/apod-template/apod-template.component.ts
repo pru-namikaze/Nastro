@@ -14,9 +14,7 @@ import { InfrastructureApiService } from 'src/app/services/infrastructure-api.se
 export class ApodTemplateComponent implements OnInit {
 
   constructor(public infrastructureApi: InfrastructureApiService, public getReloadData: GetReloadDataService) {
-
     this.reloadTable();
-
   }
 
   reloadTable(commands?: Array<string>): void {
@@ -30,7 +28,8 @@ export class ApodTemplateComponent implements OnInit {
       (this.infrastructureApi.GenerateResponseUrl(), this.infrastructureApi.ResponceURLDict),
       this.infrastructureApi.baseServiceName,
       this.infrastructureApi.baseService,
-      this.infrastructureApi.QueryPrameters
+      this.infrastructureApi.QueryPrameters,
+      this.infrastructureApi.QueryPramChoices,
     );
   }
 

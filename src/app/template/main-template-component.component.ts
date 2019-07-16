@@ -40,6 +40,8 @@ export class MainTemplateComponentComponent implements OnInit {
     console.table(this.infrastructureApi);
     this.infrastructureApi.baseService = baseService;
 
+    this.getReloadData.infrastructureCommonFilter.setFilterPrameters(null);
+
     this.getReloadData.resetTable();
 
     this.getReloadData.reloadGetDataGiveToTableMaker(
