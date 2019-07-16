@@ -174,14 +174,14 @@ export class GetReloadDataService {
   DONKISEP(serviceResponseBodyList: object, baseService: string, filterParameters?: any): [TableMakerPramList, any] {
     this.nestedToInlineJson(serviceResponseBodyList, baseService, 'instruments');
     this.nestedToInlineJson(serviceResponseBodyList, baseService, 'linkedEvents');
-    return [serviceResponseBodyList, baseService, baseService, 1];
+    return [[serviceResponseBodyList, baseService, baseService, 1], null];
   }
 
   DONKIFLR(serviceResponseBodyList: object, baseService: string, filterParameters?: any): [TableMakerPramList, any] {
     this.nestedToInlineJson(serviceResponseBodyList, baseService, 'instruments');
     this.nestedToInlineJson(serviceResponseBodyList, baseService, 'linkedEvents');
 
-    return [serviceResponseBodyList, baseService, baseService, 1];
+    return [[serviceResponseBodyList, baseService, baseService, 1], null];
   }
 
   // tslint:disable-next-line: max-line-length
@@ -202,14 +202,14 @@ export class GetReloadDataService {
     }
 
     this.nestedToInlineJson(serviceResponseBodyList, baseService, 'instruments');
-    return [serviceResponseBodyList, baseService, baseService, 1];
+    return [[serviceResponseBodyList, baseService, baseService, 1], null];
   }
 
   DONKIGST(serviceResponseBodyList: object, baseService: string, QueryPrameters: any, filterParameters?: any): [TableMakerPramList, any] {
     this.nestedToInlineJson(serviceResponseBodyList, baseService, 'linkedEvents');
     this.nestedToInlineJson(serviceResponseBodyList, baseService, 'allKpIndex');
     const cardTitle = `Geomagnetic Storm (GST) in Timeframe ${QueryPrameters.startDate} to ${QueryPrameters.endDate}`;
-    return [serviceResponseBodyList, baseService, cardTitle, 1];
+    return [[serviceResponseBodyList, baseService, cardTitle, 1], null];
   }
 
   // tslint:disable-next-line: max-line-length
@@ -223,14 +223,14 @@ export class GetReloadDataService {
         }
       }
     }
-    return [serviceResponseBodyList, baseService, baseService, 1];
+    return [[serviceResponseBodyList, baseService, baseService, 1], null];
   }
 
   DONKICME(serviceResponseBodyList: object, baseService: string, QueryPrameters: any, filterParameters?: any): [TableMakerPramList, any] {
     this.nestedToInlineJson(serviceResponseBodyList, baseService, 'instruments');
     this.nestedToInlineJson(serviceResponseBodyList, baseService, 'linkedEvents');
     const cardTitle = `CoronalMassEjection in Timeframe ${QueryPrameters.startDate} to ${QueryPrameters.endDate}`;
-    return [serviceResponseBodyList, baseService, cardTitle, 1];
+    return [[serviceResponseBodyList, baseService, cardTitle, 1], null];
   }
 
   // tslint:disable-next-line: max-line-length
