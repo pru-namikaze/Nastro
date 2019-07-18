@@ -63,6 +63,10 @@ export class HeaderTemplateComponent implements OnInit {
     }
   }
 
+  NavbaseServiceListLengthNotOne(baseServiceName: string): boolean {
+    return this.getNavbaseServiceList(baseServiceName).length > 1;
+  }
+
    ngOnInit() {
   }
 }

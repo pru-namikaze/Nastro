@@ -1,20 +1,25 @@
-<nav class="navbar navbar-expand-lg background-color-rgb-226-239-255 y-padding-0rem px-5 row w-100 no-gutters">
+<nav class="navbar navbar-expand-lg bg-light font-size-h4 y-padding-0rem px-5 row w-100 no-gutters">
   <span class="navbar-brand align-self-center">
-    <img src="https://raw.githubusercontent.com/pru-namikaze/Nastro/master/src/assets/Nastro_logo.jpg" width="150" height="150" class="d-inline-block align-top" alt="">
+    <img src="https://raw.githubusercontent.com/pru-namikaze/Nastro/master/src/assets/Nastro_logo.png" width="150" height="150" class="d-inline-block align-top background-color-transparent" alt="">
   </span>
 
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
+    <span class="navbar-toggler-icon fas fa-bars fa-2x"></span>
   </button>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item dropdown" *ngFor="let baseServiceName of baseServiceNameList" attr.id="{{'navbar-list-' + baseServiceName}}" (mouseover)="toggleNavDropDown(baseServiceName, true)" (mouseout)="toggleNavDropDown(baseServiceName, false)">
-        <span class="nav-link dropdown-toggle" attr.id="{{'navbarDropdown' + baseServiceName}}" role="button" data-toggle="dropdown">
+        <span class="nav-link pointer" attr.id="{{'navbarDropdown' + baseServiceName}}" role="button" *ngIf="!NavbaseServiceListLengthNotOne(baseServiceName)">
+          <a *ngFor="let baseService of getNavbaseServiceList(baseServiceName)" (click)="Visit(baseServiceName, baseService)">{{baseServiceName}}</a>
+        </span>
+      </li>
+      <li class="nav-item dropdown" *ngFor="let baseServiceName of baseServiceNameList" attr.id="{{'navbar-list-' + baseServiceName}}" (mouseover)="toggleNavDropDown(baseServiceName, true)" (mouseout)="toggleNavDropDown(baseServiceName, false)">
+        <span class="nav-link dropdown-toggle pointer" attr.id="{{'navbarDropdown' + baseServiceName}}" role="button" data-toggle="dropdown" *ngIf="NavbaseServiceListLengthNotOne(baseServiceName)">
           {{baseServiceName}}
         </span>
-        <div class="dropdown-menu" attr.id="{{'navbar-dropdown-list-' + baseServiceName}}">
-          <a class="dropdown-item" *ngFor="let baseService of getNavbaseServiceList(baseServiceName)" (click)="Visit(baseServiceName, baseService)">{{baseService}}</a>
+        <div class="dropdown-menu" attr.id="{{'navbar-dropdown-list-' + baseServiceName}}" *ngIf="NavbaseServiceListLengthNotOne(baseServiceName)">
+          <a class="dropdown-item pointer" *ngFor="let baseService of getNavbaseServiceList(baseServiceName)" (click)="Visit(baseServiceName, baseService)">{{baseService}}</a>
         </div>
       </li>
       <li class="nav-item dropdown" id="navbar-list-nastro-gitHub-repo-link">
