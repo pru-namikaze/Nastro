@@ -11,27 +11,15 @@ import { NeowsTemplateComponent } from './neows-template/neows-template.componen
 import { FiltersTemplateComponent } from './filters-template/filters-template.component';
 import { TableTemplateComponent } from './table-template/table-template.component';
 import { DonkiTemplateComponent } from './donki-template/donki-template.component';
-import { DonkiCmeTemplateComponent } from './donki-cme-template/donki-cme-template.component';
-import { DonkiCmeAnalysisTemplateComponent } from './donki-cme-analysis-template/donki-cme-analysis-template.component';
-import { DonkiGstTemplateComponent } from './donki-gst-template/donki-gst-template.component';
-import { DonkiIpsTemplateComponent } from './donki-ips-template/donki-ips-template.component';
-import { DonkiFlrTemplateComponent } from './donki-flr-template/donki-flr-template.component';
-import { DonkiSepTemplateComponent } from './donki-sep-template/donki-sep-template.component';
 
 @NgModule({
   declarations: [
     MainTemplateComponentComponent,
     ApodTemplateComponent,
     NeowsTemplateComponent,
-    FiltersTemplateComponent,
-    TableTemplateComponent,
     DonkiTemplateComponent,
-    DonkiCmeTemplateComponent,
-    DonkiCmeAnalysisTemplateComponent,
-    DonkiGstTemplateComponent,
-    DonkiIpsTemplateComponent,
-    DonkiFlrTemplateComponent,
-    DonkiSepTemplateComponent
+    FiltersTemplateComponent,
+    TableTemplateComponent
   ],
   imports: [
     BrowserAnimationsModule,

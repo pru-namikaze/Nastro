@@ -34,25 +34,6 @@ export class DonkiTemplateComponent implements OnInit {
       if (commands.includes('pageReset')) {
         this.infrastructureApi.QueryPrameters.page = 0;
       }
-      if (commands.includes('mostAccurateOnly')) {
-        this.infrastructureApi.QueryPrameters.mostAccurateOnly = !this.infrastructureApi.QueryPrameters.mostAccurateOnly;
-      }
-      if (commands.includes('completeEntryOnly')) {
-        this.infrastructureApi.QueryPrameters.completeEntryOnly = !this.infrastructureApi.QueryPrameters.completeEntryOnly;
-      }
-      if (commands.includes('completeEntryOnly')) {
-        this.infrastructureApi.QueryPrameters.completeEntryOnly = !this.infrastructureApi.QueryPrameters.completeEntryOnly;
-      }
-      if (commands.includes('Solar Energetic Particle (SEP)')) {
-        this.infrastructureApi.QueryPrameters.startDate = '2015-01-01';
-      }
-      if (commands.includes('catalog')) {
-        const dropdownList: Array<string> = [];
-        for (const key of Object.keys(this.infrastructureApi.QueryPramChoices[`${this.infrastructureApi.baseService}-catalog`])) {
-          dropdownList.push(this.infrastructureApi.QueryPramChoices[`${this.infrastructureApi.baseService}-catalog`][key]);
-        }
-        return dropdownList;
-      }
       if (commands.includes('location')) {
         const dropdownList: Array<string> = [];
         for (const key of Object.keys(this.infrastructureApi.QueryPramChoices[`${this.infrastructureApi.baseService}-location`])) {

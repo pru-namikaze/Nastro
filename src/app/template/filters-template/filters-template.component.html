@@ -19,5 +19,9 @@
         <label class="input-group-text">{{getPramLabelText(parameterName, 'append')}}</label>
       </div>
     </div>
+    <div *ngIf="isCheckbox(parameterName)">
+      <input type="checkbox" [(ngModel)]="infrastructureApi.QueryPrameters[parameterName]" (click)="reset([getPramLabelText(parameterName, 'prepend')])">
+      <span>&nbsp;{{getPramLabelText(parameterName, 'append')}}</span>
+    </div>
   </div>
 </div>

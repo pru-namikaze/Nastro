@@ -21,9 +21,11 @@ export class InfrastructureCommonTableService {
 
   getKeylist(row: any): Array<string> {
     const keyList: Array<string> = [];
-    for (const key2 of Object.keys(row)) {
-      if (typeof (row[key2]) !== 'object') {
-        keyList.push(key2);
+    if (!isNullOrUndefined(row)) {
+      for (const key2 of Object.keys(row)) {
+        if (typeof (row[key2]) !== 'object') {
+          keyList.push(key2);
+        }
       }
     }
     return keyList;

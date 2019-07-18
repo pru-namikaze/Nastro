@@ -1,31 +1,22 @@
 <div class="container-fluid jumbotron-fluid mx-auto d-block pr-5 pb-5 mt-2">
 
-  <app-filters-template></app-filters-template>
-
+    <div class="w-100">
+        <app-filters-template></app-filters-template>
+      </div>
   <div class="container-fluid col-xl-4 col-lg-5 col-md-7 col-sm-9 col-12 no-gutters" [ngSwitch]="infrastructureApi.baseService">
     <div class="w-100" *ngSwitchCase="'Neo - Feed'">
-      <div class="w-100">
-        <button type="button" class="btn btn-info mr-4" (click)="reloadTable()">Show</button>
-        <button type="button" class="btn btn-info ml-4" (click)="reloadTable(['start_date'])">Show Today's Feed</button><br /><br />
-      </div>
+      <button type="button" class="btn btn-info mr-4" (click)="reloadTable()">Show</button>
+      <button type="button" class="btn btn-info ml-4" (click)="reloadTable(['start_date'])">Show Today's Feed</button><br /><br />
     </div>
     <div class="w-100" *ngSwitchCase="'Neo - Browse'">
-      <div class="my-2">
-        <button type="button" class="btn btn-info mr-4" (click)="reloadTable(['pagePrevious'])">Previous</button>
-        <button type="button" class="btn btn-info mr-4" (click)="reloadTable()">Show</button>
-        <button type="button" class="btn btn-info mr-4" (click)="reloadTable(['pageNext'])">Next</button>
-      </div>
+      <button type="button" class="btn btn-info mr-4" (click)="reloadTable(['pagePrevious'])">Previous</button>
+      <button type="button" class="btn btn-info mr-4" (click)="reloadTable()">Show</button>
+      <button type="button" class="btn btn-info mr-4" (click)="reloadTable(['pageNext'])">Next</button>
     </div>
     <div class="w-100" *ngSwitchCase="'Neo - Sentry'">
-      <div class="my-2">
-        <div class="w-100 my-2 row">
-          <input type="checkbox" class="align-self-center offset-1" [(ngModel)]="infrastructureApi.QueryPrameters.is_active" (click)="reloadTable(['pageReset','return'])">
-          <span class="col-1 align-self-center">&nbsp;is_active</span>
-        </div>
-        <button type="button" class="btn btn-info mr-4" (click)="reloadTable(['pagePrevious'])">Previous</button>
-        <button type="button" class="btn btn-info mr-4" (click)="reloadTable()">Show</button>
-        <button type="button" class="btn btn-info mr-4" (click)="reloadTable(['pageNext'])">Next</button>
-      </div>
+      <button type="button" class="btn btn-info mr-4" (click)="reloadTable(['pagePrevious'])">Previous</button>
+      <button type="button" class="btn btn-info mr-4" (click)="reloadTable()">Show</button>
+      <button type="button" class="btn btn-info mr-4" (click)="reloadTable(['pageNext'])">Next</button>
     </div>
     <div *ngSwitchCase="'Neo - Stats'">
     </div>

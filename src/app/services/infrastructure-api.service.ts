@@ -6,6 +6,7 @@ import DescDict from './domainDescDict.json';
 
 
 import { isNullOrUndefined } from 'util';
+import { ParseError } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root'
@@ -53,7 +54,10 @@ export class InfrastructureApiService {
     }
 
     if (isNullOrUndefined(this.InitQueryPrameters)) {
-      this.InitQueryPrameters = this.QueryPrameters;
+      this.InitQueryPrameters = {};
+      const qp: any = this.QueryPrameters;
+      this.InitQueryPrameters = qp;
+
     }
 
     console.log('UrlAdderPrameters:');

@@ -36,11 +36,13 @@ export class GetReloadDataService {
   }
 
   ifNullThenSpace(serviceResponseBodyList: object, baseService: string): void {
-    for (const row of Object.keys(serviceResponseBodyList[baseService])) {
-      if (!isNullOrUndefined(serviceResponseBodyList[baseService][row])) {
-        for (const element of Object.keys(serviceResponseBodyList[baseService][row])) {
-          if (isNullOrUndefined(serviceResponseBodyList[baseService][row][element])) {
-            serviceResponseBodyList[baseService][row][element] = ' ';
+    if (!isNullOrUndefined(serviceResponseBodyList) && !isNullOrUndefined(serviceResponseBodyList[baseService])) {
+      for (const row of Object.keys(serviceResponseBodyList[baseService])) {
+        if (!isNullOrUndefined(serviceResponseBodyList[baseService][row])) {
+          for (const element of Object.keys(serviceResponseBodyList[baseService][row])) {
+            if (isNullOrUndefined(serviceResponseBodyList[baseService][row][element])) {
+              serviceResponseBodyList[baseService][row][element] = ' ';
+            }
           }
         }
       }
@@ -50,61 +52,83 @@ export class GetReloadDataService {
   nestedToInlineJson(serviceResponseBodyList: object, baseService: string, identifier: string, subnested?: boolean): void {
     let jsonToFancyString = '';
     let keyForIdentifier: string;
+    if (!isNullOrUndefined(serviceResponseBodyList[baseService])) {
+      for (const row of Object.keys(serviceResponseBodyList[baseService])) {
+        jsonToFancyString = '';
+        const baseServiceBodyRow: any = serviceResponseBodyList[baseService][row];
 
-    for (const row of Object.keys(serviceResponseBodyList[baseService])) {
-      jsonToFancyString = '';
-      const baseServiceBodyRow: any = serviceResponseBodyList[baseService][row];
-
-      for (const listObject of Object.keys(baseServiceBodyRow[identifier])) {
-        let listObjectKeyList: Array<string> = [];
-        const rowElement: any = baseServiceBodyRow[identifier][listObject];
-        if (isObject(rowElement)) {
-          listObjectKeyList = Object.keys(rowElement);
-        }
-        switch (listObjectKeyList.length.toString()) {
-          case '0':
-            break;
-          case '1':
-            if (isNullOrUndefined(keyForIdentifier)) {
-              keyForIdentifier = `${identifier}List`;
-            }
-            jsonToFancyString = jsonToFancyString.concat(`, ${rowElement[listObjectKeyList[0]]}`);
-            break;
-          case '2':
-            if (isNullOrUndefined(keyForIdentifier)) {
-              keyForIdentifier = `${identifier}(${listObjectKeyList[0]}⇒${listObjectKeyList[1]})`;
-            }
-            jsonToFancyString = jsonToFancyString.concat(`, (${rowElement[listObjectKeyList[0]]}⇒${rowElement[listObjectKeyList[1]]})`);
-            break;
-          default:
-            if (isNullOrUndefined(keyForIdentifier)) {
-              keyForIdentifier = `${identifier}( ${listObjectKeyList.toString().replace(/\,/gi, ', ')})`;
-            }
-            if (!isNullOrUndefined(rowElement)) {
-              jsonToFancyString = jsonToFancyString.concat(`, (`);
-              console.log(rowElement);
-              let tempstr = '';
-              for (const key of listObjectKeyList) {
-                tempstr = tempstr.concat(`, ${rowElement[key]}`);
+        for (const listObject of Object.keys(baseServiceBodyRow[identifier])) {
+          let listObjectKeyList: Array<string> = [];
+          const rowElement: any = baseServiceBodyRow[identifier][listObject];
+          if (isObject(rowElement)) {
+            listObjectKeyList = Object.keys(rowElement);
+          }
+          switch (listObjectKeyList.length.toString()) {
+            case '0':
+              break;
+            case '1':
+              if (isNullOrUndefined(keyForIdentifier)) {
+                keyForIdentifier = `${identifier}List`;
               }
-              jsonToFancyString = jsonToFancyString.concat(tempstr.slice(2), ')');
-            }
-            break;
+              jsonToFancyString = jsonToFancyString.concat(`, ${rowElement[listObjectKeyList[0]]}`);
+              break;
+            case '2':
+              if (isNullOrUndefined(keyForIdentifier)) {
+                keyForIdentifier = `${identifier}(${listObjectKeyList[0]}⇒${listObjectKeyList[1]})`;
+              }
+              jsonToFancyString = jsonToFancyString.concat(`, (${rowElement[listObjectKeyList[0]]}⇒${rowElement[listObjectKeyList[1]]})`);
+              break;
+            default:
+              for (const key of listObjectKeyList) {
+                if (typeof(rowElement[key]) === 'object') {
+                  listObjectKeyList = [
+                    ...listObjectKeyList.slice(0, listObjectKeyList.indexOf(key)),
+                    ...listObjectKeyList.slice((listObjectKeyList.indexOf(key) + 1))
+                  ];
+                }
+              }
+              if (isNullOrUndefined(keyForIdentifier)) {
+                keyForIdentifier = `${identifier}( ${listObjectKeyList.toString().replace(/\,/gi, ', ')})`;
+              }
+              if (!isNullOrUndefined(rowElement)) {
+                jsonToFancyString = jsonToFancyString.concat(`, (`);
+                let tempstr = '';
+                for (const key of listObjectKeyList) {
+                  tempstr = tempstr.concat(`, ${rowElement[key]}`);
+                }
+                jsonToFancyString = jsonToFancyString.concat(tempstr.slice(2), ')');
+              }
+              break;
+          }
         }
-      }
-      if (!isNullOrUndefined(keyForIdentifier)) {
-        baseServiceBodyRow[keyForIdentifier] = jsonToFancyString.slice(2);
+        if (!isNullOrUndefined(keyForIdentifier)) {
+          baseServiceBodyRow[keyForIdentifier] = jsonToFancyString.slice(2);
+        }
       }
     }
 
     if (!isNullOrUndefined(keyForIdentifier)) {
         for (const row of Object.keys(serviceResponseBodyList[baseService])) {
           if (isNullOrUndefined(serviceResponseBodyList[baseService][row][keyForIdentifier])) {
-            serviceResponseBodyList[baseService][row][keyForIdentifier] = null;
+            serviceResponseBodyList[baseService][row][keyForIdentifier] = ' ';
           }
           delete serviceResponseBodyList[baseService][row][identifier];
         }
     }
+  }
+
+  getChoices(QueryPramChoices: any, baseService: string, identifiers: Array<string>): any {
+    const returnObj: any = {};
+    for (const identifier of identifiers) {
+      const dropdownList: Array<string> = [];
+      if (!isNullOrUndefined(QueryPramChoices) && Object.keys(QueryPramChoices).includes(`${baseService}-${identifier}`)) {
+        for (const key of Object.keys(QueryPramChoices[`${baseService}-${identifier}`])) {
+          dropdownList.push(QueryPramChoices[`${baseService}-${identifier}`][key]);
+        }
+        returnObj[identifier] = dropdownList;
+      }
+    }
+    return returnObj;
   }
 
   // tslint:disable-next-line: max-line-length
@@ -149,7 +173,7 @@ export class GetReloadDataService {
             returnObj = this.DONKICMEAnalysis(serviceResponseBodyList, baseService, QueryPrameters, QueryPramChoices, filterParameters);
             break;
           case 'Geomagnetic Storm (GST)':
-            returnObj = this.DONKIGST(serviceResponseBodyList, baseService, QueryPrameters, filterParameters);
+            returnObj = this.DONKIGST(serviceResponseBodyList, baseService, QueryPrameters, QueryPramChoices, filterParameters);
             break;
           case 'Interplanetary Shock (IPS)':
             returnObj = this.DONKIIPS(serviceResponseBodyList, baseService, QueryPrameters, QueryPramChoices, filterParameters);
@@ -160,6 +184,21 @@ export class GetReloadDataService {
           case 'Solar Energetic Particle (SEP)':
             returnObj = this.DONKISEP(serviceResponseBodyList, baseService, filterParameters);
             break;
+          case 'Magnetopause Crossing (MPC)':
+            returnObj = this.DONKIMPC(serviceResponseBodyList, baseService, filterParameters);
+            break;
+          case 'Radiation Belt Enhancement (RBE)':
+            returnObj = this.DONKIRBE(serviceResponseBodyList, baseService, filterParameters);
+            break;
+          case 'Hight Speed Stream (HSS)':
+            returnObj = this.DONKIHSS(serviceResponseBodyList, baseService, filterParameters);
+            break;
+          case 'WSA+EnlilSimulation':
+            returnObj = this.DONKIWSAE(serviceResponseBodyList, baseService, filterParameters);
+            break;
+          case 'Notifications':
+            returnObj = this.DONKINotifications(serviceResponseBodyList, baseService, QueryPramChoices, filterParameters);
+            break;
         }
         break;
     }
@@ -167,70 +206,164 @@ export class GetReloadDataService {
     return returnObj;
   }
 
-  // [
-  //   {name: 'page', prepend: 'page', type: 'text', append: null, choices: null}
-  // ]
+  // tslint:disable-next-line: max-line-length
+  DONKINotifications(serviceResponseBodyList: object, baseService: string, QueryPramChoices: any, filterParameters?: any): [TableMakerPramList, any] {
+
+    const choice: any = this.getChoices(QueryPramChoices, baseService, ['type']);
+
+    filterParameters = [
+      {name: 'startDate', prepend: 'startDate', type: 'date', append: null, choices: null},
+      {name: 'endDate', prepend: 'endDate', type: 'date', append: null, choices: null},
+      {name: 'type', prepend: 'type', type: 'dropdown', append: null, choices: choice.type}
+    ];
+
+    return [[serviceResponseBodyList, baseService, baseService, 1], filterParameters];
+  }
+
+  DONKIWSAE(serviceResponseBodyList: object, baseService: string, filterParameters?: any): [TableMakerPramList, any] {
+    this.nestedToInlineJson(serviceResponseBodyList, baseService, 'impactList');
+    this.nestedToInlineJson(serviceResponseBodyList, baseService, 'cmeInputs');
+
+    filterParameters = [
+      {name: 'startDate', prepend: 'startDate', type: 'date', append: null, choices: null},
+      {name: 'endDate', prepend: 'endDate', type: 'date', append: null, choices: null}
+    ];
+
+    return [[serviceResponseBodyList, baseService, baseService, 1], filterParameters];
+  }
+
+  DONKIHSS(serviceResponseBodyList: object, baseService: string, filterParameters?: any): [TableMakerPramList, any] {
+    this.nestedToInlineJson(serviceResponseBodyList, baseService, 'instruments');
+    this.nestedToInlineJson(serviceResponseBodyList, baseService, 'linkedEvents');
+
+    filterParameters = [
+      {name: 'startDate', prepend: 'startDate', type: 'date', append: null, choices: null},
+      {name: 'endDate', prepend: 'endDate', type: 'date', append: null, choices: null}
+    ];
+
+    return [[serviceResponseBodyList, baseService, baseService, 1], filterParameters];
+  }
+
+  DONKIRBE(serviceResponseBodyList: object, baseService: string, filterParameters?: any): [TableMakerPramList, any] {
+    this.nestedToInlineJson(serviceResponseBodyList, baseService, 'instruments');
+    this.nestedToInlineJson(serviceResponseBodyList, baseService, 'linkedEvents');
+
+    filterParameters = [
+      {name: 'startDate', prepend: 'startDate', type: 'date', append: null, choices: null},
+      {name: 'endDate', prepend: 'endDate', type: 'date', append: null, choices: null}
+    ];
+
+    return [[serviceResponseBodyList, baseService, baseService, 1], filterParameters];
+  }
+
+  DONKIMPC(serviceResponseBodyList: object, baseService: string, filterParameters?: any): [TableMakerPramList, any] {
+    this.nestedToInlineJson(serviceResponseBodyList, baseService, 'instruments');
+    this.nestedToInlineJson(serviceResponseBodyList, baseService, 'linkedEvents');
+
+    filterParameters = [
+      {name: 'startDate', prepend: 'startDate', type: 'date', append: null, choices: null},
+      {name: 'endDate', prepend: 'endDate', type: 'date', append: null, choices: null}
+    ];
+
+    return [[serviceResponseBodyList, baseService, baseService, 1], filterParameters];
+  }
 
   DONKISEP(serviceResponseBodyList: object, baseService: string, filterParameters?: any): [TableMakerPramList, any] {
     this.nestedToInlineJson(serviceResponseBodyList, baseService, 'instruments');
     this.nestedToInlineJson(serviceResponseBodyList, baseService, 'linkedEvents');
-    return [[serviceResponseBodyList, baseService, baseService, 1], null];
+
+    filterParameters = [
+      {name: 'startDate', prepend: 'startDate', type: 'date', append: null, choices: null},
+      {name: 'endDate', prepend: 'endDate', type: 'date', append: null, choices: null}
+    ];
+
+    return [[serviceResponseBodyList, baseService, baseService, 1], filterParameters];
   }
 
   DONKIFLR(serviceResponseBodyList: object, baseService: string, filterParameters?: any): [TableMakerPramList, any] {
     this.nestedToInlineJson(serviceResponseBodyList, baseService, 'instruments');
     this.nestedToInlineJson(serviceResponseBodyList, baseService, 'linkedEvents');
 
-    return [[serviceResponseBodyList, baseService, baseService, 1], null];
+    filterParameters = [
+      {name: 'startDate', prepend: 'startDate', type: 'date', append: null, choices: null},
+      {name: 'endDate', prepend: 'endDate', type: 'date', append: null, choices: null}
+    ];
+
+    return [[serviceResponseBodyList, baseService, baseService, 1], filterParameters];
   }
 
   // tslint:disable-next-line: max-line-length
   DONKIIPS(serviceResponseBodyList: object, baseService: string, QueryPrameters: any, QueryPramChoices: any, filterParameters?: any): [TableMakerPramList, any] {
+    const choice: any = this.getChoices(QueryPramChoices, baseService, ['catalog', 'location']);
+
     if (isNullOrUndefined(QueryPrameters.location)) {
-      for (const choices of Object.keys(QueryPramChoices)) {
-        if (choices.includes(baseService)) {
-          QueryPrameters.location = QueryPramChoices[choices][0];
-        }
-      }
+      QueryPrameters.location = choice.location[0];
     }
     if (isNullOrUndefined(QueryPrameters.catalog)) {
-      for (const choices of Object.keys(QueryPramChoices)) {
-        if (choices.includes(baseService)) {
-          QueryPrameters.catalog = QueryPramChoices[choices][0];
-        }
-      }
+      QueryPrameters.catalog = choice.catalog[0];
     }
 
+    filterParameters = [
+      {name: 'startDate', prepend: 'startDate', type: 'date', append: null, choices: null},
+      {name: 'endDate', prepend: 'endDate', type: 'date', append: null, choices: null},
+      {name: 'location', prepend: 'location', type: 'dropdown', append: null, choices: choice.location},
+      {name: 'catalog', prepend: 'catalog', type: 'dropdown', append: null, choices: choice.catalog}
+    ];
+
     this.nestedToInlineJson(serviceResponseBodyList, baseService, 'instruments');
-    return [[serviceResponseBodyList, baseService, baseService, 1], null];
+    return [[serviceResponseBodyList, baseService, baseService, 1], filterParameters];
   }
 
-  DONKIGST(serviceResponseBodyList: object, baseService: string, QueryPrameters: any, filterParameters?: any): [TableMakerPramList, any] {
+  // tslint:disable-next-line: max-line-length
+  DONKIGST(serviceResponseBodyList: object, baseService: string, QueryPrameters: any, QueryPramChoices: any, filterParameters?: any): [TableMakerPramList, any] {
     this.nestedToInlineJson(serviceResponseBodyList, baseService, 'linkedEvents');
     this.nestedToInlineJson(serviceResponseBodyList, baseService, 'allKpIndex');
+
+    filterParameters = [
+      {name: 'startDate', prepend: 'startDate', type: 'date', append: null, choices: null},
+      {name: 'endDate', prepend: 'endDate', type: 'date', append: null, choices: null}
+    ];
+
     const cardTitle = `Geomagnetic Storm (GST) in Timeframe ${QueryPrameters.startDate} to ${QueryPrameters.endDate}`;
-    return [[serviceResponseBodyList, baseService, cardTitle, 1], null];
+    return [[serviceResponseBodyList, baseService, cardTitle, 1], filterParameters];
   }
 
   // tslint:disable-next-line: max-line-length
   DONKICMEAnalysis(serviceResponseBodyList: object, baseService: string, QueryPrameters: any, QueryPramChoices: any, filterParameters?: any): [TableMakerPramList, any] {
     QueryPrameters.speed = parseInt(QueryPrameters.speed.toString(), 10);
     QueryPrameters.halfAngle = parseInt(QueryPrameters.halfAngle.toString(), 10);
+
+    const choice: any = this.getChoices(QueryPramChoices, baseService, ['catalog']);
+
     if (isNullOrUndefined(QueryPrameters.catalog)) {
-      for (const choices of Object.keys(QueryPramChoices)) {
-        if (choices.includes(baseService)) {
-          QueryPrameters.catalog = QueryPramChoices[choices][0];
-        }
-      }
+      QueryPrameters.catalog = choice.catalog[0];
     }
-    return [[serviceResponseBodyList, baseService, baseService, 1], null];
+
+    filterParameters = [
+      {name: 'startDate', prepend: 'startDate', type: 'date', append: null, choices: null},
+      {name: 'endDate', prepend: 'endDate', type: 'date', append: null, choices: null},
+      {name: 'speed', prepend: 'speed', type: 'text', append: null, choices: null},
+      {name: 'halfAngle', prepend: 'halfAngle', type: 'text', append: null, choices: null},
+      {name: 'keyword', prepend: 'keyword', type: 'text', append: null, choices: null},
+      {name: 'catalog', prepend: 'catalog', type: 'dropdown', append: null, choices: choice.catalog},
+      {name: 'mostAccurateOnly', prepend: 'mostAccurateOnly', type: 'checkbox', append: 'mostAccurateOnly', choices: null},
+      {name: 'completeEntryOnly', prepend: 'completeEntryOnly', type: 'checkbox', append: 'completeEntryOnly', choices: null}
+    ];
+
+    return [[serviceResponseBodyList, baseService, baseService, 1], filterParameters];
   }
 
   DONKICME(serviceResponseBodyList: object, baseService: string, QueryPrameters: any, filterParameters?: any): [TableMakerPramList, any] {
     this.nestedToInlineJson(serviceResponseBodyList, baseService, 'instruments');
     this.nestedToInlineJson(serviceResponseBodyList, baseService, 'linkedEvents');
+
+    filterParameters = [
+      {name: 'startDate', prepend: 'startDate', type: 'date', append: null, choices: null},
+      {name: 'endDate', prepend: 'endDate', type: 'date', append: null, choices: null}
+    ];
+
     const cardTitle = `CoronalMassEjection in Timeframe ${QueryPrameters.startDate} to ${QueryPrameters.endDate}`;
-    return [[serviceResponseBodyList, baseService, cardTitle, 1], null];
+    return [[serviceResponseBodyList, baseService, cardTitle, 1], filterParameters];
   }
 
   // tslint:disable-next-line: max-line-length
@@ -306,7 +439,8 @@ export class GetReloadDataService {
 
     filterParameters = [
       {name: 'page', prepend: 'page', type: 'text', append: ` / ${QueryPrameters.maxPageNo}`, choices: null},
-      {name: 'size', prepend: 'size', type: 'text', append: null, choices: null}
+      {name: 'size', prepend: 'size', type: 'text', append: null, choices: null},
+      {name: 'is_active', prepend: 'pageReset', type: 'checkbox', append: 'is_active', choices: null}
     ];
 
     const cardTitle = `Total Element: ${QueryPrameters.totalNoOfElements}`;
@@ -354,7 +488,6 @@ export class GetReloadDataService {
         this.infrastructureCommonFilter.setFilterPrameters(structuredObj[1]);
 
         console.table(tablePrameter);
-        console.table(this.filterParameters);
         if (!isNullOrUndefined(tablePrameter)) {
           this.infrastructureCommonTable.makeTableDef(...tablePrameter);
         }

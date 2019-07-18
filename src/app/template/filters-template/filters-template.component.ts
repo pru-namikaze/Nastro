@@ -40,7 +40,6 @@ export class FiltersTemplateComponent implements OnInit {
   }
 
   getPramType(parameterName: string): string | boolean {
-    console.table(this.infrastructureCommonFilter.filterParameters);
     for (const pram of this.infrastructureCommonFilter.filterParameters) {
       if (pram.name === parameterName) {
         return pram.type;
@@ -77,5 +76,19 @@ export class FiltersTemplateComponent implements OnInit {
       }
     }
     return null;
+  }
+
+  reset(commands?: Array<string>): void {
+    if (!isNullOrUndefined(commands)) {
+      if (commands.includes('pageReset')) {
+        this.infrastructureApi.QueryPrameters.page = 0;
+      }
+      if (commands.includes('mostAccurateOnly')) {
+        this.infrastructureApi.QueryPrameters.mostAccurateOnly = !this.infrastructureApi.QueryPrameters.mostAccurateOnly;
+      }
+      if (commands.includes('completeEntryOnly')) {
+        this.infrastructureApi.QueryPrameters.completeEntryOnly = !this.infrastructureApi.QueryPrameters.completeEntryOnly;
+      }
+    }
   }
 }
